@@ -50,5 +50,5 @@ app.get("/u", (req: Request, res: Response) => {
 
 // Start the server
 app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+  console.log(`Server ready on port ${PORT}`);
 });
