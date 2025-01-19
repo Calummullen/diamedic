@@ -4,6 +4,7 @@ import { z } from "zod";
 import admin from "firebase-admin";
 import crypto from "crypto";
 import dotenv from "dotenv";
+import { Firestore } from "@google-cloud/firestore";
 
 dotenv.config();
 
@@ -30,7 +31,14 @@ if (!admin.apps.length) {
   });
 }
 
-const db = admin.firestore();
+const db = new Firestore({
+  projectId: process.env.FIREBASE_PROJECT_ID,
+  credentials: {
+    client_email: process.env.FIREBASE_CLIENT_EMAIL,
+    private_key: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
+  },
+  preferRest: true, // ✅ Forces REST API instead of gRPC
+});
 
 const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY!; // Must be 32 bytes
 const IV_LENGTH = 16; // AES block size (must be 16 bytes)
