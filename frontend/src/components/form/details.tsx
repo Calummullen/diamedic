@@ -112,7 +112,6 @@ const Details: FC<CardPreviewProps> = ({ handleFieldChange }) => {
   const handleBack = () => {
     setActiveStep((prev) => prev - 1);
   };
-
   //   const onSubmit = async (data: FormData) => {
   //     // Handle form submission
   //     const response = await fetch("http://localhost:5000/users", {
