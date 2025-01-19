@@ -13,8 +13,6 @@ import { QRCodeSVG } from "qrcode.react";
 function App() {
   const [name, setName] = useState("");
   const [dob, setDob] = useState("");
-  const [qrCodeUrl, setQrCodeUrl] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
 
   const handleFieldChange = (name?: string, dob?: string) => {
     setName(name || "");
@@ -48,20 +46,6 @@ function App() {
                   dateOfBirth={dob}
                   backgroundColor={"red"}
                 />
-
-                {qrCodeUrl && (
-                  <div className="text-center">
-                    <h4 className="font-bold text-xl">Your QR Code</h4>
-                    <QRCodeSVG value={qrCodeUrl} size={200} />
-                    <p className="font-macondo text-md text-gray-600">
-                      Scan this to access your emergency details
-                    </p>
-                  </div>
-                )}
-
-                {loading && (
-                  <p className="text-md text-blue-600">Generating QR Code...</p>
-                )}
 
                 <p className="font-macondo text-md text-red-600">
                   All cards will resemble the preview above, though some text
