@@ -11,11 +11,10 @@ import {
   Paper,
   IconButton,
   Divider,
-  List,
-  ListItem,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { QRCodeSVG } from "qrcode.react";
 
 interface CardPreviewProps {
   handleFieldChange: (name?: string, dob?: string) => void;
@@ -63,7 +62,7 @@ const Details: FC<CardPreviewProps> = ({ handleFieldChange }) => {
       insulinTypes: [{ type: "", dosage: "" }],
     },
   });
-
+  const [qrCode, setQrCode] = useState<string | null>(null);
   const name = watch("name", "");
   const dob = watch("dateOfBirth", "");
 
@@ -114,9 +113,47 @@ const Details: FC<CardPreviewProps> = ({ handleFieldChange }) => {
     setActiveStep((prev) => prev - 1);
   };
 
-  const onSubmit = (data: FormData) => {
-    console.log(data);
-    // Handle form submission
+  //   const onSubmit = async (data: FormData) => {
+  //     // Handle form submission
+  //     const response = await fetch("http://localhost:5000/users", {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify(data),
+  //     });
+
+  //     if (!response.ok) {
+  //       console.error("Error generating QR code:", await response.text());
+  //       return;
+  //     }
+
+  //     const responseData = await response.json();
+  //     const decodedData = Buffer.from(responseData.data, "base64").toString();
+
+  //     console.log("responseData", decodedData);
+  //     // Generate QR code with both userId and token
+  //     const qrCodeUrl = `http://localhost:5000/u?data=${encodeURIComponent(
+  //       decodedData
+  //     )}`;
+  //     setQrCode(qrCodeUrl);
+  //   };
+
+  const onSubmit = async (data: FormData) => {
+    const response = await fetch("http://localhost:5000/users", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      console.error("Error generating QR code:", await response.text());
+      return;
+    }
+
+    const responseData = await response.json();
+    const qrCodeUrl = `http://localhost:5000/u?data=${encodeURIComponent(
+      responseData.data
+    )}`;
+    setQrCode(qrCodeUrl);
   };
 
   const steps = ["Personal Details", "Emergency Details", "Payment"];
@@ -131,7 +168,6 @@ const Details: FC<CardPreviewProps> = ({ handleFieldChange }) => {
             </Step>
           ))}
         </Stepper>
-
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {activeStep === 0 && (
             <Box className="space-y-4">
@@ -333,6 +369,13 @@ const Details: FC<CardPreviewProps> = ({ handleFieldChange }) => {
             )}
           </Box>
         </form>
+        \
+        {qrCode && (
+          <div>
+            <h2>Scan this QR code to access the emergency information:</h2>
+            <QRCodeSVG value={qrCode} />
+          </div>
+        )}
       </Paper>
     </Box>
   );
