@@ -138,7 +138,7 @@ const Details: FC<CardPreviewProps> = ({ handleFieldChange }) => {
   //   };
 
   const onSubmit = async (data: FormData) => {
-    const response = await fetch("http://localhost:5000/users", {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/users`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
@@ -150,7 +150,7 @@ const Details: FC<CardPreviewProps> = ({ handleFieldChange }) => {
     }
 
     const responseData = await response.json();
-    const qrCodeUrl = `http://localhost:5000/u?data=${encodeURIComponent(
+    const qrCodeUrl = `${import.meta.env}/api/u?data=${encodeURIComponent(
       responseData.data
     )}`;
     setQrCode(qrCodeUrl);

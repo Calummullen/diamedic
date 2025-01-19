@@ -41,7 +41,7 @@ app.get("/api/u", (req: Request, res: Response) => {
     ).toString();
     // Redirect to the info page with the decoded data
     res.redirect(
-      `http://localhost:5173/info?data=${encodeURIComponent(decodedData)}`
+      `https://diamedic.co.uk/info?data=${encodeURIComponent(decodedData)}`
     );
   } catch (error) {
     res.status(400).json({ error: "Invalid or corrupted data" });
