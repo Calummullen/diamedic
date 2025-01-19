@@ -8,7 +8,6 @@ import {
 import Details from "./components/form/details";
 import CardPreview from "./components/card/card-preview";
 import Profile from "./components/profile/profile";
-import { QRCodeSVG } from "qrcode.react";
 
 function App() {
   const [name, setName] = useState("");
