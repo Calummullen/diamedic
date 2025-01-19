@@ -137,27 +137,46 @@ const Details: FC<CardPreviewProps> = ({ handleFieldChange }) => {
   //     setQrCode(qrCodeUrl);
   //   };
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (formData: any) => {
     const apiUrl = import.meta.env.VITE_API_URL;
-    const response = await fetch(`${apiUrl}/api/users`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
+    try {
+      const response = await fetch(`${apiUrl}/api/users`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
-    if (!response.ok) {
-      console.error("Error generating QR code:", await response.text());
-      return;
+      const data = await response.json();
+      console.log("data", data);
+      if (data.qrCodeUrl) {
+        setQrCode(data.qrCodeUrl);
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
     }
-
-    const responseData = await response.json();
-    console.log("responseData", responseData);
-    const qrCodeUrl = `${apiUrl}/api/u?data=${encodeURIComponent(
-      responseData.data
-    )}`;
-    console.log("qrCodeUrl", qrCodeUrl);
-    setQrCode(qrCodeUrl);
   };
+
+  //   const onSubmit = async (data: FormData) => {
+  //     const apiUrl = import.meta.env.VITE_API_URL;
+  //     const response = await fetch(`${apiUrl}/api/users`, {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify(data),
+  //     });
+
+  //     if (!response.ok) {
+  //       console.error("Error generating QR code:", await response.text());
+  //       return;
+  //     }
+
+  //     const responseData = await response.json();
+  //     console.log("responseData", responseData);
+  //     const qrCodeUrl = `${apiUrl}/api/u?data=${encodeURIComponent(
+  //       responseData.data
+  //     )}`;
+  //     console.log("qrCodeUrl", qrCodeUrl);
+  //     setQrCode(qrCodeUrl);
+  //   };
 
   const steps = ["Personal Details", "Emergency Details", "Payment"];
 

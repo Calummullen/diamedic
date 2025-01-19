@@ -1,12 +1,20 @@
-import { useState } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { useEffect, useState } from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useParams,
+} from "react-router-dom";
 import Details from "./components/form/details";
 import CardPreview from "./components/card/card-preview";
 import Profile from "./components/profile/profile";
+import { QRCodeSVG } from "qrcode.react";
 
 function App() {
   const [name, setName] = useState("");
   const [dob, setDob] = useState("");
+  const [qrCodeUrl, setQrCodeUrl] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleFieldChange = (name?: string, dob?: string) => {
     setName(name || "");
@@ -19,7 +27,7 @@ function App() {
         <Route
           path="/"
           element={
-            <div className="font-roboto flex flex-row gap-4 justify-center items-center mt-2  px-32">
+            <div className="font-roboto flex flex-row gap-4 justify-center items-center mt-2 px-32">
               <div className="basis-3/5">
                 <Details handleFieldChange={handleFieldChange} />
               </div>
@@ -34,11 +42,27 @@ function App() {
                     the example card
                   </p>
                 </div>
+
                 <CardPreview
                   fullName={name}
                   dateOfBirth={dob}
                   backgroundColor={"red"}
                 />
+
+                {qrCodeUrl && (
+                  <div className="text-center">
+                    <h4 className="font-bold text-xl">Your QR Code</h4>
+                    <QRCodeSVG value={qrCodeUrl} size={200} />
+                    <p className="font-macondo text-md text-gray-600">
+                      Scan this to access your emergency details
+                    </p>
+                  </div>
+                )}
+
+                {loading && (
+                  <p className="text-md text-blue-600">Generating QR Code...</p>
+                )}
+
                 <p className="font-macondo text-md text-red-600">
                   All cards will resemble the preview above, though some text
                   sizes may vary, particularly for longer names.
@@ -47,25 +71,42 @@ function App() {
             </div>
           }
         />
-      </Routes>
-
-      <Routes>
-        <Route path="/info" element={<UserInfo />} />
+        <Route path="/info/:id" element={<UserInfo />} />
       </Routes>
     </Router>
   );
 }
 
-// User Info Component
+// User Info Component (Fetch User Data from Backend)
 const UserInfo = () => {
-  // Get URL params for userId and token
-  const params = new URLSearchParams(window.location.search);
-  const data = JSON.parse(params.get("data") || "");
-  console.log("data", data);
+  const { id: userId } = useParams();
+  console.log("here", userId);
+
+  const [userData, setUserData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    console.log("here1", userId);
+    if (!userId) return;
+
+    fetch(`${import.meta.env.VITE_API_URL}/api/u/${userId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setUserData(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error fetching user data:", err);
+        setLoading(false);
+      });
+  }, [userId]);
+
+  if (loading) return <p>Loading...</p>;
+  if (!userData) return <p>Error loading data</p>;
 
   return (
     <div>
-      <Profile data={data} />
+      <Profile data={userData} />
     </div>
   );
 };

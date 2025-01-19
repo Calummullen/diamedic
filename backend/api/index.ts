@@ -1,13 +1,24 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
 import { z } from "zod";
+import admin from "firebase-admin";
+import crypto from "crypto";
+import dotenv from "dotenv";
 
-require("dotenv").config();
+dotenv.config();
 
 const app = express();
 const PORT = 5000;
 
-const baseUrl = process.env.BASE_URL || "http://localhost:5000";
+// Initialize Firebase Admin SDK
+admin.initializeApp({
+  credential: admin.credential.cert(require("../firebase-admin.json")),
+});
+
+const db = admin.firestore();
+
+const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY!; // Must be 32 bytes
+const IV_LENGTH = 16; // AES block size (must be 16 bytes)
 
 // Middleware
 app.use(cors());
@@ -51,53 +62,110 @@ const profileSchema = z.object({
 type ProfileData = z.infer<typeof profileSchema>;
 
 /**
- * POST /api/users: Validate input and return an encrypted QR code link
+ * Encrypts the user data before storing it in Firestore
  */
-app.post("/api/users", (req: Request, res: Response) => {
+const encryptData = (data: any): string => {
+  const iv = crypto.randomBytes(IV_LENGTH);
+  const cipher = crypto.createCipheriv(
+    "aes-256-cbc",
+    Buffer.from(ENCRYPTION_KEY, "hex"),
+    iv
+  );
+
+  let encrypted = cipher.update(JSON.stringify(data), "utf8", "hex");
+  encrypted += cipher.final("hex");
+
+  return iv.toString("hex") + ":" + encrypted; // Store IV with encrypted data
+};
+
+/**
+ * Decrypts the data when retrieving from Firestore
+ */
+const decryptData = (encryptedData: string): any => {
+  const [ivHex, encrypted] = encryptedData.split(":");
+
+  const iv = Buffer.from(ivHex, "hex");
+  const decipher = crypto.createDecipheriv(
+    "aes-256-cbc",
+    Buffer.from(ENCRYPTION_KEY, "hex"),
+    iv
+  );
+
+  let decrypted = decipher.update(encrypted, "hex", "utf8");
+  decrypted += decipher.final("utf8");
+
+  return JSON.parse(decrypted);
+};
+
+/**
+ * POST /api/users: Create a new profile and generate a QR code link
+ */
+app.post("/api/users", async (req: Request, res: Response) => {
   const result = profileSchema.safeParse(req.body);
 
   if (!result.success) {
-    return res.status(400).json({
-      errors: result.error.format(),
-    });
+    return res.status(400).json({ errors: result.error.format() });
   }
 
   const userData: ProfileData = result.data;
-  console.log("Validated userData", userData);
+  const encryptedData = encryptData(userData);
 
-  // Encode data as Base64
-  const data = Buffer.from(JSON.stringify(userData)).toString("base64");
+  // Generate a unique user ID
+  const docRef = await db.collection("users").add({ encryptedData });
 
-  res.json({ data });
+  // Generate a QR code link with the user ID
+  const qrCodeUrl = `${process.env.FRONTEND_BASE_URL}/info/${docRef.id}`;
+
+  res.json({ qrCodeUrl });
 });
 
 /**
- * GET /api/u: Decode the Base64 data from the QR code and redirect to the info page
+ * GET /api/u/:id - Retrieve a user's profile via QR code
  */
-app.get("/api/u", (req: Request, res: Response) => {
-  const encryptedData = req.query.data;
-  if (!encryptedData) {
-    return res.status(400).json({ error: "No data provided" });
-  }
+app.get("/api/u/:id", async (req: Request, res: Response) => {
+  const { id } = req.params;
 
   try {
-    // Decode the Base64 data
-    const decodedData = Buffer.from(
-      encryptedData as string,
-      "base64"
-    ).toString();
-    // Redirect to the info page with the decoded data
-    res.redirect(
-      `https://diamedic.co.uk/info?data=${encodeURIComponent(decodedData)}`
-    );
+    const doc = await db.collection("users").doc(id).get();
+
+    if (!doc.exists) {
+      return res.status(404).json({ error: "Profile not found" });
+    }
+
+    const encryptedData = doc.data()?.encryptedData;
+    const decryptedData = decryptData(encryptedData);
+
+    res.json(decryptedData);
   } catch (error) {
-    res.status(400).json({ error: "Invalid or corrupted data" });
+    console.error(error);
+    res.status(500).json({ error: "Failed to retrieve data" });
+  }
+});
+
+/**
+ * PUT /api/users/:id - Update a user's profile
+ */
+app.put("/api/users/:id", async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const result = profileSchema.safeParse(req.body);
+
+  if (!result.success) {
+    return res.status(400).json({ errors: result.error.format() });
+  }
+
+  const updatedData = encryptData(result.data);
+
+  try {
+    await db.collection("users").doc(id).update({ encryptedData: updatedData });
+    res.json({ message: "Profile updated successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to update profile" });
   }
 });
 
 app.get("/", (req, res) => res.send("Express on Vercel"));
 
-// Start the server
 app.listen(PORT, () => {
   console.log(`Server ready on port ${PORT}`);
 });
