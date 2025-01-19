@@ -47,6 +47,7 @@ interface FormData {
 }
 
 const Details: FC<CardPreviewProps> = ({ handleFieldChange }) => {
+  console.log("aaa", import.meta.env);
   const [activeStep, setActiveStep] = useState(0);
   const {
     register,
