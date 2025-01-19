@@ -15,7 +15,7 @@ app.use(express.json());
 /**
  * POST /users: Return an encrypted QR code link
  */
-app.post("/users", (req: Request, res: Response) => {
+app.post("/api/users", (req: Request, res: Response) => {
   const userData = req.body;
   console.log("userData", userData);
 
@@ -27,7 +27,7 @@ app.post("/users", (req: Request, res: Response) => {
 /**
  * GET /u: Decode the Base64 data from the QR code and redirect to the info page
  */
-app.get("/u", (req: Request, res: Response) => {
+app.get("/api/u", (req: Request, res: Response) => {
   const encryptedData = req.query.data;
   if (!encryptedData) {
     return res.status(400).json({ error: "No data provided" });
@@ -47,6 +47,8 @@ app.get("/u", (req: Request, res: Response) => {
     res.status(400).json({ error: "Invalid or corrupted data" });
   }
 });
+
+app.get("/", (req, res) => res.send("Express on Vercel"));
 
 // Start the server
 app.listen(PORT, () => {
