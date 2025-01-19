@@ -150,9 +150,11 @@ const Details: FC<CardPreviewProps> = ({ handleFieldChange }) => {
     }
 
     const responseData = await response.json();
+    console.log("responseData", responseData);
     const qrCodeUrl = `${
       import.meta.env.VITE.API.URL
     }/api/u?data=${encodeURIComponent(responseData.data)}`;
+    console.log("qrCodeUrl", qrCodeUrl);
     setQrCode(qrCodeUrl);
   };
 
