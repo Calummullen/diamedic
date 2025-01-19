@@ -4,12 +4,10 @@ import Details from "./components/form/details";
 import CardPreview from "./components/card/card-preview";
 import Profile from "./components/profile/profile";
 
-// Main App component
 function App() {
   const [name, setName] = useState("");
   const [dob, setDob] = useState("");
 
-  // Function passed down to child to update parent state
   const handleFieldChange = (name?: string, dob?: string) => {
     setName(name || "");
     setDob(dob || "");
@@ -46,57 +44,11 @@ function App() {
                   sizes may vary, particularly for longer names.
                 </p>
               </div>
-              {/* <h1>Diabetic Emergency Card</h1>
-              <form onSubmit={handleSubmit(onSubmit)}>
-                <div>
-                  <label>Name:</label>
-                  <input
-                    type="text"
-                    placeholder="Your Name"
-                    {...register("name", { required: true })}
-                  />
-                  {errors.name && <p>Name is required</p>}
-                </div>
-
-                <div>
-                  <label>Emergency Contact:</label>
-                  <input
-                    type="text"
-                    placeholder="Emergency Contact Name"
-                    {...register("emergencyContact", { required: true })}
-                  />
-                  {errors.emergencyContact && (
-                    <p>Emergency Contact is required</p>
-                  )}
-                </div>
-
-                <div>
-                  <label>Medical Info:</label>
-                  <input
-                    type="text"
-                    placeholder="Medical Information"
-                    {...register("medicalInfo", { required: true })}
-                  />
-                  {errors.medicalInfo && <p>Medical Info is required</p>}
-                </div>
-
-                <button type="submit">Generate Emergency Card</button>
-              </form> */}
-
-              {/* {qrCode && (
-                <div>
-                  <h2>
-                    Scan this QR code to access the emergency information:
-                  </h2>
-                  <QRCodeSVG value={qrCode} />
-                </div>
-              )} */}
             </div>
           }
         />
       </Routes>
 
-      {/* Define the route for displaying user info */}
       <Routes>
         <Route path="/info" element={<UserInfo />} />
       </Routes>

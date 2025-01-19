@@ -372,7 +372,6 @@ const Details: FC<CardPreviewProps> = ({ handleFieldChange }) => {
             )}
           </Box>
         </form>
-        \
         {qrCode && (
           <div>
             <h2>Scan this QR code to access the emergency information:</h2>

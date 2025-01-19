@@ -33,9 +33,9 @@ interface ProfileData {
 
 const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
   return (
-    <div className="max-w-4xl mx-auto p-6 space-y-6 min-h-screen">
+    <div className="flex flex-col gap-8 mx-4">
       {/* Personal Information */}
-      <div className="bg-white p-6 rounded-xl shadow-lg border-l-8 border-blue-600">
+      <div className="bg-white p-6 rounded-lg shadow-sm border-l-8 border-blue-600">
         <div className="flex items-center gap-3 mb-4">
           <div className="bg-blue-600 text-white p-2 rounded-full">
             <Person />
@@ -70,8 +70,8 @@ const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
       </div>
 
       {/* Emergency Contacts */}
-      <div className="rounded-xl shadow-lg border-l-8 border-red-600">
-        <Accordion>
+      <div className="rounded-lg shadow-sm border-l-8 border-red-600">
+        <Accordion sx={{ boxShadow: "none" }}>
           <AccordionSummary expandIcon={<ExpandMore />}>
             <div className="flex items-center gap-3">
               <div className="bg-red-600 text-white p-2 rounded-full">
@@ -83,7 +83,7 @@ const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
             </div>
           </AccordionSummary>
           <AccordionDetails className="flex flex-col gap-4">
-            <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
+            <div className="grid md:grid-cols-2 gap-4">
               {data.emergencyContacts.map((contact, index) => (
                 <div
                   key={index}
@@ -118,8 +118,8 @@ const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
       </div>
 
       {/* Address */}
-      <div className="rounded-xl shadow-lg border-l-8 border-green-600">
-        <Accordion>
+      <div className="rounded-lg shadow-sm border-l-8 border-green-600">
+        <Accordion sx={{ boxShadow: "none" }}>
           <AccordionSummary expandIcon={<ExpandMore />}>
             <div className="flex items-center gap-3">
               <div className="bg-green-600 text-white p-2 rounded-full">
@@ -147,8 +147,8 @@ const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
       </div>
 
       {/* Insulin Information */}
-      <div className="rounded-xl shadow-lg border-l-8 border-purple-600">
-        <Accordion>
+      <div className="rounded-lg shadow-sm border-l-8 border-purple-600">
+        <Accordion sx={{ boxShadow: "none" }}>
           <AccordionSummary expandIcon={<ExpandMore />}>
             <div className="flex items-center gap-3">
               <div className="bg-purple-600 text-white p-2 rounded-full">

@@ -5,3 +5,7 @@
 .clip-diagonal-right {
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 50%);
 }
+
+.clip-diagonal-right-mobile {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 70%);
+}
