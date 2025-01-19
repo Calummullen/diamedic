@@ -21,7 +21,8 @@
     "qrcode": "^1.5.4",
     "shortid": "^2.2.16",
     "uuid": "^11.0.5",
-    "uuid4": "^2.0.3"
+    "uuid4": "^2.0.3",
+    "zod": "^3.24.1"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
