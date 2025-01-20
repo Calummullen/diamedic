@@ -61,37 +61,105 @@ function App() {
 }
 
 // User Info Component (Fetch User Data from Backend)
+// const UserInfo = () => {
+//   const { id: userId } = useParams();
+//   const urlParams = new URLSearchParams(window.location.search);
+//   const token = urlParams.get("token");
+
+//   const [userData, setUserData] = useState<any>(null);
+//   const [loading, setLoading] = useState(true);
+
+//   useEffect(() => {
+//     console.log("here1", userId);
+//     if (!userId) return;
+
+//     fetch(`${import.meta.env.VITE_API_URL}/api/u/${userId}?token=${token}`)
+//       .then((res) => res.json())
+//       .then((data) => {
+//         setUserData(data);
+//         setLoading(false);
+//       })
+//       .catch((err) => {
+//         console.error("Error fetching user data:", err);
+//         setLoading(false);
+//       });
+//   }, [userId]);
+
+//   if (loading) return <p>Loading...</p>;
+//   if (!userData) return <p>Error loading data</p>;
+
+//   return (
+//     <div>
+//       <Profile data={userData} />
+//     </div>
+//   );
+// };
+
 const UserInfo = () => {
   const { id: userId } = useParams();
-  console.log("here", userId);
-
   const [userData, setUserData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchData = async () => {
+    if (!userId) {
+      setError("Invalid request.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      let response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/u/${userId}`,
+        {
+          credentials: "include", // Include cookies in the request
+        }
+      );
+
+      if (response.status === 401) {
+        // Token expired or invalid, attempt token refresh
+        const refreshResponse = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/refresh-token`,
+          {
+            method: "POST",
+            credentials: "include",
+          }
+        );
+
+        if (!refreshResponse.ok) {
+          setError("Session expired, please log in again.");
+          return;
+        }
+
+        // Retry fetching user data after refresh
+        response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/u/${userId}`,
+          {
+            credentials: "include",
+          }
+        );
+      }
+
+      if (!response.ok) throw new Error("Failed to fetch user data.");
+
+      const data = await response.json();
+      setUserData(data);
+    } catch (err) {
+      setError("Error loading data.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    console.log("here1", userId);
-    if (!userId) return;
-
-    fetch(`${import.meta.env.VITE_API_URL}/api/u/${userId}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setUserData(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error fetching user data:", err);
-        setLoading(false);
-      });
+    fetchData();
   }, [userId]);
 
   if (loading) return <p>Loading...</p>;
-  if (!userData) return <p>Error loading data</p>;
+  if (error) return <p>{error}</p>;
+  if (!userData) return <p>No data found.</p>;
 
-  return (
-    <div>
-      <Profile data={userData} />
-    </div>
-  );
+  return <Profile data={userData} />;
 };
 
 export default App;

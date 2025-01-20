@@ -1,130 +1,40 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
-import { z } from "zod";
 import admin from "firebase-admin";
-import crypto from "crypto";
 import dotenv from "dotenv";
-import { Firestore } from "@google-cloud/firestore";
+import jwt from "jsonwebtoken";
+import {
+  decryptData,
+  encryptData,
+  generateTokens,
+  verifyToken,
+} from "../helpers/encryption";
+import { ProfileData, profileSchema } from "../types/profile-schema";
+import QRCode from "qrcode";
+import { db, firebaseConfig } from "../helpers/firestore";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
 const app = express();
 const PORT = 5000;
 
-const firebaseConfig = {
-  type: "service_account",
-  project_id: process.env.FIREBASE_PROJECT_ID,
-  private_key_id: process.env.FIREBASE_PRIVATE_KEY_ID,
-  private_key: Buffer.from(
-    process.env.FIREBASE_PRIVATE_KEY || "",
-    "base64"
-  ).toString("utf8"),
-  client_email: process.env.FIREBASE_CLIENT_EMAIL,
-  client_id: process.env.FIREBASE_CLIENT_ID,
-  auth_uri: process.env.FIREBASE_AUTH_URI,
-  token_uri: process.env.FIREBASE_TOKEN_URI,
-  auth_provider_x509_cert_url: process.env.FIREBASE_AUTH_CERT_URL,
-  client_x509_cert_url: process.env.FIREBASE_CLIENT_CERT_URL,
-  universe_domain: "googleapis.com",
-};
-
 if (!admin.apps.length) {
   admin.initializeApp({
     credential: admin.credential.cert(firebaseConfig as admin.ServiceAccount),
   });
 }
-
-const db = new Firestore({
-  projectId: process.env.FIREBASE_PROJECT_ID,
-  credentials: {
-    client_email: process.env.FIREBASE_CLIENT_EMAIL,
-    private_key: Buffer.from(
-      process.env.FIREBASE_PRIVATE_KEY || "",
-      "base64"
-    ).toString("utf8"),
-  },
-  preferRest: true, // ✅ Forces REST API instead of gRPC
-});
-
-const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY!; // Must be 32 bytes
-const IV_LENGTH = 16; // AES block size (must be 16 bytes)
+const isProduction = process.env.NODE_ENV === "production";
 
 // Middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: process.env.FRONTEND_BASE_URL, // or '*' if you allow all origins (less secure)
+    credentials: true,
+  })
+);
 app.use(express.json());
-
-/**
- * Define schema for ProfileData using Zod
- */
-const profileSchema = z.object({
-  name: z.string().min(1, "Name is required."),
-  age: z.string().min(1, "Age is required."),
-  dateOfBirth: z.string().min(1, "Date of birth is required."),
-  addressLine1: z.string().min(1, "Address Line 1 is required."),
-  addressLine2: z.string().optional(),
-  city: z.string().min(1, "City is required."),
-  county: z.string().optional(),
-  postcode: z.string().min(1, "Postcode is required."),
-  emergencyInstructions: z
-    .string()
-    .min(1, "Emergency instructions are required."),
-  paymentPlaceholder: z.string().min(1, "Payment placeholder is required."),
-  emergencyContacts: z
-    .array(
-      z.object({
-        name: z.string().min(1, "Emergency contact name is required."),
-        phone: z.string().min(1, "Emergency contact phone is required."),
-      })
-    )
-    .min(1, "At least one emergency contact is required."),
-  insulinTypes: z
-    .array(
-      z.object({
-        type: z.string().min(1, "Insulin type is required."),
-        dosage: z.string().min(1, "Insulin dosage is required."),
-      })
-    )
-    .min(1, "At least one insulin type is required."),
-});
-
-// Infer TypeScript type from Zod schema
-type ProfileData = z.infer<typeof profileSchema>;
-
-/**
- * Encrypts the user data before storing it in Firestore
- */
-const encryptData = (data: any): string => {
-  const iv = crypto.randomBytes(IV_LENGTH);
-  const cipher = crypto.createCipheriv(
-    "aes-256-cbc",
-    Buffer.from(ENCRYPTION_KEY, "hex"),
-    iv
-  );
-
-  let encrypted = cipher.update(JSON.stringify(data), "utf8", "hex");
-  encrypted += cipher.final("hex");
-
-  return iv.toString("hex") + ":" + encrypted; // Store IV with encrypted data
-};
-
-/**
- * Decrypts the data when retrieving from Firestore
- */
-const decryptData = (encryptedData: string): any => {
-  const [ivHex, encrypted] = encryptedData.split(":");
-
-  const iv = Buffer.from(ivHex, "hex");
-  const decipher = crypto.createDecipheriv(
-    "aes-256-cbc",
-    Buffer.from(ENCRYPTION_KEY, "hex"),
-    iv
-  );
-
-  let decrypted = decipher.update(encrypted, "hex", "utf8");
-  decrypted += decipher.final("utf8");
-
-  return JSON.parse(decrypted);
-};
+app.use(cookieParser());
 
 /**
  * POST /api/users: Create a new profile and generate a QR code link
@@ -141,19 +51,44 @@ app.post("/api/users", async (req: Request, res: Response) => {
 
   // Generate a unique user ID
   const docRef = await db.collection("users").add({ encryptedData });
+  const userId = docRef.id;
+
+  const { accessToken, refreshToken } = generateTokens(userId);
+
+  await db.collection("users").doc(userId).update({ refreshToken });
+
+  const qrCodeUrl = `${process.env.FRONTEND_BASE_URL}/info/${userId}`;
+  const qrCode = await QRCode.toDataURL(qrCodeUrl);
+
+  res
+    .cookie("accessToken", accessToken, {
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: "strict",
+      maxAge: 9000,
+    })
+    .cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: "strict",
+      maxAge: 604800000,
+    })
+    .json({ qrCode });
+
+  // const token = jwt.sign({ id }, process.env.JWT_SECRET!, { expiresIn: "1h" });
 
   // Generate a QR code link with the user ID
-  const qrCodeUrl = `${process.env.FRONTEND_BASE_URL}/info/${docRef.id}`;
+  // const qrCodeUrl = `${process.env.FRONTEND_BASE_URL}/info/${docRef.id}?token=${token}`;
 
-  res.json({ qrCodeUrl });
+  // res.json({ qrCodeUrl });
 });
 
 /**
  * GET /api/u/:id - Retrieve a user's profile via QR code
  */
-app.get("/api/u/:id", async (req: Request, res: Response) => {
+app.get("/api/u/:id", verifyToken, async (req: Request, res: Response) => {
+  console.log("INSIDE RETRIEVE USERS PROFILE");
   const { id } = req.params;
-
   try {
     const doc = await db.collection("users").doc(id).get();
 
@@ -192,6 +127,63 @@ app.put("/api/users/:id", async (req: Request, res: Response) => {
     res.status(500).json({ error: "Failed to update profile" });
   }
 });
+
+app.post("/api/refresh-token", async (req: Request, res: Response) => {
+  console.log("INSIDE REFRESH TOKEN");
+  const refreshToken = req.cookies.refreshToken;
+  if (!refreshToken) {
+    return res.status(401).json({ error: "No refresh token provided" });
+  }
+
+  try {
+    console.log("here3", refreshToken, process.env.JWT_SECRET!);
+
+    const decoded = jwt.verify(
+      refreshToken,
+      process.env.JWT_REFRESH_SECRET!
+    ) as {
+      userId: string;
+    };
+
+    const { userId } = decoded;
+
+    const { accessToken, refreshToken: newRefreshToken } =
+      generateTokens(userId);
+
+    res
+      .cookie("accessToken", accessToken, {
+        httpOnly: true,
+        secure: isProduction,
+        sameSite: "strict",
+        maxAge: 900000,
+      })
+      .cookie("refreshToken", newRefreshToken, {
+        httpOnly: true,
+        secure: isProduction,
+        sameSite: "strict",
+        maxAge: 604800000,
+      })
+      .json({ message: "Token refreshed successfully" });
+  } catch (err) {
+    return res.status(403).json({ error: "Invalid refresh token" });
+  }
+});
+
+// // Middleware to verify JWT token (from query parameter)
+// function verifyToken(req: any, res: any, next: any) {
+//   console.log("here", req.query);
+//   const token = req.query.token; // Extract token from the URL query parameter
+//   if (!token) {
+//     return res.status(403).json({ error: "No token provided" });
+//   }
+//   try {
+//     const decoded = jwt.verify(token, process.env.JWT_SECRET!);
+//     req.user = decoded; // Attach decoded data to request object
+//     next();
+//   } catch (err) {
+//     return res.status(401).json({ error: "Invalid or expired token" });
+//   }
+// }
 
 app.get("/", (req, res) => res.send("Express on Vercel"));
 
