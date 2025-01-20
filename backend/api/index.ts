@@ -152,13 +152,13 @@ app.post("/api/refresh-token", async (req: Request, res: Response) => {
       .cookie("accessToken", accessToken, {
         httpOnly: true,
         secure: isProduction,
-        sameSite: "strict",
+        sameSite: "none",
         maxAge: 9000,
       })
       .cookie("refreshToken", newRefreshToken, {
         httpOnly: true,
         secure: isProduction,
-        sameSite: "strict",
+        sameSite: "none",
         maxAge: 604800000,
       })
       .json({ message: "Token refreshed successfully" });

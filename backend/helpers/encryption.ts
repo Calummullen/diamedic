@@ -72,9 +72,7 @@ export const verifyToken = async (
   next: NextFunction
 ) => {
   console.log("INSIDE VERIFY TOKEN", req.cookies);
-  const token =
-    req.cookies.accessToken ||
-    req.headers.authorization?.replace("Bearer ", "");
+  const token = req.cookies.accessToken;
 
   if (!token)
     return res.status(401).json({ error: "Unauthorized: No token provided" });
