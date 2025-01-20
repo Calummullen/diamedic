@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import Details from "./components/form/details";
 import CardPreview from "./components/card/card-preview";
-import Profile from "./components/profile/profile";
+import Profile, { ProfileData } from "./components/profile/profile";
 import { EditProfile } from "./components/profile/edit-profile";
 
 function App() {
@@ -19,6 +19,27 @@ function App() {
     setDob(dob || "");
   };
 
+  const onSubmit = async (formData: ProfileData) => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/users`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      const data = await response.json();
+
+      if (data.qrCode) {
+        // setQrCode(data.qrCode);
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
+  };
+
   return (
     <Router>
       <Routes>
@@ -27,7 +48,10 @@ function App() {
           element={
             <div className="font-roboto flex flex-row gap-4 justify-center items-center mt-2 px-32">
               <div className="basis-3/5">
-                <Details handleFieldChange={handleFieldChange} />
+                <Details
+                  handleFieldChange={handleFieldChange}
+                  onSubmit={onSubmit}
+                />
               </div>
 
               <div className="flex basis-2/5 flex-col gap-8 items-center justify-center">

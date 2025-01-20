@@ -1,9 +1,10 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Details from "../form/details";
 import { ProfileData } from "./profile";
 
 export const EditProfile: React.FC = () => {
   const { state } = useLocation();
+  const navigate = useNavigate(); // Initialize the useHistory hook to navigate
   console.log(state);
 
   const onSubmit = async (formData: ProfileData) => {
@@ -18,7 +19,7 @@ export const EditProfile: React.FC = () => {
       );
 
       if (response.ok) {
-        alert("Profile updated successfully!");
+        navigate(`/${state.id}`);
       }
     } catch (error) {
       console.error("Error submitting form:", error);
