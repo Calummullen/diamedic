@@ -108,49 +108,12 @@ const UserInfo = () => {
     }
 
     try {
-      const validate = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/qrcode-access/${userId}`,
-        {
-          method: "POST",
-          credentials: "include",
-        }
-      );
-
-      if (!validate.ok) {
-        setError("Unable to load patient information. Please try again.");
-        return;
-      }
       let response = await fetch(
         `${import.meta.env.VITE_API_URL}/api/u/${userId}`,
         {
           method: "GET",
-          credentials: "include", // Include cookies in the request
         }
       );
-
-      if (response.status === 401) {
-        // Token expired or invalid, attempt token refresh
-        const refreshResponse = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/refresh-token`,
-          {
-            method: "POST",
-            credentials: "include",
-          }
-        );
-
-        if (!refreshResponse.ok) {
-          setError("Session expired, please log in again.");
-          return;
-        }
-
-        // Retry fetching user data after refresh
-        response = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/u/${userId}`,
-          {
-            credentials: "include",
-          }
-        );
-      }
 
       if (!response.ok) throw new Error("Failed to fetch user data.");
 

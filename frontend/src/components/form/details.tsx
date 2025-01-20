@@ -142,7 +142,6 @@ const Details: FC<CardPreviewProps> = ({ handleFieldChange }) => {
       const response = await fetch(`${apiUrl}/api/users`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        credentials: "include",
         body: JSON.stringify(formData),
       });
 
