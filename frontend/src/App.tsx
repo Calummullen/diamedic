@@ -59,7 +59,6 @@ function App() {
     </Router>
   );
 }
-
 // User Info Component (Fetch User Data from Backend)
 // const UserInfo = () => {
 //   const { id: userId } = useParams();
