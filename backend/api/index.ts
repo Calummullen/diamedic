@@ -41,26 +41,24 @@ app.use(cookieParser());
  * POST /api/users: Create a new profile and generate a QR code link
  */
 app.post("/api/users", async (req: Request, res: Response) => {
-  app.post("/api/users", async (req: Request, res: Response) => {
-    const result = profileSchema.safeParse(req.body);
+  const result = profileSchema.safeParse(req.body);
 
-    if (!result.success) {
-      return res.status(400).json({ errors: result.error.format() });
-    }
+  if (!result.success) {
+    return res.status(400).json({ errors: result.error.format() });
+  }
 
-    const userData: ProfileData = result.data;
-    const encryptedData = encryptData(userData);
+  const userData: ProfileData = result.data;
+  const encryptedData = encryptData(userData);
 
-    // Generate a unique user ID
-    const docRef = await db.collection("users").add({ encryptedData });
-    const userId = docRef.id;
+  // Generate a unique user ID
+  const docRef = await db.collection("users").add({ encryptedData });
+  const userId = docRef.id;
 
-    // Create QR Code URL
-    const qrCodeUrl = `${process.env.FRONTEND_BASE_URL}/info/${userId}`;
-    const qrCode = await QRCode.toDataURL(qrCodeUrl);
+  // Create QR Code URL
+  const qrCodeUrl = `${process.env.FRONTEND_BASE_URL}/info/${userId}`;
+  const qrCode = await QRCode.toDataURL(qrCodeUrl);
 
-    res.json({ qrCode });
-  });
+  res.json({ qrCode });
 });
 
 /**
