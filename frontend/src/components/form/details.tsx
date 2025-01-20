@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
+import Cookies from "js-cookie";
 
 interface CardPreviewProps {
   handleFieldChange: (name?: string, dob?: string) => void;
@@ -138,10 +139,16 @@ const Details: FC<CardPreviewProps> = ({ handleFieldChange }) => {
 
   const onSubmit = async (formData: any) => {
     const apiUrl = import.meta.env.VITE_API_URL;
+    const accessToken =
+      Cookies.get("accessToken") || localStorage.getItem("accessToken");
+
     try {
       const response = await fetch(`${apiUrl}/api/users`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          ...(accessToken && { Authorization: `Bearer ${accessToken}` }),
+        },
         credentials: "include",
         body: JSON.stringify(formData),
       });
