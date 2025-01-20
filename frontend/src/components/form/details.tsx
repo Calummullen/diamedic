@@ -14,7 +14,6 @@ import {
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { QRCodeSVG } from "qrcode.react";
 
 interface CardPreviewProps {
   handleFieldChange: (name?: string, dob?: string) => void;
@@ -373,7 +372,6 @@ const Details: FC<CardPreviewProps> = ({ handleFieldChange }) => {
         {qrCode && (
           <div>
             <h2>Scan this QR code to access the emergency information:</h2>
-            {/* <QRCodeSVG value={qrCode} /> */}
             <img src={qrCode} alt="QR Code" />
           </div>
         )}
