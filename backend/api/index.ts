@@ -64,13 +64,13 @@ app.post("/api/users", async (req: Request, res: Response) => {
     .cookie("accessToken", accessToken, {
       httpOnly: true,
       secure: isProduction,
-      sameSite: "strict",
+      sameSite: "none",
       maxAge: 9000,
     })
     .cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: isProduction,
-      sameSite: "strict",
+      sameSite: "none",
       maxAge: 604800000,
     })
     .json({ qrCode });
