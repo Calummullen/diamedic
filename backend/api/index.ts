@@ -29,7 +29,7 @@ const isProduction = process.env.NODE_ENV === "production";
 // Middleware
 app.use(
   cors({
-    origin: process.env.FRONTEND_BASE_URL, // or '*' if you allow all origins (less secure)
+    origin: "*", // or '*' if you allow all origins (less secure)
     credentials: true,
   })
 );
