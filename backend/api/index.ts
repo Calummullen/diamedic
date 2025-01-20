@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken";
 import {
   decryptData,
   encryptData,
+  generateShortLivedToken,
   generateTokens,
   verifyToken,
 } from "../helpers/encryption";
@@ -40,49 +41,52 @@ app.use(cookieParser());
  * POST /api/users: Create a new profile and generate a QR code link
  */
 app.post("/api/users", async (req: Request, res: Response) => {
-  const result = profileSchema.safeParse(req.body);
+  app.post("/api/users", async (req: Request, res: Response) => {
+    const result = profileSchema.safeParse(req.body);
 
-  if (!result.success) {
-    return res.status(400).json({ errors: result.error.format() });
+    if (!result.success) {
+      return res.status(400).json({ errors: result.error.format() });
+    }
+
+    const userData: ProfileData = result.data;
+    const encryptedData = encryptData(userData);
+
+    // Generate a unique user ID
+    const docRef = await db.collection("users").add({ encryptedData });
+    const userId = docRef.id;
+
+    // Create QR Code URL
+    const qrCodeUrl = `${process.env.FRONTEND_BASE_URL}/info/${userId}`;
+    const qrCode = await QRCode.toDataURL(qrCodeUrl);
+
+    res.json({ qrCode });
+  });
+});
+
+/**
+ * GET /api/u/:id - Retrieve a user's profile via QR code
+ */
+app.post("/api/qrcode-access/:id", async (req: Request, res: Response) => {
+  const { id: userId } = req.params;
+
+  // Check if user exists
+  const userDoc = await db.collection("users").doc(userId).get();
+
+  if (!userDoc.exists) {
+    return res.status(404).json({ error: "Profile not found" });
   }
 
-  const userData: ProfileData = result.data;
-  const encryptedData = encryptData(userData);
-
-  // Generate a unique user ID
-  const docRef = await db.collection("users").add({ encryptedData });
-  const userId = docRef.id;
-
-  const { accessToken, refreshToken } = generateTokens(userId);
-
-  await db.collection("users").doc(userId).update({ refreshToken });
-
-  const qrCodeUrl = `${process.env.FRONTEND_BASE_URL}/info/${userId}`;
-  const qrCode = await QRCode.toDataURL(qrCodeUrl);
+  // Generate a short-lived token
+  const accessToken = generateShortLivedToken(userId);
 
   res
     .cookie("accessToken", accessToken, {
       httpOnly: true,
       secure: isProduction,
-      domain: ".diamedic.co.uk",
-      sameSite: "none",
-      maxAge: 9000,
+      sameSite: "strict",
+      maxAge: 5 * 60 * 1000, // 5-minute lifespan
     })
-    .cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      secure: isProduction,
-      domain: ".diamedic.co.uk",
-      sameSite: "none",
-      maxAge: 604800000,
-    })
-    .json({ qrCode });
-
-  // const token = jwt.sign({ id }, process.env.JWT_SECRET!, { expiresIn: "1h" });
-
-  // Generate a QR code link with the user ID
-  // const qrCodeUrl = `${process.env.FRONTEND_BASE_URL}/info/${docRef.id}?token=${token}`;
-
-  // res.json({ qrCodeUrl });
+    .json({ success: true });
 });
 
 /**
@@ -131,7 +135,7 @@ app.put("/api/users/:id", async (req: Request, res: Response) => {
 });
 
 app.post("/api/refresh-token", async (req: Request, res: Response) => {
-  console.log("INSIDE REFRESH TOKEN", req.cookies);
+  console.log("INSIDE REFRESH TOKEN");
   const refreshToken = req.cookies.refreshToken;
   if (!refreshToken) {
     return res.status(401).json({ error: "No refresh token provided" });
@@ -149,6 +153,11 @@ app.post("/api/refresh-token", async (req: Request, res: Response) => {
 
     const { accessToken, refreshToken: newRefreshToken } =
       generateTokens(userId);
+
+    await db
+      .collection("users")
+      .doc(userId)
+      .update({ refreshToken: newRefreshToken });
 
     res
       .cookie("accessToken", accessToken, {

@@ -85,3 +85,6 @@ export const verifyToken = async (
     return res.status(403).json({ error: "Unauthorized: Invalid token" });
   }
 };
+
+export const generateShortLivedToken = (userId: string) =>
+  jwt.sign({ userId }, SECRET, { expiresIn: "5m" }); // 5-minute expiration

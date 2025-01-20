@@ -108,6 +108,18 @@ const UserInfo = () => {
     }
 
     try {
+      const validate = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/qrcode-access/${userId}`,
+        {
+          method: "POST",
+          credentials: "include",
+        }
+      );
+
+      if (!validate.ok) {
+        setError("Unable to load patient information. Please try again.");
+        return;
+      }
       let response = await fetch(
         `${import.meta.env.VITE_API_URL}/api/u/${userId}`,
         {
