@@ -34,7 +34,8 @@ const Details: FC<CardPreviewProps> = ({
     register,
     control,
     handleSubmit,
-    formState: { errors, isValid },
+    // formState: { errors, isValid },
+    formState: { errors },
     trigger,
     watch,
   } = useForm<ProfileData>({
