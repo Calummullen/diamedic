@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
 import admin from "firebase-admin";
 import dotenv from "dotenv";
@@ -87,28 +87,76 @@ app.post("/api/qrcode-access/:id", async (req: Request, res: Response) => {
     .json({ success: true });
 });
 
+// Middleware to verify if the request is from a valid QR code scan
+export const verifyQRCodeAccess = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const token = req.cookies.accessToken;
+
+  if (!token) {
+    return res
+      .status(403)
+      .json({ error: "Access denied. Scan QR code first." });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as {
+      userId: string;
+    };
+    req.user = decoded; // Attach decoded data to the request
+    next(); // Proceed to the next middleware or route handler
+  } catch (err) {
+    return res.status(403).json({ error: "Invalid or expired token" });
+  }
+};
+
+app.get(
+  "/api/u/:id",
+  verifyQRCodeAccess,
+  async (req: Request, res: Response) => {
+    const { id } = req.params;
+    try {
+      const doc = await db.collection("users").doc(id).get();
+
+      if (!doc.exists) {
+        return res.status(404).json({ error: "Profile not found" });
+      }
+
+      const encryptedData = doc.data()?.encryptedData;
+      const decryptedData = decryptData(encryptedData);
+
+      res.json(decryptedData);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Failed to retrieve data" });
+    }
+  }
+);
+
 /**
  * GET /api/u/:id - Retrieve a user's profile via QR code
  */
-app.get("/api/u/:id", verifyToken, async (req: Request, res: Response) => {
-  console.log("INSIDE RETRIEVE USERS PROFILE");
-  const { id } = req.params;
-  try {
-    const doc = await db.collection("users").doc(id).get();
+// app.get("/api/u/:id", verifyToken, async (req: Request, res: Response) => {
+//   console.log("INSIDE RETRIEVE USERS PROFILE");
+//   const { id } = req.params;
+//   try {
+//     const doc = await db.collection("users").doc(id).get();
 
-    if (!doc.exists) {
-      return res.status(404).json({ error: "Profile not found" });
-    }
+//     if (!doc.exists) {
+//       return res.status(404).json({ error: "Profile not found" });
+//     }
 
-    const encryptedData = doc.data()?.encryptedData;
-    const decryptedData = decryptData(encryptedData);
+//     const encryptedData = doc.data()?.encryptedData;
+//     const decryptedData = decryptData(encryptedData);
 
-    res.json(decryptedData);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Failed to retrieve data" });
-  }
-});
+//     res.json(decryptedData);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: "Failed to retrieve data" });
+//   }
+// });
 
 /**
  * PUT /api/users/:id - Update a user's profile
