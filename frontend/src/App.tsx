@@ -111,6 +111,7 @@ const UserInfo = () => {
       let response = await fetch(
         `${import.meta.env.VITE_API_URL}/api/u/${userId}`,
         {
+          method: "GET",
           credentials: "include", // Include cookies in the request
         }
       );

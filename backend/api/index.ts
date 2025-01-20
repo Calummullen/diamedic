@@ -64,12 +64,14 @@ app.post("/api/users", async (req: Request, res: Response) => {
     .cookie("accessToken", accessToken, {
       httpOnly: true,
       secure: isProduction,
+      domain: isProduction ? ".diamedic.co.uk" : "localhost",
       sameSite: "none",
       maxAge: 9000,
     })
     .cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: isProduction,
+      domain: isProduction ? ".diamedic.co.uk" : "localhost",
       sameSite: "none",
       maxAge: 604800000,
     })
@@ -152,12 +154,14 @@ app.post("/api/refresh-token", async (req: Request, res: Response) => {
       .cookie("accessToken", accessToken, {
         httpOnly: true,
         secure: isProduction,
+        domain: isProduction ? ".diamedic.co.uk" : "localhost",
         sameSite: "none",
         maxAge: 9000,
       })
       .cookie("refreshToken", newRefreshToken, {
         httpOnly: true,
         secure: isProduction,
+        domain: isProduction ? ".diamedic.co.uk" : "localhost",
         sameSite: "none",
         maxAge: 604800000,
       })
