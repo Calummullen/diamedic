@@ -14,38 +14,19 @@ import {
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { ProfileData } from "../profile/profile";
 
 interface CardPreviewProps {
   handleFieldChange: (name?: string, dob?: string) => void;
+  data?: ProfileData & { id: string };
+  isCheckout?: boolean;
 }
 
-interface FormData {
-  // Personal Details
-  name: string;
-  age: number;
-  dateOfBirth: string;
-  addressLine1: string;
-  addressLine2?: string;
-  city: string;
-  county: string;
-  postcode: string;
-
-  // Emergency Details
-  emergencyContacts: {
-    name: string;
-    phone: string;
-  }[];
-  insulinTypes: {
-    type: string;
-    dosage: string;
-  }[];
-  emergencyInstructions: string;
-
-  // Payment Details
-  paymentPlaceholder: string;
-}
-
-const Details: FC<CardPreviewProps> = ({ handleFieldChange }) => {
+const Details: FC<CardPreviewProps> = ({
+  handleFieldChange,
+  data,
+  isCheckout = true,
+}) => {
   const [activeStep, setActiveStep] = useState(0);
   const {
     register,
@@ -54,11 +35,10 @@ const Details: FC<CardPreviewProps> = ({ handleFieldChange }) => {
     formState: { errors, isValid },
     trigger,
     watch,
-  } = useForm<FormData>({
+  } = useForm<ProfileData>({
     mode: "onChange",
     defaultValues: {
-      emergencyContacts: [{ name: "", phone: "" }],
-      insulinTypes: [{ type: "", dosage: "" }],
+      ...data,
     },
   });
   const [qrCode, setQrCode] = useState<string | null>(null);
@@ -83,7 +63,7 @@ const Details: FC<CardPreviewProps> = ({ handleFieldChange }) => {
 
   const handleNext = async (e: React.MouseEvent) => {
     e.preventDefault(); // Prevent form submission
-    let fieldsToValidate: (keyof FormData)[] = [];
+    let fieldsToValidate: (keyof ProfileData)[] = [];
 
     switch (activeStep) {
       case 0:
@@ -112,35 +92,15 @@ const Details: FC<CardPreviewProps> = ({ handleFieldChange }) => {
   const handleBack = () => {
     setActiveStep((prev) => prev - 1);
   };
-  //   const onSubmit = async (data: FormData) => {
-  //     // Handle form submission
-  //     const response = await fetch("http://localhost:5000/users", {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify(data),
-  //     });
 
-  //     if (!response.ok) {
-  //       console.error("Error generating QR code:", await response.text());
-  //       return;
-  //     }
-
-  //     const responseData = await response.json();
-  //     const decodedData = Buffer.from(responseData.data, "base64").toString();
-
-  //     console.log("responseData", decodedData);
-  //     // Generate QR code with both userId and token
-  //     const qrCodeUrl = `http://localhost:5000/u?data=${encodeURIComponent(
-  //       decodedData
-  //     )}`;
-  //     setQrCode(qrCodeUrl);
-  //   };
-
-  const onSubmit = async (formData: any) => {
+  const onSubmit = async (formData: ProfileData) => {
     const apiUrl = import.meta.env.VITE_API_URL;
+    const fullPath = isCheckout
+      ? `${apiUrl}/api/users`
+      : `${apiUrl}/api/users/${data?.id}`;
     try {
-      const response = await fetch(`${apiUrl}/api/users`, {
-        method: "POST",
+      const response = await fetch(fullPath, {
+        method: isCheckout ? "POST" : "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
@@ -159,13 +119,15 @@ const Details: FC<CardPreviewProps> = ({ handleFieldChange }) => {
   return (
     <Box className=" mx-auto p-4">
       <Paper className="p-6">
-        <Stepper activeStep={activeStep} className="mb-8 w-full">
-          {steps.map((label) => (
-            <Step key={label}>
-              <StepLabel>{label}</StepLabel>
-            </Step>
-          ))}
-        </Stepper>
+        {isCheckout && (
+          <Stepper activeStep={activeStep} className="mb-8 w-full">
+            {steps.map((label) => (
+              <Step key={label}>
+                <StepLabel>{label}</StepLabel>
+              </Step>
+            ))}
+          </Stepper>
+        )}
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {activeStep === 0 && (
             <Box className="space-y-4">
@@ -366,7 +328,7 @@ const Details: FC<CardPreviewProps> = ({ handleFieldChange }) => {
               </Button>
             ) : (
               <Button type="submit" variant="contained" disabled={!isValid}>
-                Submit
+                {isCheckout ? "Submit" : "Save"}
               </Button>
             )}
           </Box>

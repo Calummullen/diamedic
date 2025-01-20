@@ -8,6 +8,7 @@ import {
 import Details from "./components/form/details";
 import CardPreview from "./components/card/card-preview";
 import Profile from "./components/profile/profile";
+import { EditProfile } from "./components/profile/edit-profile";
 
 function App() {
   const [name, setName] = useState("");
@@ -54,45 +55,12 @@ function App() {
             </div>
           }
         />
-        <Route path="/info/:id" element={<UserInfo />} />
+        <Route path="/:id" element={<UserInfo />} />
+        <Route path="/:id/edit-profile" element={<EditProfile />} />
       </Routes>
     </Router>
   );
 }
-// User Info Component (Fetch User Data from Backend)
-// const UserInfo = () => {
-//   const { id: userId } = useParams();
-//   const urlParams = new URLSearchParams(window.location.search);
-//   const token = urlParams.get("token");
-
-//   const [userData, setUserData] = useState<any>(null);
-//   const [loading, setLoading] = useState(true);
-
-//   useEffect(() => {
-//     console.log("here1", userId);
-//     if (!userId) return;
-
-//     fetch(`${import.meta.env.VITE_API_URL}/api/u/${userId}?token=${token}`)
-//       .then((res) => res.json())
-//       .then((data) => {
-//         setUserData(data);
-//         setLoading(false);
-//       })
-//       .catch((err) => {
-//         console.error("Error fetching user data:", err);
-//         setLoading(false);
-//       });
-//   }, [userId]);
-
-//   if (loading) return <p>Loading...</p>;
-//   if (!userData) return <p>Error loading data</p>;
-
-//   return (
-//     <div>
-//       <Profile data={userData} />
-//     </div>
-//   );
-// };
 
 const UserInfo = () => {
   const { id: userId } = useParams();

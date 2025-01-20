@@ -50,12 +50,15 @@ app.post("/api/users", async (req: Request, res: Response) => {
     .set({ encryptedData });
 
   // Create QR Code URL
-  const qrCodeUrl = `${process.env.FRONTEND_BASE_URL}/info/${userId}`;
+  const qrCodeUrl = `${process.env.FRONTEND_BASE_URL}/${userId}`;
   const qrCode = await QRCode.toDataURL(qrCodeUrl);
 
   res.json({ qrCode });
 });
 
+/**
+ * GET /api/u/:id - Retrieve a user's profile
+ */
 app.get("/api/u/:id", async (req: Request, res: Response) => {
   const { id } = req.params;
 

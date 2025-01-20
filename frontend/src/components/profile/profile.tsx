@@ -15,8 +15,9 @@ import {
   ExpandMore,
   Phone,
 } from "@mui/icons-material";
+import { useNavigate, useParams } from "react-router-dom";
 
-interface ProfileData {
+export interface ProfileData {
   emergencyContacts: { name: string; phone: string }[];
   insulinTypes: { type: string; dosage: string }[];
   name: string;
@@ -32,11 +33,20 @@ interface ProfileData {
 }
 
 const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
+  const { id } = useParams();
+  const navigate = useNavigate(); // Initialize the useHistory hook to navigate
+
+  const handleEditClick = () => {
+    navigate(`/${id}/edit-profile`, { state: { ...data, id } }); // Navigate to edit page
+  };
   return (
     <div className="flex flex-col gap-8 mx-4">
+      <Button variant="outlined" color="primary" onClick={handleEditClick}>
+        Edit
+      </Button>
       {/* Personal Information */}
-      <div className="bg-white p-6 rounded-lg shadow-sm border-l-8 border-blue-600">
-        <div className="flex items-center gap-3 mb-4">
+      <div className="bg-white p-6 rounded-lg shadow-lg border-l-8 border-blue-600">
+        <div className="flex items-center gap-3 mb-4 ">
           <div className="bg-blue-600 text-white p-2 rounded-full">
             <Person />
           </div>
@@ -70,7 +80,7 @@ const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
       </div>
 
       {/* Emergency Contacts */}
-      <div className="rounded-lg shadow-sm border-l-8 border-red-600">
+      <div className="rounded-lg shadow-lg border-l-8 border-red-600">
         <Accordion sx={{ boxShadow: "none" }}>
           <AccordionSummary expandIcon={<ExpandMore />}>
             <div className="flex items-center gap-3">
@@ -118,7 +128,7 @@ const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
       </div>
 
       {/* Address */}
-      <div className="rounded-lg shadow-sm border-l-8 border-green-600">
+      <div className="rounded-lg shadow-lg border-l-8 border-green-600">
         <Accordion sx={{ boxShadow: "none" }}>
           <AccordionSummary expandIcon={<ExpandMore />}>
             <div className="flex items-center gap-3">
@@ -147,7 +157,7 @@ const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
       </div>
 
       {/* Insulin Information */}
-      <div className="rounded-lg shadow-sm border-l-8 border-purple-600">
+      <div className="rounded-lg shadow-lg border-l-8 border-purple-600">
         <Accordion sx={{ boxShadow: "none" }}>
           <AccordionSummary expandIcon={<ExpandMore />}>
             <div className="flex items-center gap-3">
