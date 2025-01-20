@@ -71,7 +71,7 @@ export const verifyToken = async (
   res: Response,
   next: NextFunction
 ) => {
-  console.log("INSIDE VERIFY TOKEN");
+  console.log("INSIDE VERIFY TOKEN", req.cookies);
   const token = req.cookies.accessToken;
 
   if (!token)

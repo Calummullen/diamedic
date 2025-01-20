@@ -129,15 +129,13 @@ app.put("/api/users/:id", async (req: Request, res: Response) => {
 });
 
 app.post("/api/refresh-token", async (req: Request, res: Response) => {
-  console.log("INSIDE REFRESH TOKEN");
+  console.log("INSIDE REFRESH TOKEN", req.cookies);
   const refreshToken = req.cookies.refreshToken;
   if (!refreshToken) {
     return res.status(401).json({ error: "No refresh token provided" });
   }
 
   try {
-    console.log("here3", refreshToken, process.env.JWT_SECRET!);
-
     const decoded = jwt.verify(
       refreshToken,
       process.env.JWT_REFRESH_SECRET!
@@ -155,7 +153,7 @@ app.post("/api/refresh-token", async (req: Request, res: Response) => {
         httpOnly: true,
         secure: isProduction,
         sameSite: "strict",
-        maxAge: 900000,
+        maxAge: 9000,
       })
       .cookie("refreshToken", newRefreshToken, {
         httpOnly: true,
