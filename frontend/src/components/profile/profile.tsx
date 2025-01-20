@@ -29,7 +29,7 @@ export interface ProfileData {
   county?: string;
   postcode: string;
   emergencyInstructions: string;
-  paymentPlaceholder: string;
+  paymentPlaceholder?: string;
   id?: string;
 }
 

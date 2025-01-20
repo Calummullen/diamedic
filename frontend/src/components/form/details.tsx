@@ -19,7 +19,7 @@ import { ProfileData } from "../profile/profile";
 interface CardPreviewProps {
   handleFieldChange: (name?: string, dob?: string) => void;
   onSubmit: (formData: ProfileData) => void;
-  data?: ProfileData & { id: string };
+  data?: ProfileData;
   isCheckout?: boolean;
 }
 
@@ -43,7 +43,7 @@ const Details: FC<CardPreviewProps> = ({
       ...data,
     },
   });
-  const [qrCode, setQrCode] = useState<string | null>(null);
+  //   const [qrCode, setQrCode] = useState<string | null>(null);
   const name = watch("name", "");
   const dob = watch("dateOfBirth", "");
 
@@ -308,13 +308,13 @@ const Details: FC<CardPreviewProps> = ({
           {activeStep === 2 && (
             <Box className="space-y-4">
               <Typography variant="h6" className="mb-4">
-                Payment Details
+                Payment Details - tbd
               </Typography>
-              <TextField
+              {/* <TextField
                 fullWidth
                 label="Payment Information (Placeholder)"
                 {...register("paymentPlaceholder")}
-              />
+              /> */}
             </Box>
           )}
 
@@ -329,18 +329,22 @@ const Details: FC<CardPreviewProps> = ({
                 Next
               </Button>
             ) : (
-              <Button type="submit" variant="contained" disabled={!isValid}>
+              //   <Button type="submit" variant="contained" disabled={!isValid}>
+              //     {isCheckout ? "Submit" : "Save"}
+              //   </Button>
+
+              <Button type="submit" variant="contained" disabled>
                 {isCheckout ? "Submit" : "Save"}
               </Button>
             )}
           </Box>
         </form>
-        {qrCode && (
+        {/* {qrCode && (
           <div>
             <h2>Scan this QR code to access the emergency information:</h2>
             <img src={qrCode} alt="QR Code" />
           </div>
-        )}
+        )} */}
       </Paper>
     </Box>
   );

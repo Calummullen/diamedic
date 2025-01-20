@@ -51,6 +51,12 @@ function App() {
                 <Details
                   handleFieldChange={handleFieldChange}
                   onSubmit={onSubmit}
+                  data={
+                    {
+                      emergencyContacts: [{ name: "", phone: "" }],
+                      insulinTypes: [{ type: "", dosage: "" }],
+                    } as ProfileData
+                  }
                 />
               </div>
 

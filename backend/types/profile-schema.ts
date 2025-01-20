@@ -15,7 +15,10 @@ export const profileSchema = z.object({
   emergencyInstructions: z
     .string()
     .min(1, "Emergency instructions are required."),
-  paymentPlaceholder: z.string().min(1, "Payment placeholder is required."),
+  paymentPlaceholder: z
+    .string()
+    .min(1, "Payment placeholder is required.")
+    .optional(),
   emergencyContacts: z
     .array(
       z.object({
