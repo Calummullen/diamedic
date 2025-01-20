@@ -8,7 +8,6 @@ import {
   encryptData,
   generateShortLivedToken,
   generateTokens,
-  verifyToken,
 } from "../helpers/encryption";
 import { ProfileData, profileSchema } from "../types/profile-schema";
 import QRCode from "qrcode";
@@ -88,7 +87,7 @@ app.post("/api/qrcode-access/:id", async (req: Request, res: Response) => {
 });
 
 // Middleware to verify if the request is from a valid QR code scan
-export const verifyQRCodeAccess = async (
+const verifyQRCodeAccess = async (
   req: Request,
   res: Response,
   next: NextFunction
