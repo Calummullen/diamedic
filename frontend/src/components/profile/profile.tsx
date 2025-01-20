@@ -30,6 +30,7 @@ export interface ProfileData {
   postcode: string;
   emergencyInstructions: string;
   paymentPlaceholder: string;
+  id?: string;
 }
 
 const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {

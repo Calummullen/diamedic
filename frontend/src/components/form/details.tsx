@@ -18,12 +18,14 @@ import { ProfileData } from "../profile/profile";
 
 interface CardPreviewProps {
   handleFieldChange: (name?: string, dob?: string) => void;
+  onSubmit: (formData: ProfileData) => void;
   data?: ProfileData & { id: string };
   isCheckout?: boolean;
 }
 
 const Details: FC<CardPreviewProps> = ({
   handleFieldChange,
+  onSubmit,
   data,
   isCheckout = true,
 }) => {
@@ -93,27 +95,27 @@ const Details: FC<CardPreviewProps> = ({
     setActiveStep((prev) => prev - 1);
   };
 
-  const onSubmit = async (formData: ProfileData) => {
-    const apiUrl = import.meta.env.VITE_API_URL;
-    const fullPath = isCheckout
-      ? `${apiUrl}/api/users`
-      : `${apiUrl}/api/users/${data?.id}`;
-    try {
-      const response = await fetch(fullPath, {
-        method: isCheckout ? "POST" : "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+  //   const onSubmit = async (formData: ProfileData) => {
+  //     const apiUrl = import.meta.env.VITE_API_URL;
+  //     const fullPath = isCheckout
+  //       ? `${apiUrl}/api/users`
+  //       : `${apiUrl}/api/users/${data?.id}`;
+  //     try {
+  //       const response = await fetch(fullPath, {
+  //         method: isCheckout ? "POST" : "PUT",
+  //         headers: { "Content-Type": "application/json" },
+  //         body: JSON.stringify(formData),
+  //       });
 
-      const data = await response.json();
+  //       const data = await response.json();
 
-      if (data.qrCode) {
-        setQrCode(data.qrCode);
-      }
-    } catch (error) {
-      console.error("Error submitting form:", error);
-    }
-  };
+  //       if (data.qrCode) {
+  //         setQrCode(data.qrCode);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error submitting form:", error);
+  //     }
+  //   };
 
   const steps = ["Personal Details", "Emergency Details", "Payment"];
   return (
