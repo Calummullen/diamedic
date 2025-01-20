@@ -64,14 +64,14 @@ app.post("/api/users", async (req: Request, res: Response) => {
     .cookie("accessToken", accessToken, {
       httpOnly: true,
       secure: isProduction,
-      domain: isProduction ? ".diamedic.co.uk" : "localhost",
+      domain: ".diamedic.co.uk",
       sameSite: "none",
       maxAge: 9000,
     })
     .cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: isProduction,
-      domain: isProduction ? ".diamedic.co.uk" : "localhost",
+      domain: ".diamedic.co.uk",
       sameSite: "none",
       maxAge: 604800000,
     })
