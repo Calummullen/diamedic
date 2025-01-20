@@ -46,7 +46,6 @@ interface FormData {
 }
 
 const Details: FC<CardPreviewProps> = ({ handleFieldChange }) => {
-  console.log("aaa", import.meta.env);
   const [activeStep, setActiveStep] = useState(0);
   const {
     register,
@@ -82,7 +81,8 @@ const Details: FC<CardPreviewProps> = ({ handleFieldChange }) => {
     remove: removeInsulin,
   } = useFieldArray({ control, name: "insulinTypes" });
 
-  const handleNext = async () => {
+  const handleNext = async (e: React.MouseEvent) => {
+    e.preventDefault(); // Prevent form submission
     let fieldsToValidate: (keyof FormData)[] = [];
 
     switch (activeStep) {
@@ -157,7 +157,6 @@ const Details: FC<CardPreviewProps> = ({ handleFieldChange }) => {
   };
 
   const steps = ["Personal Details", "Emergency Details", "Payment"];
-
   return (
     <Box className=" mx-auto p-4">
       <Paper className="p-6">
@@ -357,9 +356,13 @@ const Details: FC<CardPreviewProps> = ({ handleFieldChange }) => {
           )}
 
           <Box className="flex justify-between mt-4">
-            {activeStep > 0 && <Button onClick={handleBack}>Back</Button>}
+            {activeStep > 0 && (
+              <Button type="button" onClick={handleBack}>
+                Back
+              </Button>
+            )}
             {activeStep < steps.length - 1 ? (
-              <Button variant="contained" onClick={handleNext}>
+              <Button type="button" variant="contained" onClick={handleNext}>
                 Next
               </Button>
             ) : (
