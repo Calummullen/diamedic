@@ -1,6 +1,9 @@
 import { Button, Container, Card } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 export const LandingPage: React.FC = () => {
+  const navigate = useNavigate(); // Initialize the useHistory hook to navigate
+
   return (
     <div className="font-montserrat">
       {/* Hero Section */}
@@ -38,6 +41,7 @@ export const LandingPage: React.FC = () => {
 
           <div className="lg:mt-0 mt-12">
             <Button
+              onClick={() => navigate("/checkout")}
               variant="contained"
               size="large"
               className="lg:h-fit h-[125px] px-10 py-4 rounded-full transition duration-300 ease-in-out transform hover:scale-105"
@@ -182,10 +186,17 @@ export const LandingPage: React.FC = () => {
               {/* Call to Action */}
               <div className="mt-8 lg:mt-0 mb-4">
                 <Button
+                  onClick={() => navigate("/checkout")}
+                  sx={{
+                    backgroundColor: "#FFFFFF",
+                    color: "#000000",
+                    "&:hover": {
+                      backgroundColor: "#F0F0F0",
+                    },
+                  }}
                   variant="contained"
-                  color="secondary"
                   size="large"
-                  className="lg:h-fit h-[125px] px-10 py-4 rounded-full transition duration-300 ease-in-out transform hover:scale-105"
+                  className="lg:h-fit h-[100px] px-10 py-4 rounded-full transition duration-300 ease-in-out transform hover:scale-105"
                 >
                   <p className="text-3xl lg:text-lg">Get Started</p>
                 </Button>
