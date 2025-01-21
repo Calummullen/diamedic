@@ -1,4 +1,4 @@
-import { Button, Container, Typography, Card } from "@mui/material";
+import { Button, Container, Card } from "@mui/material";
 
 export const LandingPage: React.FC = () => {
   return (
