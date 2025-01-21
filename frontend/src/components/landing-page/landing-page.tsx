@@ -3,8 +3,6 @@ import {
   Container,
   Typography,
   Card,
-  CardContent,
-  CardMedia,
   ThemeProvider,
   createTheme,
 } from "@mui/material";
