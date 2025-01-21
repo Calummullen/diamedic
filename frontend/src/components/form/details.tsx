@@ -96,29 +96,13 @@ const Details: FC<CardPreviewProps> = ({
     setActiveStep((prev) => prev - 1);
   };
 
-  //   const onSubmit = async (formData: ProfileData) => {
-  //     const apiUrl = import.meta.env.VITE_API_URL;
-  //     const fullPath = isCheckout
-  //       ? `${apiUrl}/api/users`
-  //       : `${apiUrl}/api/users/${data?.id}`;
-  //     try {
-  //       const response = await fetch(fullPath, {
-  //         method: isCheckout ? "POST" : "PUT",
-  //         headers: { "Content-Type": "application/json" },
-  //         body: JSON.stringify(formData),
-  //       });
-
-  //       const data = await response.json();
-
-  //       if (data.qrCode) {
-  //         setQrCode(data.qrCode);
-  //       }
-  //     } catch (error) {
-  //       console.error("Error submitting form:", error);
-  //     }
-  //   };
-
   const steps = ["Personal Details", "Emergency Details", "Payment"];
+  const styles = {
+    someTextField: {
+      minHeight: 420,
+    },
+  };
+
   return (
     <Box className=" mx-auto p-4">
       <Paper className="p-6">
@@ -134,9 +118,7 @@ const Details: FC<CardPreviewProps> = ({
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {activeStep === 0 && (
             <Box className="space-y-4">
-              <Typography variant="h6" className="mb-4">
-                Personal Details
-              </Typography>
+              <p className="mb-4 text-6xl">Personal Details</p>
               <TextField
                 fullWidth
                 label="Full Name"
