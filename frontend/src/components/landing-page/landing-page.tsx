@@ -36,7 +36,7 @@ export const LandingPage: React.FC = () => {
             </li>
           </ul>
 
-          <div className="">
+          <div className="lg:mt-0 mt-12">
             <Button
               variant="contained"
               size="large"
@@ -180,7 +180,7 @@ export const LandingPage: React.FC = () => {
               </span>
 
               {/* Call to Action */}
-              <div className="mt-4">
+              <div className="mt-8 lg:mt-0 mb-4">
                 <Button
                   variant="contained"
                   color="secondary"
