@@ -97,11 +97,6 @@ const Details: FC<CardPreviewProps> = ({
   };
 
   const steps = ["Personal Details", "Emergency Details", "Payment"];
-  const styles = {
-    someTextField: {
-      minHeight: 420,
-    },
-  };
 
   return (
     <Box className=" mx-auto p-4">
