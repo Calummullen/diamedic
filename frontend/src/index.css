@@ -9,3 +9,7 @@
 .clip-diagonal-right-mobile {
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 70%);
 }
+
+.landing-page {
+  font-family: "Montserrat", sans-serif;
+}

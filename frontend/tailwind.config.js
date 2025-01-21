@@ -6,6 +6,10 @@ export default {
       fontFamily: {
         roboto: ["Roboto", "sans-serif"],
         macondo: ["Macondo", "sans-serif"],
+        montserrat: ["Montserrat", "sans-serif"],
+      },
+      colors: {
+        "main-blue": "#005EB8",
       },
     },
   },
