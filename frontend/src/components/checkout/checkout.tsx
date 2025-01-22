@@ -33,7 +33,7 @@ export const Checkout: React.FC = () => {
     }
   };
   return (
-    <div className="font-roboto flex flex-col lg:flex-row gap-20 lg:gap-4 justify-center items-center mt-2 px-4 lg:px-32">
+    <div className="font-montserrat flex flex-col lg:flex-row gap-20 lg:gap-4 justify-center items-center mt-2 px-4 lg:px-32">
       <div className="lg:basis-3/5">
         <Details
           handleFieldChange={handleFieldChange}
@@ -49,8 +49,8 @@ export const Checkout: React.FC = () => {
 
       <div className="flex lg:basis-2/5 flex-col gap-8 items-center justify-center">
         <div className="flex flex-col gap-2 items-center text-center">
-          <h3 className="font-bold text-5xl font-macondo">Example card</h3>
-          <p className="font-macondo text-md">
+          <h3 className="font-bold text-5xl">Example card</h3>
+          <p className=" text-md">
             Fill out the Full Name and Date of Birth fields to populate the
             example card
           </p>
@@ -62,7 +62,7 @@ export const Checkout: React.FC = () => {
           backgroundColor={"red"}
         />
 
-        <p className="font-macondo text-md text-red-600">
+        <p className="text-md text-red-600">
           All cards will resemble the preview above, though some text sizes may
           vary, particularly for longer names.
         </p>
