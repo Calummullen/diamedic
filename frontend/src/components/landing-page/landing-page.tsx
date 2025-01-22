@@ -7,35 +7,39 @@ export const LandingPage: React.FC = () => {
   return (
     <div className="font-montserrat">
       {/* Hero Section */}
-      <div className=" text-black py-20 text-center px-6">
+      <div className=" text-black py-20 text-center px-8 lg:px-6">
         <Container className="flex flex-col gap-12">
-          <p className="leading-tight text-7xl lg:text-6xl">
-            Emergency Medical Info, Always at Your Fingertips
+          <p className="leading-tight text-8xl lg:text-6xl text-main-blue">
+            Emergency Info, Always at Your Fingertips
           </p>
           <div className="flex flex-col gap-12 lg:gap-2">
-            <p className="mt-4 text-4xl lg:text-xl">
+            <p className="mt-4 text-6xl lg:text-xl ">
               The Diamedic card is a compact, wallet-sized card featuring a
               unique QR code that provides instant access to your emergency
               medical details.
             </p>
-            <p className="text-3xl lg:text-xl lg:font-bold">
+            <p className="text-4xl lg:text-xl lg:font-bold">
               Designed specifically for diabetics, it offers more comprehensive
               information than traditional medical ID cards, including:
             </p>
           </div>
 
-          <ul className="flex flex-col lg:gap-2 gap-8 text-3xl lg:text-lg lg:text-center text-start text-gray-700 space-y-2 list-disc lg:list-inside  list-outside pl-5">
+          <ul className="flex flex-col lg:gap-2 gap-8 text-4xl lg:text-lg lg:text-center text-start text-gray-700 space-y-2 list-disc lg:list-inside  list-outside pl-5">
             <li>
-              <strong>Insulin types and dosages</strong> for precise treatment
-              guidance
+              <strong className="text-main-blue">
+                Insulin types and dosages
+              </strong>{" "}
+              for precise treatment guidance
             </li>
             <li>
-              <strong>Emergency protocols</strong> for managing hypo events,
-              even if semi-conscious or unconscious
+              <strong className="text-main-blue">Emergency protocols</strong>{" "}
+              for managing hypo events, even if semi-conscious or unconscious
             </li>
             <li>
-              <strong>Recommended food and drink</strong> to stabilize blood
-              sugar levels, with guidance on when to use them
+              <strong className="text-main-blue">
+                Recommended food and drink
+              </strong>{" "}
+              to stabilize blood sugar levels, with guidance on when to use them
             </li>
           </ul>
 
@@ -44,7 +48,7 @@ export const LandingPage: React.FC = () => {
               onClick={() => navigate("/checkout")}
               variant="contained"
               size="large"
-              className="lg:h-fit h-[125px] px-10 py-4 rounded-full transition duration-300 ease-in-out transform hover:scale-105"
+              className="lg:h-fit h-[125px] w-full lg:w-fit px-10 py-4 rounded-full transition duration-300 ease-in-out transform hover:scale-105"
             >
               <p className="text-3xl lg:text-lg">Get Your Card Now</p>
             </Button>
@@ -96,9 +100,9 @@ export const LandingPage: React.FC = () => {
       {/* How It Works */}
       <div className="bg-gradient-to-r from-blue-500 to-teal-400 text-white py-20">
         <Container>
-          <p className="text-center text-8xl lg:text-5xl">How It Works</p>
+          <p className="text-center text-9xl lg:text-5xl">How It Works</p>
 
-          <div className="mt-12 space-y-12">
+          <div className="mt-28 lg:mt-12 mb-12 lg:mb-0 space-y-12">
             {[
               {
                 step: "1",
@@ -121,13 +125,13 @@ export const LandingPage: React.FC = () => {
                 className="text-left flex lg:items-center gap-4 lg:space-y-4 px-12"
               >
                 <div className="flex-shrink-0 w-12 lg:w-12">
-                  <p className="text-6xl font-bold text-teal-500">
+                  <p className="text-7xl font-bold text-teal-500">
                     {item.step}.
                   </p>
                 </div>
                 <div className="flex-grow">
-                  <p className="lg:text-xl text-5xl mb-2">{item.title}</p>
-                  <p className="lg:text-lg text-3xl text-gray-700">
+                  <p className="lg:text-xl text-6xl mb-2">{item.title}</p>
+                  <p className="lg:text-lg text-4xl text-gray-700">
                     {item.desc}
                   </p>
                 </div>
@@ -139,47 +143,47 @@ export const LandingPage: React.FC = () => {
 
       {/* Call to Action */}
       <div className="py-20 text-center bg-gradient-to-b from-blue-100 to-blue-200">
-        <Container>
-          <p className="lg:text-3xl text-5xl text-main-blue font-semibold">
+        <Container className="flex flex-col lg:gap-0 gap-12">
+          <p className="lg:text-3xl text-8xl text-main-blue font-semibold">
             Get Your Diamedic Card Today
           </p>
-          <p className="lg:mt-2 mt-4 text-gray-800 text-3xl lg:text-xl opacity-80">
+          <p className="lg:mt-2 mt-4 text-gray-800 text-5xl lg:text-xl opacity-80">
             Secure your emergency details in just minutes. Start now!
           </p>
 
           {/* Pricing Section */}
           <div className="mt-12 flex justify-center">
-            <div className="p-8 bg-main-blue rounded-lg shadow-xl lg:w-80 flex flex-col gap-6">
-              <p className="lg:font-normal font-bold text-white text-5xl lg:text-xl">
+            <div className="p-12 lg:p-8 bg-main-blue rounded-lg shadow-xl lg:w-80 flex flex-col gap-6">
+              <p className="lg:font-normal font-bold text-white text-6xl lg:text-xl">
                 Your Diamedic Card
               </p>
-              <p className="lg:text-3xl text-5xl text-white font-semibold">
+              <p className="lg:text-4xl text-5xl text-white font-semibold">
                 £tbd
               </p>
-              <p className="text-white lg:text-lg text-2xl opacity-80">
+              <p className="text-white lg:text-lg text-3xl opacity-80">
                 Includes 1 Diamedic card.
               </p>
 
               {/* Features List */}
-              <ul className="mt-4 text-white lg:text-sm text-4xl opacity-80 flex flex-col lg:gap-2 gap-8">
+              <ul className="mt-4 text-white lg:text-sm text-5xl opacity-80 flex flex-col lg:gap-2 gap-8">
                 <li className="flex items-center">
-                  <span className="mr-2 text-teal-200">✔</span> Printed and
-                  shipped to you
+                  <span className="lg:mr-2 mr-6 text-teal-200">✔</span> Printed
+                  and shipped to you
                 </li>
                 <li className="flex items-center">
-                  <span className="mr-2 text-teal-200">✔</span> QR code for
-                  instant access
+                  <span className="lg:mr-2 mr-6 text-teal-200">✔</span> QR code
+                  for instant access
                 </li>
                 <li className="flex items-center">
-                  <span className="mr-2 text-teal-200">✔</span> Easy to carry
-                  and use
+                  <span className="lg:mr-2 mr-6 text-teal-200">✔</span> Easy to
+                  carry and use
                 </li>
                 <li className="flex items-center">
-                  <span className="mr-2 text-teal-200">✔</span> Update your
-                  details anytime*
+                  <span className="lg:mr-2 mr-6 text-teal-200">✔</span> Update
+                  your details anytime*
                 </li>
               </ul>
-              <span className="italic text-white text-xl lg:text-sm pt-4">
+              <span className="italic text-white text-2xl lg:text-sm pt-4">
                 * Internet connection required to update information
               </span>
 
@@ -196,7 +200,7 @@ export const LandingPage: React.FC = () => {
                   }}
                   variant="contained"
                   size="large"
-                  className="lg:h-fit h-[100px] px-10 py-4 rounded-full transition duration-300 ease-in-out transform hover:scale-105"
+                  className="lg:h-fit h-[100px] w-full lg:w-fit px-10 py-4 rounded-full transition duration-300 ease-in-out transform hover:scale-105"
                 >
                   <p className="text-3xl lg:text-lg">Get Started</p>
                 </Button>
@@ -208,10 +212,10 @@ export const LandingPage: React.FC = () => {
 
       {/* Footer */}
       <div className="bg-gray-900 text-white py-8 text-center">
-        <p className="lg:text-lg text-3xl">
+        <p className="lg:text-lg text-4xl">
           © {new Date().getFullYear()} Diamedic. All rights reserved.
         </p>
-        <div className="mt-6 space-x-6 lg:text-lg text-2xl">
+        <div className="mt-6 space-x-6 lg:text-lg text-3xl">
           <a
             href="#"
             className="text-gray-300 hover:text-white transition duration-200"
