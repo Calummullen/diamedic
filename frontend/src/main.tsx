@@ -2,9 +2,11 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.tsx";
+import { Analytics } from "@vercel/analytics/react";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
+    <Analytics />
     <div className="relative bg-main-blue text-white pt-6 clip-diagonal-right-mobile h-[250px]">
       <div className="flex flex-col items-center justify-center font-macondo">
         <div className="font-bold text-9xl lg:text-8xl flex items-center justify-center">
