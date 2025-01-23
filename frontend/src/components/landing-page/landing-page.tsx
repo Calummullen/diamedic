@@ -122,9 +122,9 @@ export const LandingPage: React.FC = () => {
             ].map((item, idx) => (
               <div
                 key={idx}
-                className="text-left flex lg:items-center gap-4 lg:space-y-4 px-12"
+                className="text-left flex lg:items-center gap-12 lg:gap-8 px-12"
               >
-                <div className="flex-shrink-0 w-12 lg:w-12">
+                <div className="flex-shrink-0 w-12">
                   <p className="text-7xl font-bold text-teal-500">
                     {item.step}.
                   </p>
