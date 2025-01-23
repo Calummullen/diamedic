@@ -37,17 +37,17 @@ const Details: FC<CardPreviewProps> = ({
     return {
       [theme.breakpoints.down("lg")]: {
         "& .MuiInputBase-root": {
-          fontSize: overrideFontSize || "3.5rem", // Increase input text size
+          fontSize: overrideFontSize || "3.5rem",
           paddingLeft: "1rem",
-          height: "125px", // Increase height (default is 40px)
+          height: "125px",
         },
         "& .MuiFormLabel-root": {
-          fontSize: "3rem", // Increase label size
-          marginLeft: "1rem", // Adjust label position
+          fontSize: "3rem",
+          marginLeft: "1rem",
           marginTop: "-1rem",
         },
         "& .MuiFormHelperText-root.Mui-error": {
-          fontSize: "1.5rem", // Increase error text size
+          fontSize: "1.5rem",
         },
       },
     };
@@ -58,9 +58,7 @@ const Details: FC<CardPreviewProps> = ({
     register,
     control,
     handleSubmit,
-    // formState: { errors, isValid },
     formState: { errors },
-    trigger,
     watch,
   } = useForm<ProfileData>({
     mode: "onChange",
@@ -68,7 +66,6 @@ const Details: FC<CardPreviewProps> = ({
       ...data,
     },
   });
-  //   const [qrCode, setQrCode] = useState<string | null>(null);
   const name = watch("name", "");
   const dob = watch("dateOfBirth", "");
 
@@ -89,7 +86,7 @@ const Details: FC<CardPreviewProps> = ({
   } = useFieldArray({ control, name: "insulinTypes" });
 
   const handleNext = async (e: React.MouseEvent) => {
-    e.preventDefault(); // Prevent form submission
+    e.preventDefault();
     let fieldsToValidate: (keyof ProfileData)[] = [];
 
     switch (activeStep) {
@@ -111,8 +108,9 @@ const Details: FC<CardPreviewProps> = ({
         ];
         break;
     }
-    const isStepValid = await trigger(fieldsToValidate);
-    if (isStepValid) setActiveStep((prev) => prev + 1);
+    // const isStepValid = await trigger(fieldsToValidate);
+    // if (isStepValid)
+    setActiveStep((prev) => prev + 1);
   };
 
   const handleBack = () => {
@@ -131,17 +129,17 @@ const Details: FC<CardPreviewProps> = ({
                 <StepLabel
                   sx={(theme) => ({
                     "& .MuiStepLabel-label": {
-                      fontSize: "1.5rem", // Default font size
+                      fontSize: "1.5rem",
                       [theme.breakpoints.up("lg")]: {
-                        fontSize: "1rem", // Larger font size for 'lg' and above
+                        fontSize: "1rem",
                       },
                     },
                     "& .MuiStepIcon-root": {
-                      fontSize: "2.5rem", // Default font size for step numbers
+                      fontSize: "2.5rem",
                       marginRight: "0.5rem",
                       marginLeft: "0.5rem",
                       [theme.breakpoints.up("lg")]: {
-                        fontSize: "1.5rem", // Larger font size for step numbers on 'lg' screens and above
+                        fontSize: "1.5rem",
                         marginRight: "0rem",
                         marginLeft: "0rem",
                       },
@@ -199,13 +197,13 @@ const Details: FC<CardPreviewProps> = ({
                 sx={{
                   [theme.breakpoints.down("lg")]: {
                     "& .MuiInputBase-root": {
-                      fontSize: "3.25rem", // Increase input text size
+                      fontSize: "3.25rem",
                       paddingLeft: "1rem",
-                      height: "125px", // Increase height (default is 40px)
+                      height: "125px",
                     },
                     "& .MuiFormLabel-root": {
-                      fontSize: "3rem", // Increase label size
-                      marginLeft: "1rem", // Adjust label position
+                      fontSize: "3rem",
+                      marginLeft: "1rem",
                       marginTop: "-1rem",
                     },
                   },
@@ -270,18 +268,25 @@ const Details: FC<CardPreviewProps> = ({
           )}
 
           {activeStep === 1 && (
-            <Box className="space-y-4">
-              <Typography variant="h6" className="mb-4">
+            <Box className="space-y-12 lg:space-y-4">
+              <p className="mb-24 lg:mb-4 lg:text-xl text-5xl">
                 Emergency Contacts
-              </Typography>
+              </p>
               {contactFields.map((field, index) => (
-                <Box key={field.id} className="flex gap-4 flex-row">
+                <Box
+                  key={field.id}
+                  className="flex flex-col gap-14 lg:bg-white bg-gray-50 lg:flex-row lg:gap-4 w-full lg:border-none border border-gray-300 lg:p-0 p-12 rounded-lg lg:shadow-none shadow-sm"
+                >
                   <TextField
                     className="flex-1"
                     label="Emergency Contact Name"
                     {...register(`emergencyContacts.${index}.name` as const, {
                       required: "Contact name is required",
                     })}
+                    {...(isMobile && {
+                      slotProps: { inputLabel: { shrink: true } },
+                    })}
+                    sx={sxTheme("3.25rem")}
                     error={!!errors.emergencyContacts?.[index]?.name}
                     helperText={
                       errors.emergencyContacts?.[index]?.name?.message
@@ -293,80 +298,155 @@ const Details: FC<CardPreviewProps> = ({
                     {...register(`emergencyContacts.${index}.phone` as const, {
                       required: "Phone number is required",
                     })}
+                    {...(isMobile && {
+                      slotProps: { inputLabel: { shrink: true } },
+                    })}
+                    sx={sxTheme("3.5rem")}
                     error={!!errors.emergencyContacts?.[index]?.phone}
                     helperText={
                       errors.emergencyContacts?.[index]?.phone?.message
                     }
                   />
-                  {contactFields.length > 1 && (
-                    <IconButton onClick={() => removeContact(index)}>
-                      <DeleteIcon />
-                    </IconButton>
-                  )}
+                  {contactFields.length > 1 &&
+                    (isMobile ? (
+                      <Button
+                        onClick={() => removeContact(index)}
+                        variant="contained"
+                        color="error"
+                        className="w-fit"
+                      >
+                        <div className="flex flex-row gap-3 items-end p-4">
+                          <DeleteIcon fontSize="large" />
+                          <p className="text-2xl">Remove Emergency Contact</p>
+                        </div>
+                      </Button>
+                    ) : (
+                      <IconButton
+                        onClick={() => removeContact(index)}
+                        color="error"
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    ))}
                 </Box>
               ))}
               <Button
-                startIcon={<AddIcon />}
+                className="flex flex-row lg:gap-1 gap-3"
                 onClick={() => appendContact({ name: "", phone: "" })}
               >
-                Add Emergency Contact
+                <AddIcon fontSize={isMobile ? "large" : "small"} />
+                <p className="lg:text-sm text-4xl">Add Emergency Contact</p>
               </Button>
 
               <Divider className="my-4" />
 
-              <Typography variant="h6" className="mb-4">
+              <p className="pb-12 lg:mb-4 lg:text-xl text-5xl">
                 Insulin Information
-              </Typography>
+              </p>
               {insulinFields.map((field, index) => (
-                <Box key={field.id} className="flex gap-4 flex-row w-full">
-                  <TextField
-                    className="flex-1"
-                    label="Insulin Type"
-                    {...register(`insulinTypes.${index}.type` as const, {
-                      required: "Insulin type is required",
-                    })}
-                    error={!!errors.insulinTypes?.[index]?.type}
-                    helperText={
-                      (errors.insulinTypes?.[index]?.type as FieldError)
-                        ?.message
-                    }
-                  />
-                  <TextField
-                    className="flex-1"
-                    label="Dosage"
-                    {...register(`insulinTypes.${index}.dosage` as const, {
-                      required: "Dosage is required",
-                    })}
-                    error={!!errors.insulinTypes?.[index]?.dosage}
-                    helperText={errors.insulinTypes?.[index]?.dosage?.message}
-                  />
-                  {insulinFields.length > 1 && (
-                    <IconButton onClick={() => removeInsulin(index)}>
-                      <DeleteIcon />
-                    </IconButton>
-                  )}
+                <Box
+                  key={field.id}
+                  className="flex flex-col gap-14 lg:bg-white bg-gray-50 lg:flex-row lg:gap-4 w-full lg:border-none border border-gray-300 lg:p-0 p-12 rounded-lg shadow-sm"
+                >
+                  <div className="flex flex-col lg:flex-1 w-full lg:mt-0 mt-4">
+                    <TextField
+                      className="flex-1"
+                      label="Insulin Type"
+                      {...register(`insulinTypes.${index}.type` as const, {
+                        required: "Insulin type is required",
+                      })}
+                      {...(isMobile && {
+                        slotProps: { inputLabel: { shrink: true } },
+                      })}
+                      sx={sxTheme("3.4rem")}
+                      error={!!errors.insulinTypes?.[index]?.type}
+                      helperText={
+                        (errors.insulinTypes?.[index]?.type as FieldError)
+                          ?.message
+                      }
+                    />
+                  </div>
+
+                  <div className="flex flex-col lg:flex-1 w-full">
+                    <TextField
+                      className="flex-1"
+                      label="Dosage"
+                      {...register(`insulinTypes.${index}.dosage` as const, {
+                        required: "Dosage is required",
+                      })}
+                      {...(isMobile && {
+                        slotProps: { inputLabel: { shrink: true } },
+                      })}
+                      sx={sxTheme("3.6rem")}
+                      error={!!errors.insulinTypes?.[index]?.dosage}
+                      helperText={errors.insulinTypes?.[index]?.dosage?.message}
+                    />
+                  </div>
+
+                  {insulinFields.length > 1 &&
+                    (isMobile ? (
+                      <Button
+                        onClick={() => removeInsulin(index)}
+                        variant="contained"
+                        color="error"
+                        className="w-fit"
+                      >
+                        <div className="flex flex-row gap-3 items-end p-4">
+                          <DeleteIcon fontSize="large" />
+                          <p className="text-2xl">Remove Insulin Entry</p>
+                        </div>
+                      </Button>
+                    ) : (
+                      <IconButton
+                        onClick={() => removeInsulin(index)}
+                        color="error"
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    ))}
                 </Box>
               ))}
               <Button
-                startIcon={<AddIcon />}
+                className="flex flex-row lg:gap-1 gap-3"
                 onClick={() => appendInsulin({ type: "", dosage: "" })}
               >
-                Add Insulin Type
+                <AddIcon fontSize={isMobile ? "large" : "small"} />
+                <p className="lg:text-sm text-4xl">Add Insulin Type</p>
               </Button>
 
               <Divider className="my-4" />
 
-              <Typography variant="h6" className="mb-4">
-                Emergency Instructions
-              </Typography>
+              <p className="pb-4 lg:mb-4 lg:text-xl text-5xl">
+                Insulin Information
+              </p>
               <TextField
                 fullWidth
                 multiline
-                rows={4}
+                placeholder=""
+                rows={5}
                 label="Instructions for Emergency Services"
                 {...register("emergencyInstructions", {
                   required: "Emergency instructions are required",
                 })}
+                {...(isMobile && {
+                  slotProps: { inputLabel: { shrink: true } },
+                })}
+                sx={{
+                  [theme.breakpoints.down("lg")]: {
+                    "& .MuiInputBase-root": {
+                      fontSize: "3rem",
+                      paddingLeft: "1rem",
+                    },
+                    "& .MuiFormLabel-root": {
+                      fontSize: "3rem",
+                      marginLeft: "1rem",
+                      marginTop: "-1rem",
+                    },
+                    "& .MuiFormHelperText-root.Mui-error": {
+                      fontSize: "2rem", // Increase error text size
+                    },
+                  },
+                }}
                 error={!!errors.emergencyInstructions}
                 helperText={errors.emergencyInstructions?.message}
               />
@@ -386,10 +466,15 @@ const Details: FC<CardPreviewProps> = ({
             </Box>
           )}
 
-          <Box className="flex justify-between lg:pt-4 pt-12 pb-24">
+          <Box className="flex justify-between gap-12 lg:pt-4 pt-12 pb-24">
             {activeStep > 0 && (
-              <Button type="button" onClick={handleBack}>
-                Back
+              <Button
+                className="lg:h-fit h-[125px] w-full lg:w-fit rounded-full transition duration-300 ease-in-out transform hover:scale-105"
+                type="button"
+                variant="outlined"
+                onClick={handleBack}
+              >
+                <p className="text-5xl lg:text-xl">Back</p>
               </Button>
             )}
             {activeStep < steps.length - 1 ? (
@@ -402,12 +487,15 @@ const Details: FC<CardPreviewProps> = ({
                 <p className="text-5xl lg:text-xl">Next</p>
               </Button>
             ) : (
-              //   <Button type="submit" variant="contained" disabled={!isValid}>
-              //     {isCheckout ? "Submit" : "Save"}
-              //   </Button>
-
-              <Button type="submit" variant="contained" disabled>
-                {isCheckout ? "Submit" : "Save"}
+              <Button
+                className="lg:h-fit h-[125px] w-full lg:w-fit rounded-full transition duration-300 ease-in-out transform hover:scale-105"
+                type="submit"
+                variant="contained"
+                disabled
+              >
+                <p className="text-5xl lg:text-xl">
+                  {isCheckout ? "Submit" : "Save"}
+                </p>
               </Button>
             )}
           </Box>

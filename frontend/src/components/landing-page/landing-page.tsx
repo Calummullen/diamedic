@@ -153,7 +153,7 @@ export const LandingPage: React.FC = () => {
 
           {/* Pricing Section */}
           <div className="mt-12 flex justify-center">
-            <div className="p-12 lg:p-8 bg-main-blue rounded-lg shadow-xl lg:w-80 flex flex-col gap-6">
+            <div className="px-12 py-24 lg:p-8 bg-main-blue rounded-lg shadow-xl lg:w-80 flex flex-col gap-6">
               <p className="lg:font-normal font-bold text-white text-6xl lg:text-xl">
                 Your Diamedic Card
               </p>
@@ -165,7 +165,7 @@ export const LandingPage: React.FC = () => {
               </p>
 
               {/* Features List */}
-              <ul className="mt-4 text-white lg:text-sm text-5xl opacity-80 flex flex-col lg:gap-2 gap-8">
+              <ul className="mt-4 text-white lg:text-sm text-4xl opacity-80 flex flex-col lg:gap-2 gap-8">
                 <li className="flex items-center">
                   <span className="lg:mr-2 mr-6 text-teal-200">✔</span> Printed
                   and shipped to you
