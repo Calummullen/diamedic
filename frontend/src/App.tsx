@@ -9,6 +9,9 @@ import Profile from "./components/profile/profile";
 import { EditProfile } from "./components/profile/edit-profile";
 import { Checkout } from "./components/checkout/checkout";
 import { LandingPage } from "./components/landing-page/landing-page";
+import TermsPage from "./components/footer/terms-and-conditions";
+import PrivacyPolicyPage from "./components/footer/privacy-policy";
+import Contact from "./components/footer/contact";
 
 function App() {
   return (
@@ -18,6 +21,9 @@ function App() {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/:id" element={<UserInfo />} />
         <Route path="/:id/edit-profile" element={<EditProfile />} />
+        <Route path="/terms-and-conditions" element={<TermsPage />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+        <Route path="/contact" element={<Contact />} />
       </Routes>
     </Router>
   );

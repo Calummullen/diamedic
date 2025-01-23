@@ -1,8 +1,18 @@
-import { Button, Container, Card } from "@mui/material";
+import {
+  Button,
+  Container,
+  Card,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import CardPreview from "../card/card-preview";
 
 export const LandingPage: React.FC = () => {
   const navigate = useNavigate(); // Initialize the useHistory hook to navigate
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
   return (
     <div className="font-montserrat">
@@ -143,16 +153,17 @@ export const LandingPage: React.FC = () => {
 
       {/* Call to Action */}
       <div className="py-20 text-center bg-gradient-to-b from-blue-100 to-blue-200">
-        <Container className="flex flex-col lg:gap-0 gap-12">
-          <p className="lg:text-3xl text-8xl text-main-blue font-semibold">
+        <Container className="flex flex-col lg:gap-2 gap-12">
+          <p className="lg:text-5xl text-8xl text-main-blue font-semibold">
             Get Your Diamedic Card Today
           </p>
           <p className="lg:mt-2 mt-4 text-gray-800 text-5xl lg:text-xl opacity-80">
-            Secure your emergency details in just minutes. Start now!
+            A Diamedic card is a one-time purchase (with free shipping). Once
+            acquired, there are no recurring fees or additional costs.{" "}
           </p>
 
           {/* Pricing Section */}
-          <div className="mt-12 flex justify-center">
+          <div className="mt-12 flex flex-col lg:flex-row gap-20 lg:gap-24 justify-center items-center">
             <div className="px-12 py-24 lg:p-8 bg-main-blue rounded-lg shadow-xl lg:w-80 flex flex-col gap-6">
               <p className="lg:font-normal font-bold text-white text-6xl lg:text-xl">
                 Your Diamedic Card
@@ -206,6 +217,19 @@ export const LandingPage: React.FC = () => {
                 </Button>
               </div>
             </div>
+            {isMobile && <KeyboardArrowDownIcon sx={{ fontSize: "75px" }} />}
+            <div className="flex flex-col items-center lg:basis-1/4 gap-12">
+              <p className="lg:text-4xl text-8xl">Example Card</p>
+              <CardPreview
+                fullName="John Smith"
+                dateOfBirth="01/01/1990"
+                backgroundColor={"bg-white"}
+              />
+              <p className="lg:text-lg text-4xl text-red-600">
+                All cards will resemble the preview above, though some text
+                sizes may vary, particularly for longer names.
+              </p>
+            </div>
           </div>
         </Container>
       </div>
@@ -217,19 +241,19 @@ export const LandingPage: React.FC = () => {
         </p>
         <div className="mt-6 space-x-6 lg:text-lg text-3xl">
           <a
-            href="#"
+            href="/privacy-policy"
             className="text-gray-300 hover:text-white transition duration-200"
           >
             Privacy Policy
           </a>
           <a
-            href="#"
+            href="/terms-and-conditions"
             className="text-gray-300 hover:text-white transition duration-200"
           >
             Terms & Conditions
           </a>
           <a
-            href="#"
+            href="/contact"
             className="text-gray-300 hover:text-white transition duration-200"
           >
             Contact

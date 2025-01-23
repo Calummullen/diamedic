@@ -434,7 +434,7 @@ const Details: FC<CardPreviewProps> = ({
                 sx={{
                   [theme.breakpoints.down("lg")]: {
                     "& .MuiInputBase-root": {
-                      fontSize: "3rem",
+                      fontSize: "3.15rem",
                       paddingLeft: "1rem",
                     },
                     "& .MuiFormLabel-root": {
