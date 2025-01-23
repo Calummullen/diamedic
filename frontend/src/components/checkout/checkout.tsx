@@ -6,7 +6,7 @@ import { ProfileData } from "../profile/profile";
 export const Checkout: React.FC = () => {
   const [name, setName] = useState("");
   const [dob, setDob] = useState("");
-  const [isPreviewVisible, setIsPreviewVisible] = useState(true);
+  const [isPreviewVisible, setIsPreviewVisible] = useState(false);
 
   const handleFieldChange = (name?: string, dob?: string) => {
     setName(name || "");
