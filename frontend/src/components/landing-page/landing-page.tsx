@@ -8,6 +8,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import CardPreview from "../card/card-preview";
+import FAQPage from "../faq/faq";
 
 export const LandingPage: React.FC = () => {
   const navigate = useNavigate(); // Initialize the useHistory hook to navigate
@@ -232,6 +233,11 @@ export const LandingPage: React.FC = () => {
             </div>
           </div>
         </Container>
+      </div>
+
+      {/* FAQ */}
+      <div className="bg-white">
+        <FAQPage />
       </div>
 
       {/* Footer */}
