@@ -245,7 +245,7 @@ export const LandingPage: React.FC = () => {
         <p className="lg:text-lg text-4xl">
           © {new Date().getFullYear()} Diamedic. All rights reserved.
         </p>
-        <div className="mt-6 space-x-6 lg:text-lg text-3xl">
+        <div className="my-8 space-x-6 lg:text-lg text-3xl">
           <a
             href="/privacy-policy"
             className="text-gray-300 hover:text-white transition duration-200"
