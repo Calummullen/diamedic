@@ -58,6 +58,7 @@ const Details: FC<CardPreviewProps> = ({
     register,
     control,
     handleSubmit,
+    trigger,
     formState: { errors },
     watch,
   } = useForm<ProfileData>({
@@ -108,9 +109,8 @@ const Details: FC<CardPreviewProps> = ({
         ];
         break;
     }
-    // const isStepValid = await trigger(fieldsToValidate);
-    // if (isStepValid)
-    setActiveStep((prev) => prev + 1);
+    const isStepValid = await trigger(fieldsToValidate);
+    if (isStepValid) setActiveStep((prev) => prev + 1);
   };
 
   const handleBack = () => {
