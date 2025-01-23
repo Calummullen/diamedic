@@ -136,6 +136,16 @@ const Details: FC<CardPreviewProps> = ({
                         fontSize: "1rem", // Larger font size for 'lg' and above
                       },
                     },
+                    "& .MuiStepIcon-root": {
+                      fontSize: "2.5rem", // Default font size for step numbers
+                      marginRight: "0.5rem",
+                      marginLeft: "0.5rem",
+                      [theme.breakpoints.up("lg")]: {
+                        fontSize: "1.5rem", // Larger font size for step numbers on 'lg' screens and above
+                        marginRight: "0rem",
+                        marginLeft: "0rem",
+                      },
+                    },
                   })}
                 >
                   {label}
