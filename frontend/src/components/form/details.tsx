@@ -53,8 +53,6 @@ const Details: FC<CardPreviewProps> = ({
     };
   };
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
-  const inputLabelProps = useMemo(() => ({ shrink: isMobile }), [isMobile]);
-  console.log("im", isMobile);
 
   const {
     register,
@@ -182,7 +180,6 @@ const Details: FC<CardPreviewProps> = ({
                 fullWidth
                 label="Date of Birth"
                 type="date"
-                InputLabelProps={{ shrink: true }}
                 {...register("dateOfBirth", {
                   required: "Date of birth is required",
                 })}
