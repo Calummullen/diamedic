@@ -60,7 +60,7 @@ const Details: FC<CardPreviewProps> = ({
     register,
     control,
     handleSubmit,
-    trigger,
+    // trigger,
     formState: { errors },
     watch,
   } = useForm<ProfileData>({
