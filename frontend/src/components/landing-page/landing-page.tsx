@@ -73,7 +73,7 @@ export const LandingPage: React.FC = () => {
           <p className="text-8xl text-center lg:text-4xl pb-24 lg:pb-12">
             Why Diamedic?
           </p>
-          <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-6 gap-12 ">
+          <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-12 gap-12 ">
             <LandingPageCard
               title="🚀 Instant Access"
               desc={
@@ -109,7 +109,7 @@ export const LandingPage: React.FC = () => {
         </Container>
       </div>
       {/* How It Works */}
-      <div className="bg-gradient-to-r from-blue-500 to-teal-400 text-white py-20">
+      <div className="bg-white text-black py-20">
         <Container>
           <p className="text-center text-9xl lg:text-5xl">How It Works</p>
 
@@ -141,7 +141,9 @@ export const LandingPage: React.FC = () => {
                   </p>
                 </div>
                 <div className="flex-grow">
-                  <p className="lg:text-xl text-6xl mb-2">{item.title}</p>
+                  <p className="lg:text-xl text-6xl mb-2 font-bold">
+                    {item.title}
+                  </p>
                   <p className="lg:text-lg text-4xl text-gray-700">
                     {item.desc}
                   </p>
@@ -278,9 +280,9 @@ const LandingPageCard = ({
   desc: JSX.Element;
 }) => {
   return (
-    <Card className="shadow-xl flex flex-col gap-14 lg:gap-6 rounded-lg bg-white p-20 lg:px-6 lg:py-12 text-center hover:shadow-2xl transition duration-300">
+    <p className="shadow-lg bg-white flex flex-col gap-14 lg:gap-6 rounded-xl p-20 lg:px-6 lg:py-12 text-center hover:shadow-xl transition duration-300">
       <p className="lg:text-xl lg:font-bold text-6xl">{title}</p>
       <p className="text-gray-700 lg:text-lg text-4xl">{desc}</p>
-    </Card>
+    </p>
   );
 };

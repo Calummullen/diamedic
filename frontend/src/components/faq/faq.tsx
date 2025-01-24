@@ -9,6 +9,9 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const FAQPage = () => {
+  const accordionSx = {
+    boxShadow: "0px 0.5px 1.25px rgba(0, 0, 0, 0.5)", // Add shadow here
+  };
   const sx = {
     fontSize: {
       xs: "2rem", // font size for extra small screens
@@ -38,7 +41,7 @@ const FAQPage = () => {
 
       {/* FAQ Accordion */}
       <Box className="space-y-6 mt-8">
-        <Accordion>
+        <Accordion sx={accordionSx}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />} id="panel1-header">
             <Typography sx={sx} variant="h6">
               What is a Diamedic card?
@@ -55,7 +58,7 @@ const FAQPage = () => {
           </AccordionDetails>
         </Accordion>
 
-        <Accordion>
+        <Accordion sx={accordionSx}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />} id="panel2-header">
             <Typography sx={sx} variant="h6">
               How do I get my Diamedic card?
@@ -71,7 +74,7 @@ const FAQPage = () => {
           </AccordionDetails>
         </Accordion>
 
-        <Accordion>
+        <Accordion sx={accordionSx}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />} id="panel3-header">
             <Typography sx={sx} variant="h6">
               How long does it take to receive my card?
@@ -86,7 +89,7 @@ const FAQPage = () => {
           </AccordionDetails>
         </Accordion>
 
-        <Accordion>
+        <Accordion sx={accordionSx}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />} id="panel4-header">
             <Typography sx={sx} variant="h6">
               Is the Diamedic card waterproof?
@@ -101,7 +104,7 @@ const FAQPage = () => {
           </AccordionDetails>
         </Accordion>
 
-        <Accordion>
+        <Accordion sx={accordionSx}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />} id="panel5-header">
             <Typography sx={sx} variant="h6">
               What happens if my card is lost or damaged?
@@ -116,7 +119,7 @@ const FAQPage = () => {
           </AccordionDetails>
         </Accordion>
 
-        <Accordion>
+        <Accordion sx={accordionSx}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />} id="panel6-header">
             <Typography sx={sx} variant="h6">
               How secure is my personal information?
@@ -131,7 +134,7 @@ const FAQPage = () => {
           </AccordionDetails>
         </Accordion>
 
-        <Accordion>
+        <Accordion sx={accordionSx}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />} id="panel7-header">
             <Typography sx={sx} variant="h6">
               Can I update my medical details on the Diamedic card?
