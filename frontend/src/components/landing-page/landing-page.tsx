@@ -1,10 +1,4 @@
-import {
-  Button,
-  Container,
-  Card,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
+import { Button, Container, useMediaQuery, useTheme } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import CardPreview from "../card/card-preview";
