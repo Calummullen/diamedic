@@ -17,8 +17,15 @@ import {
 } from "@mui/icons-material";
 import { useNavigate, useParams } from "react-router-dom";
 
+interface EmergencyContact {
+  name: string;
+  phone: string;
+  notifySMS?: boolean; // Add notifySMS
+  notifyEmail?: boolean; // Add notifyEmail
+}
+
 export interface ProfileData {
-  emergencyContacts: { name: string; phone: string }[];
+  emergencyContacts: EmergencyContact[];
   insulinTypes: { type: string; dosage: string }[];
   name: string;
   age: string;

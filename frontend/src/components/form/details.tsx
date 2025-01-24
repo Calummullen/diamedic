@@ -1,5 +1,6 @@
 import React, { FC, useState } from "react";
 import { useForm, useFieldArray, FieldError } from "react-hook-form";
+import InfoIcon from "@mui/icons-material/Info";
 import {
   Box,
   Button,
@@ -13,6 +14,7 @@ import {
   Divider,
   useTheme,
   useMediaQuery,
+  Tooltip,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -109,8 +111,9 @@ const Details: FC<CardPreviewProps> = ({
         ];
         break;
     }
-    const isStepValid = await trigger(fieldsToValidate);
-    if (isStepValid) setActiveStep((prev) => prev + 1);
+    // const isStepValid = await trigger(fieldsToValidate);
+    // if (isStepValid)
+    setActiveStep((prev) => prev + 1);
   };
 
   const handleBack = () => {
@@ -191,9 +194,7 @@ const Details: FC<CardPreviewProps> = ({
                 {...register("dateOfBirth", {
                   required: "Date of birth is required",
                 })}
-                {...(isMobile && {
-                  slotProps: { inputLabel: { shrink: true } },
-                })}
+                slotProps={{ inputLabel: { shrink: true } }}
                 sx={{
                   [theme.breakpoints.down("lg")]: {
                     "& .MuiInputBase-root": {
@@ -268,45 +269,80 @@ const Details: FC<CardPreviewProps> = ({
           )}
 
           {activeStep === 1 && (
-            <Box className="space-y-12 lg:space-y-4">
-              <p className="mb-24 lg:mb-4 lg:text-xl text-5xl">
-                Emergency Contacts
+            <Box className="space-y-6 lg:space-y-4">
+              <p className=" lg:text-xl text-5xl">Emergency Contacts</p>
+              <p className="lg:text-xs text-xl">
+                You have the option to enable SMS and/or email notifications for
+                your emergency contacts, ensuring they are alerted whenever your
+                QR code is scanned.
               </p>
               {contactFields.map((field, index) => (
                 <Box
                   key={field.id}
-                  className="flex flex-col gap-14 lg:bg-white bg-gray-50 lg:flex-row lg:gap-4 w-full lg:border-none border border-gray-300 lg:p-0 p-12 rounded-lg lg:shadow-none shadow-sm"
+                  className="flex flex-col gap-6 lg:bg-white bg-gray-50  lg:gap-4 w-full lg:border-none border border-gray-300 lg:p-0 p-12 rounded-lg lg:shadow-none shadow-sm"
                 >
-                  <TextField
-                    className="flex-1"
-                    label="Emergency Contact Name"
-                    {...register(`emergencyContacts.${index}.name` as const, {
-                      required: "Contact name is required",
-                    })}
-                    {...(isMobile && {
-                      slotProps: { inputLabel: { shrink: true } },
-                    })}
-                    sx={sxTheme("3.25rem")}
-                    error={!!errors.emergencyContacts?.[index]?.name}
-                    helperText={
-                      errors.emergencyContacts?.[index]?.name?.message
-                    }
-                  />
-                  <TextField
-                    className="flex-1"
-                    label="Phone Number"
-                    {...register(`emergencyContacts.${index}.phone` as const, {
-                      required: "Phone number is required",
-                    })}
-                    {...(isMobile && {
-                      slotProps: { inputLabel: { shrink: true } },
-                    })}
-                    sx={sxTheme("3.5rem")}
-                    error={!!errors.emergencyContacts?.[index]?.phone}
-                    helperText={
-                      errors.emergencyContacts?.[index]?.phone?.message
-                    }
-                  />
+                  <div className="flex lg:flex-row flex-col gap-12 lg:gap-4">
+                    <TextField
+                      className="flex-1 bg-white"
+                      label="Emergency Contact Name"
+                      {...register(`emergencyContacts.${index}.name` as const, {
+                        required: "Contact name is required",
+                      })}
+                      {...(isMobile && {
+                        slotProps: { inputLabel: { shrink: true } },
+                      })}
+                      sx={sxTheme("3.25rem")}
+                      error={!!errors.emergencyContacts?.[index]?.name}
+                      helperText={
+                        errors.emergencyContacts?.[index]?.name?.message
+                      }
+                    />
+                    <TextField
+                      className="flex-1 bg-white"
+                      label="Phone Number"
+                      {...register(
+                        `emergencyContacts.${index}.phone` as const,
+                        {
+                          required: "Phone number is required",
+                        }
+                      )}
+                      {...(isMobile && {
+                        slotProps: { inputLabel: { shrink: true } },
+                      })}
+                      sx={sxTheme("3.5rem")}
+                      error={!!errors.emergencyContacts?.[index]?.phone}
+                      helperText={
+                        errors.emergencyContacts?.[index]?.phone?.message
+                      }
+                    />
+                  </div>
+                  <Box className="flex items-center lg:ml-1 lg:justify-start justify-center flex-row lg:gap-6 gap-12 lg:text-lg text-4xl">
+                    <label className="flex items-center lg:gap-4 gap-6">
+                      <input
+                        type="checkbox"
+                        className="lg:w-3 w-6 lg:h-3 h-6 scale-150 accent-blue-600" // Adjust size and color
+                        {...register(`emergencyContacts.${index}.notifySMS`)}
+                      />
+                      <span>Notify via SMS</span>
+                    </label>
+                    <label className="flex items-center lg:gap-4 gap-6">
+                      <input
+                        type="checkbox"
+                        className="lg:w-3 w-6 lg:h-3 h-6 scale-150 accent-blue-600" // Adjust size and color
+                        {...register(`emergencyContacts.${index}.notifyEmail`)}
+                      />
+                      <span>Notify via Email</span>
+                    </label>
+                    <Tooltip
+                      title="By ticking these boxes, your emergency contact will receive notifications anytime the QR code is scanned."
+                      arrow
+                    >
+                      <InfoIcon
+                        fontSize={isMobile ? "large" : "small"}
+                        color="action"
+                      />
+                    </Tooltip>
+                  </Box>
                   {contactFields.length > 1 &&
                     (isMobile ? (
                       <Button
@@ -337,10 +373,8 @@ const Details: FC<CardPreviewProps> = ({
                 <AddIcon fontSize={isMobile ? "large" : "small"} />
                 <p className="lg:text-sm text-4xl">Add Emergency Contact</p>
               </Button>
-
-              <Divider className="my-4" />
-
-              <p className="pb-12 lg:mb-4 lg:text-xl text-5xl">
+              <Divider className="pt-12 lg:pt-0" />
+              <p className="lg:text-xl text-5xl lg:pt-0 pt-12">
                 Insulin Information
               </p>
               {insulinFields.map((field, index) => (
@@ -350,9 +384,9 @@ const Details: FC<CardPreviewProps> = ({
                 >
                   <div className="flex flex-col lg:flex-1 w-full lg:mt-0 mt-4">
                     <TextField
-                      className="flex-1"
+                      className="flex-1 bg-white"
                       label="Insulin Type"
-                      {...register(`insulinTypes.${index}.type` as const, {
+                      {...register(`insulinTypes.${index}.type`, {
                         required: "Insulin type is required",
                       })}
                       {...(isMobile && {
@@ -369,7 +403,7 @@ const Details: FC<CardPreviewProps> = ({
 
                   <div className="flex flex-col lg:flex-1 w-full">
                     <TextField
-                      className="flex-1"
+                      className="flex-1 bg-white"
                       label="Dosage"
                       {...register(`insulinTypes.${index}.dosage` as const, {
                         required: "Dosage is required",
@@ -410,15 +444,14 @@ const Details: FC<CardPreviewProps> = ({
                 className="flex flex-row lg:gap-1 gap-3"
                 onClick={() => appendInsulin({ type: "", dosage: "" })}
               >
-                <AddIcon fontSize={isMobile ? "large" : "small"} />
-                <p className="lg:text-sm text-4xl">Add Insulin Type</p>
+                <AddIcon
+                  fontSize={isMobile ? "large" : "small"}
+                  className="mb-12 lg:mb-0"
+                />
+                <p className="lg:text-sm text-4xl lg:mb-0 mb-12">
+                  Add Insulin Type
+                </p>
               </Button>
-
-              <Divider className="my-4" />
-
-              <p className="pb-4 lg:mb-4 lg:text-xl text-5xl">
-                Insulin Information
-              </p>
               <TextField
                 fullWidth
                 multiline
