@@ -52,7 +52,10 @@ const CardPreview: FC<CardPreviewProps> = ({
             </div>
             <div className="mt-4">
               <p className="text-2xl lg:text-sm font-medium">
-                I'm a Type 1 Diabetic.
+                I'm a{" "}
+                <span className="text-main-blue font-bold">
+                  Type 1 Diabetic.
+                </span>
                 <br />
                 All my medical details are
                 <br />

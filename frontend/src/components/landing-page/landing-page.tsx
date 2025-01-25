@@ -10,10 +10,10 @@ export const LandingPage: React.FC = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
   return (
-    <div className="font-montserrat">
+    <div className="font-montserrat ">
       {/* Hero Section */}
-      <Container className="flex flex-col lg:flex-row gap-20 lg:gap-12 p-24 justify-between items-center">
-        <div className="flex flex-col gap-16 lg:gap-4 text-start basis-1/2">
+      <Container className="flex flex-col lg:flex-row gap-20 lg:gap-12 p-24 justify-between items-center ">
+        <div className="flex flex-col gap-16 lg:gap-4 text-start basis-1/2 ">
           <p className="leading-tight text-8xl lg:text-6xl text-main-blue">
             Emergency Info, Always at Your Fingertips
           </p>
