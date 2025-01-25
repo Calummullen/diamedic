@@ -3,14 +3,55 @@ import { useNavigate } from "react-router-dom";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import CardPreview from "../card/card-preview";
 import FAQPage from "../faq/faq";
+import ConfirmDialog from "../confirm/confirm";
+import { useEffect, useState } from "react";
 
 export const LandingPage: React.FC = () => {
   const navigate = useNavigate(); // Initialize the useHistory hook to navigate
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  useEffect(() => {
+    if (navigator.permissions) {
+      const getPermission = async () => {
+        const { state } = await navigator.permissions.query({
+          name: "geolocation",
+        });
+        setDialogOpen(state === "granted");
+      };
+      getPermission();
+    }
+  }, []);
+
+  const handleConfirm = () => {
+    setDialogOpen(false);
+
+    // Call Geolocation API
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        console.log("Location:", position.coords);
+      },
+      (error) => {
+        console.error("Error getting location:", error);
+      }
+    );
+  };
+
+  const handleCancel = () => {
+    setDialogOpen(false);
+    console.log("User denied location access.");
+  };
+
   return (
     <div className="font-montserrat ">
+      <ConfirmDialog
+        open={dialogOpen}
+        message="We need your location to provide emergency services. Do you want to allow location access?"
+        onConfirm={handleConfirm}
+        onCancel={handleCancel}
+      />
       {/* Hero Section */}
       <Container className="flex flex-col lg:flex-row gap-20 lg:gap-12 p-24 justify-between items-center ">
         <div className="flex flex-col gap-16 lg:gap-4 text-start basis-1/2 ">

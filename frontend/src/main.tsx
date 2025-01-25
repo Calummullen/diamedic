@@ -12,25 +12,6 @@ const theme = createTheme({
   },
 });
 
-const askForLocationPermission = () => {
-  const userConsent = confirm(
-    "We need your location to provide accurate emergency details. Do you want to continue?"
-  );
-  if (userConsent) {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        console.log("Location retrieved:", position.coords);
-      },
-      (error) => {
-        console.error("Error getting location:", error);
-      }
-    );
-  } else {
-    alert("Location access denied.");
-  }
-};
-askForLocationPermission();
-
 createRoot(document.getElementById("root")!).render(
   <ThemeProvider theme={theme}>
     <StrictMode>
@@ -43,7 +24,6 @@ createRoot(document.getElementById("root")!).render(
           <div className="text-4xl lg:text-xl">Emergency Info in Seconds</div>
         </div>
       </div>
-
       <App />
     </StrictMode>
   </ThemeProvider>
