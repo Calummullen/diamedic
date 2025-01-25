@@ -37,8 +37,8 @@ const TermsPage = () => {
         <Typography className="mb-4">
           We offer a refund within 14 days of purchase, provided the card has
           not been shipped. Cancellations must be requested via email at{" "}
-          <Link href="mailto:calum.Diamedic@gmail.com">
-            calum.Diamedic@gmail.com
+          <Link href="mailto:calum.diamedic@gmail.com">
+            calum.diamedic@gmail.com
           </Link>
           .
         </Typography>

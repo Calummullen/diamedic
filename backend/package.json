@@ -24,6 +24,7 @@
     "fs-extra": "^11.3.0",
     "jsonwebtoken": "^9.0.2",
     "qrcode": "^1.5.4",
+    "resend": "^4.1.1",
     "shortid": "^2.2.16",
     "twilio": "^5.4.2",
     "uuid": "^11.0.5",

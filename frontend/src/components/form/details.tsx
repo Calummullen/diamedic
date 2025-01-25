@@ -271,14 +271,14 @@ const Details: FC<CardPreviewProps> = ({
             <Box className="space-y-6 lg:space-y-4">
               <p className=" lg:text-xl text-5xl">Emergency Contacts</p>
               <p className="lg:text-xs text-xl">
-                You have the option to enable SMS and/or email notifications for
-                your emergency contacts, ensuring they are alerted whenever your
-                QR code is scanned.
+                You have the option to enable SMS notifications for each of your
+                emergency contacts, ensuring they are alerted whenever your QR
+                code is scanned.
               </p>
               {contactFields.map((field, index) => (
                 <Box
                   key={field.id}
-                  className="flex flex-col gap-6 lg:bg-white bg-gray-50  lg:gap-4 w-full lg:border-none border border-gray-300 lg:p-0 p-12 rounded-lg lg:shadow-none shadow-sm"
+                  className="flex flex-col gap-8 lg:bg-white bg-gray-50 lg:gap-4 w-full lg:border-none border border-gray-300 lg:p-0 p-12 rounded-lg lg:shadow-none shadow-sm"
                 >
                   <div className="flex lg:flex-row flex-col gap-12 lg:gap-4">
                     <TextField
@@ -314,8 +314,17 @@ const Details: FC<CardPreviewProps> = ({
                         errors.emergencyContacts?.[index]?.phone?.message
                       }
                     />
+                    {contactFields.length > 1 && !isMobile && (
+                      <IconButton
+                        onClick={() => removeContact(index)}
+                        color="error"
+                        className="w-fit"
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    )}
                   </div>
-                  <Box className="flex items-center lg:ml-1 lg:justify-start justify-center flex-row lg:gap-6 gap-12 lg:text-lg text-4xl">
+                  <Box className="flex items-center ml-2 justify-start flex-row lg:gap-6 gap-12 lg:text-lg text-4xl">
                     <label className="flex items-center lg:gap-4 gap-6">
                       <input
                         type="checkbox"
@@ -324,16 +333,16 @@ const Details: FC<CardPreviewProps> = ({
                       />
                       <span>Notify via SMS</span>
                     </label>
-                    <label className="flex items-center lg:gap-4 gap-6">
+                    {/* <label className="flex items-center lg:gap-4 gap-6">
                       <input
                         type="checkbox"
                         className="lg:w-3 w-6 lg:h-3 h-6 scale-150 accent-blue-600" // Adjust size and color
                         {...register(`emergencyContacts.${index}.notifyEmail`)}
                       />
                       <span>Notify via Email</span>
-                    </label>
+                    </label> */}
                     <Tooltip
-                      title="By ticking these boxes, your emergency contact will receive notifications anytime the QR code is scanned."
+                      title="By ticking this box, your emergency contact will receive notifications anytime the QR code is scanned."
                       arrow
                     >
                       <InfoIcon
@@ -342,27 +351,19 @@ const Details: FC<CardPreviewProps> = ({
                       />
                     </Tooltip>
                   </Box>
-                  {contactFields.length > 1 &&
-                    (isMobile ? (
-                      <Button
-                        onClick={() => removeContact(index)}
-                        variant="contained"
-                        color="error"
-                        className="w-fit"
-                      >
-                        <div className="flex flex-row gap-3 items-end p-4">
-                          <DeleteIcon fontSize="large" />
-                          <p className="text-2xl">Remove Emergency Contact</p>
-                        </div>
-                      </Button>
-                    ) : (
-                      <IconButton
-                        onClick={() => removeContact(index)}
-                        color="error"
-                      >
-                        <DeleteIcon />
-                      </IconButton>
-                    ))}
+                  {contactFields.length > 1 && isMobile && (
+                    <Button
+                      onClick={() => removeContact(index)}
+                      variant="contained"
+                      color="error"
+                      className="w-fit"
+                    >
+                      <div className="flex flex-row gap-3 items-end p-4">
+                        <DeleteIcon fontSize="large" />
+                        <p className="text-2xl">Remove Emergency Contact</p>
+                      </div>
+                    </Button>
+                  )}
                 </Box>
               ))}
               <Button

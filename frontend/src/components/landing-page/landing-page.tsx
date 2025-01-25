@@ -12,54 +12,40 @@ export const LandingPage: React.FC = () => {
   return (
     <div className="font-montserrat">
       {/* Hero Section */}
-      <div className=" text-black py-20 text-center px-8 lg:px-6">
-        <Container className="flex flex-col gap-12">
+      <Container className="flex flex-col lg:flex-row gap-20 lg:gap-12 p-24 justify-between items-center">
+        <div className="flex flex-col gap-16 lg:gap-4 text-start basis-1/2">
           <p className="leading-tight text-8xl lg:text-6xl text-main-blue">
             Emergency Info, Always at Your Fingertips
           </p>
-          <div className="flex flex-col gap-12 lg:gap-2">
-            <p className="mt-4 text-6xl lg:text-xl ">
-              The Diamedic card is a compact, wallet-sized card featuring a
-              unique QR code that provides instant access to your emergency
-              medical details.
-            </p>
-            <p className="text-4xl lg:text-xl lg:font-bold">
-              Designed specifically for diabetics, it offers more comprehensive
-              information than traditional medical ID cards, including:
-            </p>
-          </div>
+          <p className="text-5xl lg:text-xl">
+            The Diamedic card is a compact, wallet-sized card featuring a unique
+            QR code that provides instant access to your emergency medical
+            details.
+          </p>
 
-          <ul className="flex flex-col lg:gap-2 gap-8 text-4xl lg:text-lg lg:text-center text-start text-gray-700 space-y-2 list-disc lg:list-inside  list-outside pl-5">
-            <li>
-              <strong className="text-main-blue">
-                Insulin types and dosages
-              </strong>{" "}
-              for precise treatment guidance
-            </li>
-            <li>
-              <strong className="text-main-blue">Emergency protocols</strong>{" "}
-              for managing hypo events, even if semi-conscious or unconscious
-            </li>
-            <li>
-              <strong className="text-main-blue">
-                Recommended food and drink
-              </strong>{" "}
-              to stabilize blood sugar levels, with guidance on when to use them
-            </li>
-          </ul>
-
-          <div className="lg:mt-0 mt-12">
-            <Button
-              onClick={() => navigate("/checkout")}
-              variant="contained"
-              size="large"
-              className="lg:h-fit h-[125px] w-full lg:w-fit px-10 py-4 rounded-full transition duration-300 ease-in-out transform hover:scale-105"
-            >
-              <p className="text-3xl lg:text-lg">Get Your Card Now</p>
-            </Button>
-          </div>
-        </Container>
-      </div>
+          <Button
+            onClick={() => navigate("/checkout")}
+            variant="contained"
+            size="large"
+            className="lg:h-fit h-[125px] w-full lg:w-fit rounded-xl transition duration-300 ease-in-out transform hover:scale-105"
+          >
+            <p className="text-3xl lg:text-lg">Get Your Card Now</p>
+          </Button>
+        </div>
+        {isMobile && <KeyboardArrowDownIcon sx={{ fontSize: "75px" }} />}
+        <div className="flex flex-col items-center justify-center lg:basis-1/4 gap-12">
+          {isMobile && <p className="lg:text-4xl text-7xl">Example Card</p>}
+          <CardPreview
+            fullName="John Smith"
+            dateOfBirth="01/01/1990"
+            backgroundColor={"bg-white"}
+          />
+          {/* <p className="lg:text-lg text-4xl text-red-600">
+              All cards will resemble the preview above, though some text sizes
+              may vary, particularly for longer names.
+            </p> */}
+        </div>
+      </Container>
 
       {/* Features Section */}
       <div className="bg-gradient-to-b from-blue-50 to-blue-100 py-20 px-4">
@@ -89,13 +75,15 @@ export const LandingPage: React.FC = () => {
               }
             />
             <LandingPageCard
-              title="🌍 Works Anywhere"
+              title="📩 SMS Notifications"
               desc={
                 <>
+                  Notify your
                   <span className="font-bold text-main-blue">
-                    Offline-ready
+                    {" "}
+                    emergency contacts
                   </span>{" "}
-                  — your essential details are stored directly in the QR code.
+                  (if enabled) anytime your QR code is scanned.
                 </>
               }
             />
@@ -160,20 +148,20 @@ export const LandingPage: React.FC = () => {
           </p>
 
           {/* Pricing Section */}
-          <div className="mt-12 flex flex-col lg:flex-row gap-20 lg:gap-24 justify-center items-center">
-            <div className="px-12 py-24 lg:p-8 bg-main-blue rounded-lg shadow-xl lg:w-80 flex flex-col gap-6">
-              <p className="lg:font-normal font-bold text-white text-6xl lg:text-xl">
+          <div className="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-12 text-start items-center">
+            <div className="lg:p-6 p-12 bg-main-blue rounded-lg shadow-xl mx-auto flex flex-col gap-6 items-center">
+              <p className="lg:font-normal font-bold text-white text-6xl lg:text-3xl">
                 Your Diamedic Card
               </p>
-              <p className="lg:text-4xl text-5xl text-white font-semibold">
+              <p className="lg:text-3xl text-5xl text-white font-semibold">
                 £tbd
               </p>
-              <p className="text-white lg:text-lg text-3xl opacity-80">
+              <p className="text-white lg:text-xl text-3xl opacity-80">
                 Includes 1 Diamedic card.
               </p>
 
               {/* Features List */}
-              <ul className="mt-4 text-white lg:text-sm text-4xl opacity-80 flex flex-col lg:gap-2 gap-8">
+              <ul className="mt-4 text-white lg:text-lg text-4xl opacity-80 flex flex-col lg:gap-2 gap-8">
                 <li className="flex items-center">
                   <span className="lg:mr-2 mr-6 text-teal-200">✔</span> Printed
                   and shipped to you
@@ -214,18 +202,35 @@ export const LandingPage: React.FC = () => {
                 </Button>
               </div>
             </div>
-            {isMobile && <KeyboardArrowDownIcon sx={{ fontSize: "75px" }} />}
-            <div className="flex flex-col items-center lg:basis-1/4 gap-12">
-              <p className="lg:text-4xl text-8xl">Example Card</p>
-              <CardPreview
-                fullName="John Smith"
-                dateOfBirth="01/01/1990"
-                backgroundColor={"bg-white"}
-              />
-              <p className="lg:text-lg text-4xl text-red-600">
-                All cards will resemble the preview above, though some text
-                sizes may vary, particularly for longer names.
+            <div>
+              <p className="text-5xl lg:text-xl lg:font-bold lg:my-0 my-16 lg:mb-4 px-6">
+                Designed specifically for diabetics, it offers more
+                comprehensive information than traditional medical ID cards,
+                including:
               </p>
+
+              <ul className="flex flex-col px-16 lg:px-8 lg:gap-2 gap-10 text-5xl lg:text-lg text-start text-gray-700 list-disc list-outside">
+                <li>
+                  <strong className="text-main-blue">
+                    Insulin types and dosages
+                  </strong>{" "}
+                  for precise treatment guidance
+                </li>
+                <li>
+                  <strong className="text-main-blue">
+                    Emergency protocols
+                  </strong>{" "}
+                  for managing hypo events, even if semi-conscious or
+                  unconscious
+                </li>
+                <li>
+                  <strong className="text-main-blue">
+                    Recommended food and drink
+                  </strong>{" "}
+                  to stabilize blood sugar levels, with guidance on when to use
+                  them
+                </li>
+              </ul>
             </div>
           </div>
         </Container>
@@ -274,9 +279,9 @@ const LandingPageCard = ({
   desc: JSX.Element;
 }) => {
   return (
-    <p className="shadow-lg bg-white flex flex-col gap-14 lg:gap-6 rounded-xl p-20 lg:px-6 lg:py-12 text-center hover:shadow-xl transition duration-300">
+    <div className="shadow-lg bg-white flex flex-col gap-14 lg:gap-6 rounded-xl p-20 lg:px-6 lg:py-12 text-center hover:shadow-xl transition duration-300">
       <p className="lg:text-xl lg:font-bold text-6xl">{title}</p>
       <p className="text-gray-700 lg:text-lg text-4xl">{desc}</p>
-    </p>
+    </div>
   );
 };

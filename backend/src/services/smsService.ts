@@ -6,7 +6,7 @@ export const sendSms = async (phoneNumber: string, message: string) => {
     process.env.TWILIO_AUTH_TOKEN
   );
 
-  return client.messages.create({
+  return await client.messages.create({
     body: message,
     from: "Diamedic",
     to: phoneNumber,

@@ -21,7 +21,6 @@ interface EmergencyContact {
   name: string;
   phone: string;
   notifySMS?: boolean; // Add notifySMS
-  notifyEmail?: boolean; // Add notifyEmail
 }
 
 export interface ProfileData {

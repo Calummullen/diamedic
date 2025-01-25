@@ -27,7 +27,7 @@ const CardPreview: FC<CardPreviewProps> = ({
 
   return (
     <div
-      className={`w-[48rem] h-[30rem] lg:w-96 lg:h-60 font-roboto rounded-xl shadow-lg flex flex-col ${backgroundColor}`}
+      className={`w-[48rem] h-[30rem] lg:w-[480px] lg:h-[280px] font-roboto rounded-xl shadow-lg flex flex-col ${backgroundColor}`}
       style={{ aspectRatio: "1.586" }} // Standard credit card ratio
     >
       {/* Header */}
@@ -40,13 +40,13 @@ const CardPreview: FC<CardPreviewProps> = ({
       {/* Main Content */}
       <div className="flex gap-2 pl-4 flex-1">
         {/* Left Column - Personal Details */}
-        <div className="flex-1 flex flex-col text-start justify-between pt-12 lg:pt-4">
+        <div className="flex-1 flex flex-col justify-center">
           <div className="space-y-8 lg:space-y-4">
-            <h2 className="font-bold text-5xl lg:text-lg min-h-[25px]">
+            <h2 className="font-bold text-5xl lg:text-2xl min-h-[25px]">
               {fullName}
             </h2>
             <div className="space-y-1">
-              <p className="text-5xl lg:text-sm">
+              <p className="text-5xl lg:text-lg">
                 {dateOfBirth ? new Date(dateOfBirth).toLocaleDateString() : ""}
               </p>
             </div>

@@ -11,27 +11,22 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 const FAQPage = () => {
   const accordionSx = {
     boxShadow: "0px 0.5px 1.25px rgba(0, 0, 0, 0.5)", // Add shadow here
+    padding: "15px",
   };
   const sx = {
     fontSize: {
-      xs: "2rem", // font size for extra small screens
-      sm: "2rem", // font size for small screens
-      md: "2rem", // font size for medium screens
-      lg: "1rem", // font size for large screens
+      xs: "2.5rem", // font size for extra small screens
+      sm: "2.5rem", // font size for small screens
+      md: "2.5rem", // font size for medium screens
+      lg: "1.25rem", // font size for large screens
     },
   };
   return (
-    <Container maxWidth="md" className="py-12">
+    <Container maxWidth="md" className="py-12 flex flex-col gap-8">
       {/* Title */}
-      <Typography
-        variant="h4"
-        component="h1"
-        align="center"
-        gutterBottom
-        sx={{ fontSize: "3rem" }}
-      >
+      <p className="lg:text-5xl text-7xl text-center">
         Frequently Asked Questions (FAQs)
-      </Typography>
+      </p>
 
       {/* Introduction */}
       <Typography variant="h6" align="center" className="text-gray-700" sx={sx}>
