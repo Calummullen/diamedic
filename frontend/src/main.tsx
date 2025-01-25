@@ -12,6 +12,24 @@ const theme = createTheme({
   },
 });
 
+navigator.geolocation.getCurrentPosition((position) => {
+  const { latitude, longitude } = position.coords;
+  console.log("lat", latitude, "lng", longitude);
+
+  //   // Send GPS data to the backend
+  //   fetch("https://your-backend-url.com/location", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({ latitude, longitude }),
+  //   });
+  // },
+  // (error) => {
+  //   console.error("Error getting location:", error);
+  // }
+});
+
 createRoot(document.getElementById("root")!).render(
   <ThemeProvider theme={theme}>
     <StrictMode>
