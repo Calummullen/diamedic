@@ -16,27 +16,29 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
-        <div className="text-lg text-gray-800 flex flex-col gap-4">
-          <p className="font-bold">
+      <div className="bg-white rounded-lg shadow-lg lg:p-6 p-12 lg:max-w-md mx-12">
+        <div className="text-lg text-gray-800 flex flex-col gap-12 lg:gap-4">
+          <p className="font-bold lg:text-xl text-4xl">
             Calum would like their location shared to alert their emergency
             contacts of their location.
           </p>
 
-          <p className="">Declining will still provide emergency details.</p>
+          <p className="lg:text-lg text-3xl">
+            Declining will still provide emergency details.
+          </p>
         </div>
-        <div className="flex justify-evenly gap-6 mt-4">
+        <div className="flex justify-evenly gap-6 lg:mt-4 mt-12">
           <button
             onClick={onCancel}
-            className="bg-red-500 basis-1/2 text-white py-2 px-4 rounded-lg mr-2 hover:bg-gray-600"
+            className="bg-red-500 basis-1/2 text-white py-2 px-4 rounded-lg mr-2 hover:bg-gray-600 lg:h-fit h-[125px] w-full lg:w-fit"
           >
-            Decline
+            <p className="text-3xl lg:text-lg">Decline</p>
           </button>
           <button
             onClick={onConfirm}
             className="bg-green-500 basis-1/2 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
           >
-            Allow
+            <p className="text-3xl lg:text-lg">Allow</p>
           </button>
         </div>
       </div>
