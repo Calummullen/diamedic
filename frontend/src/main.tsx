@@ -12,23 +12,24 @@ const theme = createTheme({
   },
 });
 
-navigator.geolocation.getCurrentPosition((position) => {
-  const { latitude, longitude } = position.coords;
-  console.log("lat", latitude, "lng", longitude);
-
-  //   // Send GPS data to the backend
-  //   fetch("https://your-backend-url.com/location", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({ latitude, longitude }),
-  //   });
-  // },
-  // (error) => {
-  //   console.error("Error getting location:", error);
-  // }
-});
+const askForLocationPermission = () => {
+  const userConsent = confirm(
+    "We need your location to provide accurate emergency details. Do you want to continue?"
+  );
+  if (userConsent) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        console.log("Location retrieved:", position.coords);
+      },
+      (error) => {
+        console.error("Error getting location:", error);
+      }
+    );
+  } else {
+    alert("Location access denied.");
+  }
+};
+askForLocationPermission();
 
 createRoot(document.getElementById("root")!).render(
   <ThemeProvider theme={theme}>
