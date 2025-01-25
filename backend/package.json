@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npx tsx src/server.ts"
+    "dev": "npx tsx api/server.ts"
   },
   "keywords": [],
   "author": "",
