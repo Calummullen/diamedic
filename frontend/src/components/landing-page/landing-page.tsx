@@ -19,7 +19,7 @@ export const LandingPage: React.FC = () => {
         const { state } = await navigator.permissions.query({
           name: "geolocation",
         });
-        setDialogOpen(state === "granted");
+        setDialogOpen(state !== "granted");
       };
       getPermission();
     }
