@@ -1,7 +1,4 @@
 import app from "./app";
 
-const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+// Export the Express app as the default export for Vercel
+export default app;
