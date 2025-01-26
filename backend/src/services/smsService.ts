@@ -9,6 +9,6 @@ export const sendSms = async (phoneNumber: string, message: string) => {
   return await client.messages.create({
     body: message,
     from: "Diamedic",
-    to: phoneNumber,
+    to: `+44${phoneNumber}`,
   });
 };
