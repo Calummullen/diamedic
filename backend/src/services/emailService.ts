@@ -1,6 +1,6 @@
 import { Resend } from "resend";
 
-export const sendOrderConfirmationEmail = async (to: string) => {
+export const sendOrderConfirmationEmail = async (to: string, id: string) => {
   const resend = new Resend(process.env.RESEND_API_KEY);
 
   return await resend.emails.send({
@@ -68,7 +68,7 @@ export const sendOrderConfirmationEmail = async (to: string) => {
         <div class="container">
           <div class="header">
             <h1>Order Confirmation</h1>
-            <p>Thank you for your order! Your order number is <strong>#12345</strong>.</p>
+            <p>Thank you for your order!</p>
           </div>
           <div class="order-details">
             <h2>Order Details</h2>
@@ -77,7 +77,7 @@ export const sendOrderConfirmationEmail = async (to: string) => {
             <p><strong>Total:</strong> £10.00</p>
           </div>
           <div class="footer">
-            <p>If you have any questions, feel free to <a href="mailto:calum.diamedic@gmail.com">contact us</a>.</p>
+            <p>If you have any questions or any problems, feel free to <a href="mailto:calum.diamedic@gmail.com">contact us</a> and quote the number ${id}.</p>
             <p>Thank you for choosing Diamedic!</p>
           </div>
         </div>

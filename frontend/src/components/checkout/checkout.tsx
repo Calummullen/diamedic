@@ -2,10 +2,12 @@ import { useState } from "react";
 import CardPreview from "../card/card-preview";
 import Details from "../form/details";
 import { ProfileData } from "../profile/profile";
+import { QRCodeSVG } from "qrcode.react";
 
 export const Checkout: React.FC = () => {
   const [name, setName] = useState("");
   const [dob, setDob] = useState("");
+  const [qrCode, setQrCode] = useState("");
   const [isPreviewVisible, setIsPreviewVisible] = useState(false);
 
   const handleFieldChange = (name?: string, dob?: string) => {
@@ -27,7 +29,7 @@ export const Checkout: React.FC = () => {
       const data = await response.json();
 
       if (data.qrCode) {
-        // setQrCode(data.qrCode);
+        setQrCode(data.qrCode);
       }
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -47,6 +49,7 @@ export const Checkout: React.FC = () => {
             } as ProfileData
           }
         />
+        {qrCode && <QRCodeSVG value={qrCode} />}
       </div>
 
       {/* Preview Section (Desktop) */}

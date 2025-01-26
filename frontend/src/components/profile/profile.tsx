@@ -28,6 +28,7 @@ export interface ProfileData {
   insulinTypes: { type: string; dosage: string }[];
   name: string;
   age: string;
+  email: string;
   dateOfBirth: string;
   addressLine1: string;
   addressLine2?: string;

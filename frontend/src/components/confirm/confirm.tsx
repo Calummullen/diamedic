@@ -19,12 +19,10 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
       <div className="bg-white rounded-lg shadow-lg lg:p-6 p-12 lg:max-w-md mx-12">
         <div className="text-lg text-gray-800 flex flex-col gap-12 lg:gap-4">
           <p className="font-bold lg:text-xl text-4xl">
-            Calum would like their location shared to alert their emergency
-            contacts of their location.
+            Share Calum's location to notify their emergency contacts.
           </p>
-
-          <p className="lg:text-lg text-3xl">
-            Declining will still provide emergency details.
+          <p className="lg:text-lg text-3xl mt-2 text-blue-600 font-bold">
+            Declining will still show essential emergency details.
           </p>
         </div>
         <div className="flex justify-evenly gap-6 lg:mt-4 mt-12">

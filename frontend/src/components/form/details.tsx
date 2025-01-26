@@ -98,6 +98,7 @@ const Details: FC<CardPreviewProps> = ({
           "name",
           "age",
           "dateOfBirth",
+          "email",
           "addressLine1",
           "city",
           "postcode",
@@ -210,6 +211,18 @@ const Details: FC<CardPreviewProps> = ({
                 }}
                 error={!!errors.dateOfBirth}
                 helperText={errors.dateOfBirth?.message}
+              />
+              <TextField
+                type="email"
+                fullWidth
+                label="Email"
+                {...register("email", { required: "Email is required" })}
+                error={!!errors.name}
+                {...(isMobile && {
+                  slotProps: { inputLabel: { shrink: true } },
+                })}
+                sx={sxTheme()}
+                helperText={errors.name?.message}
               />
               <TextField
                 fullWidth
@@ -524,7 +537,6 @@ const Details: FC<CardPreviewProps> = ({
                 className="lg:h-fit h-[125px] w-full lg:w-fit rounded-full transition duration-300 ease-in-out transform hover:scale-105"
                 type="submit"
                 variant="contained"
-                disabled
               >
                 <p className="text-5xl lg:text-xl">
                   {isCheckout ? "Submit" : "Save"}

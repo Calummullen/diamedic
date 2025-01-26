@@ -7,6 +7,7 @@ export const profileSchema = z.object({
   name: z.string().min(1, "Name is required."),
   age: z.string().min(1, "Age is required."),
   dateOfBirth: z.string().min(1, "Date of birth is required."),
+  email: z.string().min(1, "Email is required"),
   addressLine1: z.string().min(1, "Address Line 1 is required."),
   addressLine2: z.string().optional(),
   city: z.string().min(1, "City is required."),
@@ -24,6 +25,7 @@ export const profileSchema = z.object({
       z.object({
         name: z.string().min(1, "Emergency contact name is required."),
         phone: z.string().min(1, "Emergency contact phone is required."),
+        notifySMS: z.boolean(),
       })
     )
     .min(1, "At least one emergency contact is required."),

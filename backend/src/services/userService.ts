@@ -10,9 +10,9 @@ export const createUserProfile = async (data: ProfileData) => {
   await db.collection("users").doc(userId).set({ encryptedData });
 
   const qrCodeUrl = `${process.env.FRONTEND_BASE_URL}/${userId}`;
-  const qrCode = await QRCode.toDataURL(qrCodeUrl);
+  // const qrCode = await QRCode.toDataURL(qrCodeUrl);
 
-  return { userId, qrCode };
+  return { userId, qrCode: qrCodeUrl };
 };
 
 export const getUserProfile = async (userId: string) => {

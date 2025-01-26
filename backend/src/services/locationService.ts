@@ -1,34 +1,36 @@
-import { IPinfoWrapper } from "node-ipinfo";
+import NodeGeocoder from "node-geocoder";
+import { formatAddress } from "../helpers/addressHelper";
 
-const ipinfo = new IPinfoWrapper(process.env.IPINFO_TOKEN!);
+const geocoder = NodeGeocoder({
+  provider: "openstreetmap",
+  formatter: null, // Use default formatting
+});
 
-export const getLocation = async (ipAddress: string) => {
+export const getAddressFromCoordinates = async (
+  latitude: number,
+  longitude: number
+) => {
   try {
-    const data = await ipinfo.lookupIp(ipAddress);
+    const res = await geocoder.reverse({ lat: latitude, lon: longitude });
 
-    const test = {
-      ip: data.ip,
-      city: data.city,
-      region: data.region,
-      country: data.country,
-      coordinates: data.loc, // Latitude,Longitude
-      postal: data.postal,
-      timezone: data.timezone,
-    };
-    console.log("test", test);
-    return test;
+    if (res.length > 0) {
+      const { formattedAddress, streetNumber, streetName, city, zipcode } =
+        res[0];
+
+      return {
+        address: formatAddress({
+          formattedAddress,
+          streetNumber,
+          streetName,
+          city,
+          zipcode,
+        }),
+      };
+    } else {
+      throw new Error("No results found for the given coordinates.");
+    }
   } catch (error) {
-    console.error("Error fetching location from IPinfo:", error);
-    throw new Error("Unable to fetch location data.");
+    console.error("Error during reverse geocoding:", error);
+    return null;
   }
-
-  //   const client = twilio(
-  //     process.env.TWILIO_ACCOUNT_SID,
-  //     process.env.TWILIO_AUTH_TOKEN
-  //   );
-  //   return await client.messages.create({
-  //     body: message,
-  //     from: "Diamedic",
-  //     to: phoneNumber,
-  //   });
 };
