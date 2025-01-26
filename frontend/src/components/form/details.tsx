@@ -537,6 +537,7 @@ const Details: FC<CardPreviewProps> = ({
                 className="lg:h-fit h-[125px] w-full lg:w-fit rounded-full transition duration-300 ease-in-out transform hover:scale-105"
                 type="submit"
                 variant="contained"
+                disabled
               >
                 <p className="text-5xl lg:text-xl">
                   {isCheckout ? "Submit" : "Save"}
