@@ -103,7 +103,7 @@ export const LandingPage: React.FC = () => {
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              fill="#f0f9ff" // Matches bg-blue-50
+              fill="#eff6ff" // Matches bg-blue-50
               d="M0,224 C480,320 960,128 1440,224 L1440,320 L0,320 Z"
             ></path>
           </svg>
@@ -111,7 +111,7 @@ export const LandingPage: React.FC = () => {
       </div>
 
       {/* Features Section */}
-      <div className="bg-[#f0f9ff] lg:pt-0 pt-36 pb-20 px-4">
+      <div className="bg-[#eff6ff] lg:pt-0 pt-36 pb-20 px-4">
         <Container className="flex flex-col gap-24 items-center">
           <p className="text-8xl text-center lg:text-6xl font-bold">
             Why Diamedic?
@@ -423,10 +423,10 @@ const LandingPageCard = ({
   desc: JSX.Element;
 }) => {
   return (
-    <div className=" bg-white flex flex-col gap-14 lg:gap-6 rounded-3xl p-20 lg:px-6 lg:py-12 text-center hover:shadow-xl transition duration-300">
+    <div className=" bg-white shadow-md flex flex-col gap-14 lg:gap-6 rounded-3xl p-20 lg:px-6 lg:py-12 text-center hover:shadow-xl transition duration-300">
       {icon}
-      <p className="lg:text-3xl font-bold text-6xl">{title}</p>
-      <p className="text-gray-700 lg:text-lg text-4xl">{desc}</p>
+      <p className="lg:text-3xl font-bold text-6xl text-black">{title}</p>
+      <p className="text-black lg:text-lg text-4xl">{desc}</p>
     </div>
   );
 };
