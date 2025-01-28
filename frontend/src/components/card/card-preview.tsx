@@ -27,7 +27,7 @@ const CardPreview: FC<CardPreviewProps> = ({
 
   return (
     <div
-      className={`w-[48rem] h-[30rem] lg:w-[480px] lg:h-[280px] font-roboto rounded-xl shadow-lg flex flex-col ${backgroundColor}`}
+      className={`h-[30rem] bg-white lg:h-[280px] font-roboto rounded-xl shadow-lg flex flex-col ${backgroundColor}`}
       style={{ aspectRatio: "1.586" }} // Standard credit card ratio
     >
       {/* Header */}

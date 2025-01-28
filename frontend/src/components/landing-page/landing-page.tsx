@@ -1,15 +1,28 @@
-import { Button, Container, useMediaQuery, useTheme } from "@mui/material";
+import { Button, Container } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import CardPreview from "../card/card-preview";
+import HeaderImage from "../../../public/header-image.png";
 import FAQPage from "../faq/faq";
 import ConfirmDialog from "../confirm/confirm";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faBolt,
+  faSyncAlt,
+  faSms,
+  faPalette,
+  faWallet,
+  faMoneyBill1,
+  faHandBackFist,
+  faQrcode,
+  faCreditCard,
+  IconDefinition,
+} from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 
 export const LandingPage: React.FC = () => {
   const navigate = useNavigate(); // Initialize the useHistory hook to navigate
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
+  // const theme = useTheme();
+  // const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
   const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -45,7 +58,7 @@ export const LandingPage: React.FC = () => {
   };
 
   return (
-    <div className="font-montserrat ">
+    <div className="font-montserrat bg-blue-200">
       <ConfirmDialog
         open={dialogOpen}
         message="We need your location to provide emergency services. Do you want to allow location access?"
@@ -53,70 +66,85 @@ export const LandingPage: React.FC = () => {
         onCancel={handleCancel}
       />
       {/* Hero Section */}
-      <Container className="flex flex-col lg:flex-row gap-20 lg:gap-12 p-24 justify-between items-center ">
-        <div className="flex flex-col gap-16 lg:gap-4 text-start basis-1/2 ">
-          <p className="leading-tight text-8xl lg:text-6xl text-main-blue">
-            Emergency Info, Always at Your Fingertips
-          </p>
-          <p className="text-5xl lg:text-xl">
-            The Diamedic card is a compact, wallet-sized card featuring a unique
-            QR code that provides instant access to your emergency medical
-            details.
-          </p>
+      <div className="relative bg-[#0101ff] pb-36">
+        <Container className="flex flex-col lg:flex-row gap-20 lg:gap-12 p-24 justify-between items-center">
+          <div className="flex flex-col gap-36 lg:gap-12 text-start lg:basis-1/2 lg:mx-0 mx-12">
+            <p className="leading-tight font-bold text-8xl lg:text-6xl text-white">
+              Emergency Info, Always at Your Fingertips
+            </p>
+            <p className="text-5xl lg:text-xl text-white">
+              The Diamedic card is a compact, wallet-sized card featuring a
+              unique QR code that provides instant access to your emergency
+              medical details.
+            </p>
 
-          <Button
-            onClick={() => navigate("/checkout")}
-            variant="contained"
-            size="large"
-            className="lg:h-fit h-[125px] w-full lg:w-fit rounded-xl transition duration-300 ease-in-out transform hover:scale-105"
+            <Button
+              onClick={() => navigate("/checkout")}
+              variant="contained"
+              size="large"
+              className="lg:h-fit h-[125px] w-full lg:w-fit rounded-xl transition ease-in-out transform z-10"
+            >
+              <p className="text-3xl lg:text-lg">Get Your Card Now</p>
+            </Button>
+          </div>
+          <div className="flex flex-col items-center justify-center lg:basis-1/2 gap-12 px-16 pt-12 lg:pt-0 lg:px-0">
+            <img className="rounded-[25rem]" src={HeaderImage} />
+          </div>
+        </Container>
+
+        {/* Wavy Line */}
+        <div
+          className="absolute bottom-0 w-full overflow-hidden -mb-1 pointer-events-none"
+          style={{ zIndex: 0 }} // Ensure it's behind everything
+        >
+          <svg
+            viewBox="0 0 1440 320"
+            className="w-full h-auto"
+            xmlns="http://www.w3.org/2000/svg"
           >
-            <p className="text-3xl lg:text-lg">Get Your Card Now</p>
-          </Button>
+            <path
+              fill="#f0f9ff" // Matches bg-blue-50
+              d="M0,224 C480,320 960,128 1440,224 L1440,320 L0,320 Z"
+            ></path>
+          </svg>
         </div>
-        {isMobile && <KeyboardArrowDownIcon sx={{ fontSize: "75px" }} />}
-        <div className="flex flex-col items-center justify-center lg:basis-1/4 gap-12">
-          {isMobile && <p className="lg:text-4xl text-7xl">Example Card</p>}
-          <CardPreview
-            fullName="John Smith"
-            dateOfBirth="01/01/1990"
-            backgroundColor={"bg-white"}
-          />
-          {/* <p className="lg:text-lg text-4xl text-red-600">
-              All cards will resemble the preview above, though some text sizes
-              may vary, particularly for longer names.
-            </p> */}
-        </div>
-      </Container>
+      </div>
 
       {/* Features Section */}
-      <div className="bg-gradient-to-b from-blue-50 to-blue-100 py-20 px-4">
-        <Container>
-          <p className="text-8xl text-center lg:text-4xl pb-24 lg:pb-12">
+      <div className="bg-[#f0f9ff] lg:pt-0 pt-36 pb-20 px-4">
+        <Container className="flex flex-col gap-24 items-center">
+          <p className="text-8xl text-center lg:text-6xl font-bold">
             Why Diamedic?
           </p>
-          <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-12 gap-12 ">
+          <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-12 gap-12">
             <LandingPageCard
-              title="🚀 Instant Access"
+              icon={
+                <FontAwesomeIcon
+                  icon={faBolt}
+                  size="7x"
+                  style={{ color: "orange" }}
+                />
+              }
+              title="Instant Access"
               desc={
                 <>
-                  First responders can{" "}
-                  <span className="font-bold text-main-blue">instantly</span>{" "}
-                  scan your QR code to access critical medical details.
+                  The QR code can be scanned for{" "}
+                  <span className="font-bold text-main-blue">
+                    instant access
+                  </span>{" "}
+                  to access critical medical details.
                 </>
               }
             />
             <LandingPageCard
-              title="🔄 Always Up-to-Date"
-              desc={
-                <>
-                  Update your{" "}
-                  <span className="font-bold text-main-blue">medical info</span>{" "}
-                  at any time without needing to replace your card.
-                </>
+              icon={
+                <FontAwesomeIcon
+                  icon={faSms}
+                  size="7x"
+                  style={{ color: "orange" }}
+                />
               }
-            />
-            <LandingPageCard
-              title="📩 SMS Notifications"
+              title="SMS Notifications"
               desc={
                 <>
                   Notify your
@@ -128,9 +156,82 @@ export const LandingPage: React.FC = () => {
                 </>
               }
             />
+            <LandingPageCard
+              icon={
+                <FontAwesomeIcon
+                  icon={faSyncAlt}
+                  size="7x"
+                  style={{ color: "orange" }}
+                />
+              }
+              title="Always Up-to-Date"
+              desc={
+                <>
+                  Update your{" "}
+                  <span className="font-bold text-main-blue">medical info</span>{" "}
+                  at any time without needing to replace your card.
+                </>
+              }
+            />
+          </div>
+          <div className="flex flex-col lg:flex-row gap-24 mt-8 items-center">
+            <div className="flex flex-col gap-14 basis-1/3">
+              <SmallCard
+                icon={faPalette}
+                title="Custom Colour"
+                desc="Stick with the default blue or pick your own border colour to
+                  suit your style"
+                align="text-start"
+              />
+              <SmallCard
+                icon={faMoneyBill1}
+                title="One-Time Purchase"
+                desc="Your QR code is unique. Once purchased, you won't need to buy
+                  another!"
+                align="text-start"
+              />
+              <SmallCard
+                icon={faQrcode}
+                title="Easy Access"
+                desc="Simply can the QR code on any device to gain immediately
+                  access to emergency information"
+                align="text-start"
+                border={false}
+              />
+            </div>
+            <CardPreview
+              fullName="Test User"
+              dateOfBirth="12/01/1990"
+              backgroundColor={""}
+            />
+            <div className="flex flex-col gap-14 basis-1/3">
+              <SmallCard
+                icon={faWallet}
+                title="Standard Wallet Fit"
+                desc="Fits perfectly in your wallet, with the outter edge visible to
+                  attract attention"
+                align="text-end"
+              />
+              <SmallCard
+                icon={faHandBackFist}
+                title="Durable Material"
+                desc="Crafted from durable PVC, your Diamedic card is sturdy,
+                  waterproof, and built to withstand any conditions."
+                align="text-end"
+              />
+              <SmallCard
+                icon={faCreditCard}
+                title="Free Replacement"
+                desc="If your card is lost or stolen, you can get a replacement free
+                  of charge (with proof of purchase)"
+                align="text-end"
+                border={false}
+              />
+            </div>
           </div>
         </Container>
       </div>
+
       {/* How It Works */}
       <div className="bg-white text-black py-20">
         <Container>
@@ -178,9 +279,9 @@ export const LandingPage: React.FC = () => {
       </div>
 
       {/* Call to Action */}
-      <div className="py-20 text-center bg-gradient-to-b from-blue-100 to-blue-200">
+      <div className="py-20 text-center bg-blue-50">
         <Container className="flex flex-col lg:gap-2 gap-12">
-          <p className="lg:text-5xl text-8xl text-main-blue font-semibold">
+          <p className="lg:text-5xl text-8xl text-[#0101ff] font-semibold">
             Get Your Diamedic Card Today
           </p>
           <p className="lg:mt-2 mt-4 text-gray-800 text-5xl lg:text-xl opacity-80">
@@ -190,33 +291,33 @@ export const LandingPage: React.FC = () => {
 
           {/* Pricing Section */}
           <div className="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-12 text-start items-center">
-            <div className="lg:p-6 p-12 bg-main-blue rounded-lg shadow-xl mx-auto flex flex-col gap-6 items-center">
+            <div className="lg:p-6 p-12 bg-[#0101ff] rounded-lg shadow-xl mx-auto flex flex-col gap-6 items-center">
               <p className="lg:font-normal font-bold text-white text-6xl lg:text-3xl">
                 Your Diamedic Card
               </p>
               <p className="lg:text-3xl text-5xl text-white font-semibold">
                 £tbd
               </p>
-              <p className="text-white lg:text-xl text-3xl opacity-80">
+              <p className="text-white lg:text-xl text-3xl">
                 Includes 1 Diamedic card.
               </p>
 
               {/* Features List */}
-              <ul className="mt-4 text-white lg:text-lg text-4xl opacity-80 flex flex-col lg:gap-2 gap-8">
+              <ul className="mt-4 text-white lg:text-lg text-4xl flex flex-col lg:gap-2 gap-8">
                 <li className="flex items-center">
-                  <span className="lg:mr-2 mr-6 text-teal-200">✔</span> Printed
+                  <span className="lg:mr-2 mr-6 text-green-400">✔</span> Printed
                   and shipped to you
                 </li>
                 <li className="flex items-center">
-                  <span className="lg:mr-2 mr-6 text-teal-200">✔</span> QR code
+                  <span className="lg:mr-2 mr-6 text-green-400">✔</span> QR code
                   for instant access
                 </li>
                 <li className="flex items-center">
-                  <span className="lg:mr-2 mr-6 text-teal-200">✔</span> Easy to
+                  <span className="lg:mr-2 mr-6 text-green-400">✔</span> Easy to
                   carry and use
                 </li>
                 <li className="flex items-center">
-                  <span className="lg:mr-2 mr-6 text-teal-200">✔</span> Update
+                  <span className="lg:mr-2 mr-6 text-green-400">✔</span> Update
                   your details anytime*
                 </li>
               </ul>
@@ -313,16 +414,49 @@ export const LandingPage: React.FC = () => {
 };
 
 const LandingPageCard = ({
+  icon,
   title,
   desc,
 }: {
+  icon: JSX.Element;
   title: string;
   desc: JSX.Element;
 }) => {
   return (
-    <div className="shadow-lg bg-white flex flex-col gap-14 lg:gap-6 rounded-xl p-20 lg:px-6 lg:py-12 text-center hover:shadow-xl transition duration-300">
-      <p className="lg:text-xl lg:font-bold text-6xl">{title}</p>
+    <div className=" bg-white flex flex-col gap-14 lg:gap-6 rounded-3xl p-20 lg:px-6 lg:py-12 text-center hover:shadow-xl transition duration-300">
+      {icon}
+      <p className="lg:text-3xl font-bold text-6xl">{title}</p>
       <p className="text-gray-700 lg:text-lg text-4xl">{desc}</p>
     </div>
   );
 };
+
+const SmallCard = ({
+  icon,
+  title,
+  desc,
+  align,
+  isMobile = false,
+  border = true,
+}: {
+  icon: IconDefinition;
+  title: string;
+  desc: string;
+  align: "text-start" | "text-end";
+  isMobile?: boolean;
+  border?: boolean;
+}) => (
+  <div
+    className={`space-y-2 ${
+      border && "border-b-2 pb-14 border-gray-200"
+    } ${align}`}
+  >
+    <FontAwesomeIcon
+      icon={icon}
+      // style={{ color: "#0101ff" }}
+      className="text-[#0101ff] lg:mb-0 mb-8 text-6xl lg:text-2xl"
+    />
+    <p className="font-bold text-black text-5xl lg:text-xl">{title}</p>
+    <p className="text-4xl lg:text-lg">{desc}</p>
+  </div>
+);
