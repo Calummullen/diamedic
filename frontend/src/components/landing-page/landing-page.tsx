@@ -1,9 +1,13 @@
-import { Button, Container } from "@mui/material";
+import { Button, Container, useMediaQuery, useTheme } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import CardPreview from "../card/card-preview";
 import HeaderImage from "../../../public/header-image.png";
 import FAQPage from "../faq/faq";
 import ConfirmDialog from "../confirm/confirm";
+import MainLogo from "../../../public/main-logo.png";
+import TypingImage from "../../../public/typing.png";
+import WalletImage from "../../../public/wallet.png";
+import PrinterImage from "../../../public/printer.jpeg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBolt,
@@ -17,26 +21,26 @@ import {
   faCreditCard,
   IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export const LandingPage: React.FC = () => {
   const navigate = useNavigate(); // Initialize the useHistory hook to navigate
-  // const theme = useTheme();
-  // const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  useEffect(() => {
-    if (navigator.permissions) {
-      const getPermission = async () => {
-        const { state } = await navigator.permissions.query({
-          name: "geolocation",
-        });
-        setDialogOpen(state !== "granted");
-      };
-      getPermission();
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (navigator.permissions) {
+  //     const getPermission = async () => {
+  //       const { state } = await navigator.permissions.query({
+  //         name: "geolocation",
+  //       });
+  //       setDialogOpen(state !== "granted");
+  //     };
+  //     getPermission();
+  //   }
+  // }, []);
 
   const handleConfirm = () => {
     setDialogOpen(false);
@@ -67,9 +71,16 @@ export const LandingPage: React.FC = () => {
       />
       {/* Hero Section */}
       <div className="relative bg-[#0101ff] pb-36">
-        <Container className="flex flex-col lg:flex-row gap-20 lg:gap-12 p-24 justify-between items-center">
+        <div className="w-full flex items-center justify-center py-12 lg:py-6 ">
+          <img
+            src={MainLogo}
+            height={isMobile ? 600 : 300}
+            width={isMobile ? 600 : 300}
+          />
+        </div>
+        <Container className="flex flex-col lg:flex-row gap-20 lg:gap-12 pb-24 pt-12 justify-between items-center">
           <div className="flex flex-col gap-36 lg:gap-12 text-start lg:basis-1/2 lg:mx-0 mx-12">
-            <p className="leading-tight font-bold text-8xl lg:text-6xl text-white">
+            <p className="leading-tight font-semibold text-8xl lg:text-6xl text-white">
               Emergency Info, Always at Your Fingertips
             </p>
             <p className="text-5xl lg:text-xl text-white">
@@ -84,7 +95,7 @@ export const LandingPage: React.FC = () => {
               size="large"
               className="lg:h-fit h-[125px] w-full lg:w-fit rounded-xl transition ease-in-out transform z-10"
             >
-              <p className="text-3xl lg:text-lg">Get Your Card Now</p>
+              <p className="text-3xl font-bold lg:text-xl">Get Your Card Now</p>
             </Button>
           </div>
           <div className="flex flex-col items-center justify-center lg:basis-1/2 gap-12 px-16 pt-12 lg:pt-0 lg:px-0">
@@ -235,42 +246,52 @@ export const LandingPage: React.FC = () => {
       {/* How It Works */}
       <div className="bg-white text-black py-20">
         <Container>
-          <p className="text-center text-9xl lg:text-5xl">How It Works</p>
+          <p className="text-center font-semibold text-9xl lg:text-7xl">
+            How It Works
+          </p>
 
-          <div className="mt-28 lg:mt-12 mb-12 lg:mb-0 space-y-12">
+          <div className="flex flex-col gap-14 mt-14">
             {[
               {
                 step: "1",
                 title: "Create Your Profile",
                 desc: "Enter your emergency contacts and medical information in just a few minutes.",
+                img: TypingImage,
               },
               {
                 step: "2",
                 title: "Get Your QR Code",
                 desc: "We generate and print a unique QR code onto a compact, wallet-sized card that links to your emergency details.",
+                img: PrinterImage,
               },
               {
                 step: "3",
                 title: "Stay Protected",
                 desc: "Keep your Diamedic card with you for instant access anytime, anywhere.",
+                img: WalletImage,
               },
             ].map((item, idx) => (
               <div
                 key={idx}
-                className="text-left flex lg:items-center gap-12 lg:gap-8 px-12"
+                className="flex lg:flex-row flex-col-reverse items-center gap-8 px-12 shadow-md border-x-0 border-[1px] rounded-3xl p-24 lg:p-16"
               >
-                <div className="flex-shrink-0 w-12">
-                  <p className="text-7xl font-bold text-teal-500">
-                    {item.step}.
-                  </p>
+                <div className="flex flex-col gap-4">
+                  <div>
+                    <p className="text-9xl font-bold text-yellow-500">
+                      {item.step}.
+                    </p>
+                  </div>
+                  <div>
+                    <p className="lg:text-4xl text-6xl mb-6 font-bold">
+                      {item.title}
+                    </p>
+                    <p className="lg:text-xl text-4xl text-gray-700">
+                      {item.desc}
+                    </p>
+                  </div>
                 </div>
-                <div className="flex-grow">
-                  <p className="lg:text-xl text-6xl mb-2 font-bold">
-                    {item.title}
-                  </p>
-                  <p className="lg:text-lg text-4xl text-gray-700">
-                    {item.desc}
-                  </p>
+                <div>
+                  <img width={300} height={300} src={item.img} />
                 </div>
               </div>
             ))}
@@ -280,11 +301,11 @@ export const LandingPage: React.FC = () => {
 
       {/* Call to Action */}
       <div className="py-20 text-center bg-blue-50">
-        <Container className="flex flex-col lg:gap-2 gap-12">
-          <p className="lg:text-5xl text-8xl text-[#0101ff] font-semibold">
+        <Container className="flex flex-col lg:gap-6 gap-12">
+          <p className="lg:text-5xl text-7xl text-[#0101ff] font-bold">
             Get Your Diamedic Card Today
           </p>
-          <p className="lg:mt-2 mt-4 text-gray-800 text-5xl lg:text-xl opacity-80">
+          <p className="lg:mt-2 mt-4 text-black font-semibold text-5xl lg:text-xl">
             A Diamedic card is a one-time purchase (with free shipping). Once
             acquired, there are no recurring fees or additional costs.{" "}
           </p>
@@ -351,7 +372,7 @@ export const LandingPage: React.FC = () => {
                 including:
               </p>
 
-              <ul className="flex flex-col px-16 lg:px-8 lg:gap-2 gap-10 text-5xl lg:text-lg text-start text-gray-700 list-disc list-outside">
+              <ul className="flex flex-col px-16 lg:px-8 lg:gap-2 gap-10 text-5xl lg:text-lg text-start text-black list-disc list-outside">
                 <li>
                   <strong className="text-main-blue">
                     Insulin types and dosages
@@ -423,7 +444,7 @@ const LandingPageCard = ({
   desc: JSX.Element;
 }) => {
   return (
-    <div className=" bg-white shadow-md flex flex-col gap-14 lg:gap-6 rounded-3xl p-20 lg:px-6 lg:py-12 text-center hover:shadow-xl transition duration-300">
+    <div className=" bg-white shadow-md flex flex-col lg:mx-0 mx-24 gap-14 lg:gap-6 rounded-3xl px-16 py-36 lg:px-6 lg:py-12 text-center hover:shadow-xl transition duration-300">
       {icon}
       <p className="lg:text-3xl font-bold text-6xl text-black">{title}</p>
       <p className="text-black lg:text-lg text-4xl">{desc}</p>
