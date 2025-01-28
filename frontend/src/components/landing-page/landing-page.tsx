@@ -436,14 +436,12 @@ const SmallCard = ({
   title,
   desc,
   align,
-  isMobile = false,
   border = true,
 }: {
   icon: IconDefinition;
   title: string;
   desc: string;
   align: "text-start" | "text-end";
-  isMobile?: boolean;
   border?: boolean;
 }) => (
   <div
@@ -453,7 +451,6 @@ const SmallCard = ({
   >
     <FontAwesomeIcon
       icon={icon}
-      // style={{ color: "#0101ff" }}
       className="text-[#0101ff] lg:mb-0 mb-8 text-6xl lg:text-2xl"
     />
     <p className="font-bold text-black text-5xl lg:text-xl">{title}</p>
