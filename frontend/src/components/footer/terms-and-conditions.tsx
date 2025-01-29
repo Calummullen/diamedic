@@ -23,9 +23,9 @@ const TermsPage = () => {
           1. General Use
         </Typography>
         <Typography className="mb-4">
-          Diamedic provides a digital and physical emergency medical card,
-          designed to assist diabetics in emergencies. By using our service, you
-          agree to provide accurate medical information to be displayed on our
+          Diamedic provides a physical emergency medical card, designed to
+          assist diabetics in emergencies. By using our service, you agree to
+          provide accurate medical information to be displayed on our
           application (via a QR code scan). The service is intended for
           emergency use only and should not be used as a substitute for
           professional medical care.

@@ -30,13 +30,11 @@ const PrivacyPolicyPage = () => {
           our website or services:
         </Typography>
         <ul className="list-disc ml-6">
-          <li>Your name, email address, and contact information</li>
+          <li>Your name, email address, address and contact information</li>
+          <li>Medical information related to your emergency details</li>
           <li>
-            Medical information related to your emergency details (optional)
-          </li>
-          <li>
-            Payment information (credit card details, billing address, etc.).
-            This information is not stored in our database.
+            Payment information (card details). This information is stored on
+            our payment provider, Stripe. It is never stored in our database.
           </li>
           <li>
             Usage data such as your IP address, browser type, and device
