@@ -65,7 +65,8 @@ export const Checkout: React.FC = () => {
         <CardPreview
           fullName={name}
           dateOfBirth={dob}
-          backgroundColor={"red"}
+          borderColour="#005EB8"
+          textColour="#000000"
         />
 
         <p className="text-md text-red-600">
@@ -95,7 +96,8 @@ export const Checkout: React.FC = () => {
             <CardPreview
               fullName={name}
               dateOfBirth={dob}
-              backgroundColor={"red"}
+              borderColour="#005EB8"
+              textColour="#000000"
             />
             <p className="text-3xl lg:text-sm text-red-600">
               All cards will resemble the preview above, though some text sizes
