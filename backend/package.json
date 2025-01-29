@@ -43,6 +43,8 @@
     "@types/node": "^22.10.10",
     "@types/node-geocoder": "^4.2.6",
     "@types/qrcode": "^1.5.5",
+    "@types/react-color": "^3.0.13",
+    "@types/reactcss": "^1.2.13",
     "@types/uuid": "^10.0.0",
     "@types/uuid4": "^2.0.3",
     "ts-node": "^10.9.2",

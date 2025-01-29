@@ -4,13 +4,15 @@ import { FC, useEffect, useState } from "react";
 interface CardPreviewProps {
   fullName: string;
   dateOfBirth: string;
-  backgroundColor: string;
+  borderColour: string;
+  textColour: string;
 }
 
 const CardPreview: FC<CardPreviewProps> = ({
   fullName,
   dateOfBirth,
-  backgroundColor,
+  borderColour,
+  textColour,
 }) => {
   const [qrSize, setQrSize] = useState(100); // Default size for desktop
 
@@ -24,15 +26,20 @@ const CardPreview: FC<CardPreviewProps> = ({
 
     return () => window.removeEventListener("resize", updateSize);
   }, []);
-
   return (
     <div
-      className={`h-[30rem] bg-white lg:h-[280px] font-roboto rounded-xl shadow-lg flex flex-col ${backgroundColor}`}
+      className={`h-[30rem] bg-white lg:h-[280px] font-roboto rounded-xl shadow-lg flex flex-col `}
       style={{ aspectRatio: "1.586" }} // Standard credit card ratio
     >
       {/* Header */}
-      <div className="bg-blue-700 rounded-t-xl flex items-center justify-center py-3 lg:py-1">
-        <h2 className="text-white font-bold text-4xl lg:text-lg">
+      <div
+        className={`rounded-t-xl flex items-center justify-center py-3 lg:py-1`}
+        style={{ backgroundColor: borderColour }}
+      >
+        <h2
+          style={{ color: textColour }}
+          className="font-bold text-4xl lg:text-lg"
+        >
           Diabetic Emergency Details
         </h2>
       </div>
@@ -82,8 +89,14 @@ const CardPreview: FC<CardPreviewProps> = ({
         </div>
 
         {/* Small Column - Vertical Text */}
-        <div className="bg-blue-700 w-[60px] lg:w-[30px] rounded-t-none rounded-r-xl flex items-center pb-8 justify-center">
-          <h2 className="text-white font-bold text-3xl lg:text-xs transform rotate-90 whitespace-nowrap">
+        <div
+          style={{ backgroundColor: borderColour }}
+          className="w-[60px] lg:w-[30px] rounded-t-none rounded-r-xl flex items-center pb-8 justify-center"
+        >
+          <h2
+            style={{ color: textColour }}
+            className="font-bold text-3xl lg:text-xs transform rotate-90 whitespace-nowrap"
+          >
             Diabetic Emergency Details
           </h2>
         </div>
