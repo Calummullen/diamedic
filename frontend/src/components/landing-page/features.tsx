@@ -23,10 +23,23 @@ export const Features: React.FC<{ isMobile: boolean }> = ({ isMobile }) => {
 
   return (
     <div className="bg-[#eff6ff] lg:pt-0 pt-36 pb-20 px-4">
-      <Container className="flex flex-col gap-24 items-center">
+      <Container className="flex flex-col gap-24 lg:gap-12 items-center">
         <p className="text-8xl text-center lg:text-6xl font-bold">
           Why Diamedic?
         </p>
+        <div className="text-black text-3xl lg:text-lg italic lg:w-3/4 lg:px-0 px-12">
+          <p className="mb-4">
+            “Living with Type 1 Diabetes for over 20 years, I've experienced
+            both mild and severe hypos. In most scenarios I've lucky to receive
+            help from those who knew what to do, but that's not always the case.
+          </p>
+          <p className="mb-4">
+            Traditional medical cards lack crucial diabetic-specific details;
+            information that could be lifesaving in an emergency. That's why I
+            created the Diamedic card.”
+          </p>
+          <p className="text-right not-italic font-bold">- Calum</p>
+        </div>
         <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-12 gap-12">
           <LandingPageCard
             icon={
