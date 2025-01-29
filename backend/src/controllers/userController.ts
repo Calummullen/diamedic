@@ -8,6 +8,7 @@ import {
 import { sendSms } from "../services/smsService";
 import { sendOrderConfirmationEmail } from "../services/emailService";
 import { getAddressFromCoordinates } from "../services/locationService";
+import { google } from "googleapis";
 
 export const createUserController = async (req: Request, res: Response) => {
   const result = profileSchema.safeParse(req.body);
@@ -90,22 +91,56 @@ export const updateUserController = async (req: Request, res: Response) => {
 };
 
 export const testController = async (req: Request, res: Response) => {
+  const auth = new google.auth.GoogleAuth({
+    credentials: {
+      client_email: process.env.GOOGLE_CLIENT_EMAIL,
+      private_key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, "\n"), // Replace escaped \n with actual newlines
+    },
+    scopes: ["https://www.googleapis.com/auth/spreadsheets"],
+  });
+
+  const sheets = google.sheets({ version: "v4", auth });
+
+  const spreadsheetId = process.env.SPREADSHEET_ID; // Load spreadsheet ID from .env
+  const range = "Sheet1!A:E"; // Adjust to match your sheet’s columns
+
   try {
-    const data = await getAddressFromCoordinates(51.3341366, -2.9787137);
-    const now = new Date();
-    const currentTime = now.toLocaleTimeString(); // Localized time string
+    // Fetch the current data to find the next available row
+    const response = await sheets.spreadsheets.values.get({
+      spreadsheetId,
+      range,
+    });
 
-    const message = `🚨 Diamedic Alert 🚨
+    const rows = response.data.values || [];
+    const nextRow = rows.length + 1; // Next available row
 
-Calum's QR code has been scanned.
+    const appendRange = `Sheet1!A${nextRow}:F${nextRow}`; // Dynamically target the next row
 
-${data?.address ? `Approximate location: ${data.address}` : ""}
-Time: ${currentTime}
-`;
-    await sendSms("+4407460469504", message);
-    res.json(data);
+    const values = [
+      [
+        new Date().toLocaleDateString("en-GB"), // Timestamp
+        "1x Diamedic Card", // Item name
+        "Goods", // Amount
+        "N/A", // Category
+        10,
+        0, // Additional notes
+      ],
+    ];
+
+    const resource = { values };
+
+    // Append the data to the next available row
+    await sheets.spreadsheets.values.update({
+      spreadsheetId,
+      range: appendRange,
+      valueInputOption: "USER_ENTERED",
+      requestBody: {
+        values,
+      },
+    });
+
+    return res.json({ message: "success" });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Failed to send SMS" });
+    console.error("Error appending row:", error);
   }
 };
