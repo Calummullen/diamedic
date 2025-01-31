@@ -61,7 +61,7 @@ const Details: FC<CardPreviewProps> = ({
     control,
     handleSubmit,
     setValue,
-    trigger,
+    // trigger,
     formState: { errors },
     watch,
   } = useForm<ProfileData>({
@@ -88,7 +88,7 @@ const Details: FC<CardPreviewProps> = ({
 
   const handleNext = async (e: React.MouseEvent) => {
     e.preventDefault();
-    let fieldsToValidate: (keyof ProfileData)[] = [];
+    // let fieldsToValidate: (keyof ProfileData)[] = [];
 
     // switch (activeStep) {
     //   case 0:
