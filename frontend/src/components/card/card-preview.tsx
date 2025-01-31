@@ -17,7 +17,11 @@ const CardPreview: FC<CardPreviewProps> = ({
 }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
-  const [qrSize, setQrSize] = useState(isMobile ? 225 : 100); // Default size for desktop
+  const [qrSize, setQrSize] = useState(isMobile ? 225 : 150); // Default size for desktop
+
+  useEffect(() => {
+    setQrSize(isMobile ? 225 : 150);
+  }, [isMobile]);
 
   return (
     <div
@@ -41,7 +45,7 @@ const CardPreview: FC<CardPreviewProps> = ({
       <div className="flex gap-2 pl-4 flex-1">
         {/* Left Column - Personal Details */}
         <div className="flex-1 flex flex-col justify-center font-montserrat">
-          <div className="flex flex-col gap-12 lg:gap-6">
+          <div className="flex flex-col gap-14 lg:gap-6">
             <p className="text-5xl lg:text-3xl">
               I'm a{" "}
               <span className="text-[#5268ff] font-bold">Type 1 Diabetic</span>
@@ -64,10 +68,10 @@ const CardPreview: FC<CardPreviewProps> = ({
             />
           </div>
           <div className="flex items-center flex-col">
-            <p className="text-4xl font-bold lg:text-xs text-center mt-2">
+            <p className="text-4xl font-bold lg:text-lg text-center lg:my-0 my-2">
               Test User
             </p>
-            <p className="text-2xl lg:text-xs">Date of Birth</p>
+            <p className="text-2xl lg:text-lg">Date of Birth</p>
           </div>
           {/* <p className="text-2xl lg:text-xs text-center mt-2 opacity-70">
             Demo QR Code
@@ -83,7 +87,7 @@ const CardPreview: FC<CardPreviewProps> = ({
         >
           <h2
             style={{ color: textColour }}
-            className="font-bold text-3xl lg:text-xs transform rotate-90 whitespace-nowrap"
+            className="font-bold text-2xl lg:text-xs transform rotate-90 whitespace-nowrap"
           >
             Diabetic Emergency Details
           </h2>
