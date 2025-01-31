@@ -10,8 +10,8 @@ interface CardPreviewProps {
 }
 
 const CardPreview: FC<CardPreviewProps> = ({
-  fullName,
-  dateOfBirth,
+  // fullName,
+  // dateOfBirth,
   borderColour,
   textColour,
 }) => {
