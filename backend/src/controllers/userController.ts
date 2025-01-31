@@ -17,7 +17,12 @@ import {
 import { getAddressFromCoordinates } from "../services/locationService";
 import { google } from "googleapis";
 
+const isLive = false;
+
 export const createUserController = async (req: Request, res: Response) => {
+  if (!isLive) {
+    return res.json({});
+  }
   const result = profileSchema.safeParse(req.body);
 
   if (!result.success) {

@@ -42,7 +42,7 @@ export const Checkout: React.FC = () => {
   };
   return (
     <div className="font-montserrat flex flex-col justify-center items-center ">
-      <div className="relative bg-[#0101ff] pb-40 w-full">
+      <div className="relative bg-[#0101ff] pb-28 w-full">
         <div className="w-full flex items-center justify-center py-12 lg:py-6 ">
           <img
             src={MainLogo}
@@ -55,19 +55,19 @@ export const Checkout: React.FC = () => {
           style={{ zIndex: 0 }} // Ensure it's behind everything
         >
           <svg
-            viewBox="0 0 1440 320"
+            viewBox="0 0 1440 200" // Reduced height to cut off extra space
             className="w-full h-auto"
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
               fill="#ffffff" // Matches bg-blue-50
-              d="M0,224 C480,320 960,128 1440,224 L1440,320 L0,320 Z"
+              d="M0,160 C480,200 960,80 1440,160 L1440,200 L0,200 Z" // Adjusted for less bottom space
             ></path>
           </svg>
         </div>
       </div>
       {/* Form Section */}
-      <div className="lg:w-[50%]">
+      <div className="w-[50%]">
         <Details
           handleFieldChange={handleFieldChange}
           onSubmit={onSubmit}

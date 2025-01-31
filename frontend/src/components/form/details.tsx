@@ -143,7 +143,7 @@ const Details: FC<CardPreviewProps> = ({
   ];
 
   return (
-    <div className=" mx-auto p-4">
+    <div className=" mx-auto  p-4">
       {isCheckout && (
         <Stepper activeStep={activeStep} className="mb-8">
           {steps.map((label) => (
