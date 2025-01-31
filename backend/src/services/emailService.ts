@@ -1,8 +1,12 @@
 import { Resend } from "resend";
+import { BillingAddress } from "../types/profile-schema";
+import PDFDocument from "pdfkit";
+import path from "path";
+import fs from "fs";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const sendOrderConfirmationEmail = async (to: string, id: string) => {
-  const resend = new Resend(process.env.RESEND_API_KEY);
-
   return await resend.emails.send({
     from: "Diamedic <no-reply@diamedic.co.uk>",
     to: to,
@@ -84,4 +88,90 @@ export const sendOrderConfirmationEmail = async (to: string, id: string) => {
       </body>
     </html>`,
   });
+};
+
+export const generateShippingDetails = async (
+  billingAddress: BillingAddress
+): Promise<string> => {
+  // Define PDF dimensions (15x10 cm = 425 x 283 points)
+  const doc = new PDFDocument({
+    size: [425, 283],
+    margins: { top: 20, bottom: 20, left: 20, right: 20 },
+  });
+  const montserratFontPath = path.resolve(__dirname, "fonts/montserrat.ttf");
+  // const montserratFontPath = "./fonts/montserrat.ttf"; // Ensure this path is correct
+
+  // Define output path (adjust as needed)
+  const filePath = `${billingAddress.userId}_shipping_label.pdf`;
+  const stream = fs.createWriteStream(filePath);
+  doc.pipe(stream);
+
+  // Header
+  doc
+    .font(montserratFontPath)
+    .fontSize(25)
+    .text("Shipping Label", { align: "center" });
+  doc.moveDown();
+
+  // Recipient Details
+  doc
+    .font(montserratFontPath)
+    .fontSize(12)
+    .text("Recipient:", { underline: true });
+  doc.moveDown(0.5);
+
+  doc
+    .font(montserratFontPath)
+    .fontSize(20)
+    .text(billingAddress.name)
+    .text(billingAddress.addressLine1)
+    .text(billingAddress.addressLine2 || "") // Optional line
+    .text(`${billingAddress.city}, ${billingAddress.county || ""}`)
+    .text(billingAddress.postcode)
+    .moveDown();
+
+  // Optional: Draw a border around the label
+  doc.rect(10, 10, 405, 263).stroke();
+
+  // Finalize PDF
+  doc.end();
+
+  return new Promise((resolve, reject) => {
+    stream.on("finish", () => resolve(filePath));
+    stream.on("error", (err) => reject(err));
+  });
+};
+
+export const sendShippingEmail = async (billingAddress: BillingAddress) => {
+  try {
+    // Generate the shipping label PDF
+    const pdfPath = await generateShippingDetails(billingAddress);
+
+    // Read PDF as base64
+    const pdfBuffer = fs.readFileSync(pdfPath);
+    const pdfBase64 = pdfBuffer.toString("base64");
+
+    // Send the email with the PDF attachment
+    const emailResponse = await resend.emails.send({
+      from: "Shipping Diamedic <no-reply@diamedic.co.uk>", // Use a verified sender email
+      to: "calum.diamedic@gmail.com",
+      subject: "Your Shipping Label",
+      html: `
+        <p>Shipping label for user ${billingAddress.userId}</p>
+      `,
+      attachments: [
+        {
+          filename: `${billingAddress.userId}_shipping_label.pdf`,
+          content: pdfBase64,
+          contentType: "application/pdf",
+        },
+      ],
+    });
+
+    console.log("Email sent successfully:", emailResponse);
+    return emailResponse;
+  } catch (error) {
+    console.error("Failed to send email:", error);
+    throw error;
+  }
 };

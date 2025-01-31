@@ -1,8 +1,11 @@
 import { useState } from "react";
 import CardPreview from "../card/card-preview";
+import MainLogo from "../../../public/main-logo.png";
+import HeaderImage from "../../../public/header-image.png";
 import Details from "../form/details";
 import { ProfileData } from "../profile/profile";
 import { QRCodeSVG } from "qrcode.react";
+import { useMediaQuery, useTheme } from "@mui/material";
 
 export const Checkout: React.FC = () => {
   const [name, setName] = useState("");
@@ -14,6 +17,8 @@ export const Checkout: React.FC = () => {
     setName(name || "");
     setDob(dob || "");
   };
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
   const onSubmit = async (formData: ProfileData) => {
     try {
@@ -36,9 +41,33 @@ export const Checkout: React.FC = () => {
     }
   };
   return (
-    <div className="font-montserrat flex flex-col lg:flex-row gap-20 lg:gap-4 justify-center items-center mt-2 px-4 lg:px-32 relative">
+    <div className="font-montserrat flex flex-col justify-center items-center ">
+      <div className="relative bg-[#0101ff] pb-40 w-full">
+        <div className="w-full flex items-center justify-center py-12 lg:py-6 ">
+          <img
+            src={MainLogo}
+            height={isMobile ? 600 : 300}
+            width={isMobile ? 600 : 300}
+          />
+        </div>
+        <div
+          className="absolute bottom-0 w-full overflow-hidden -mb-1 pointer-events-none"
+          style={{ zIndex: 0 }} // Ensure it's behind everything
+        >
+          <svg
+            viewBox="0 0 1440 320"
+            className="w-full h-auto"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill="#ffffff" // Matches bg-blue-50
+              d="M0,224 C480,320 960,128 1440,224 L1440,320 L0,320 Z"
+            ></path>
+          </svg>
+        </div>
+      </div>
       {/* Form Section */}
-      <div className="lg:basis-3/5 w-full">
+      <div className="lg:w-[50%]">
         <Details
           handleFieldChange={handleFieldChange}
           onSubmit={onSubmit}
@@ -53,7 +82,7 @@ export const Checkout: React.FC = () => {
       </div>
 
       {/* Preview Section (Desktop) */}
-      <div className="hidden lg:flex lg:basis-2/5 flex-col gap-8 items-center justify-center">
+      {/* <div className="hidden lg:flex lg:basis-2/5 flex-col gap-8 items-center justify-center">
         <div className="flex flex-col gap-2 items-center text-center">
           <h3 className="font-bold text-5xl">Example card</h3>
           <p className=" text-md">
@@ -73,10 +102,10 @@ export const Checkout: React.FC = () => {
           All cards will resemble the preview above, though some text sizes may
           vary, particularly for longer names.
         </p>
-      </div>
+      </div> */}
 
       {/* Mobile Preview (Sticky) */}
-      <div className="lg:hidden fixed bottom-0 left-0 w-full bg-white shadow-md border-t p-4 z-50">
+      {/* <div className="lg:hidden fixed bottom-0 left-0 w-full bg-white shadow-md border-t p-4 z-50">
         <button
           className="w-full text-3xl bg-green-500 text-white p-6 rounded-md font-semibold"
           onClick={() => setIsPreviewVisible(!isPreviewVisible)}
@@ -105,7 +134,7 @@ export const Checkout: React.FC = () => {
             </p>
           </div>
         )}
-      </div>
+      </div> */}
     </div>
   );
 };

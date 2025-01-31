@@ -1,12 +1,19 @@
 import { Request, Response } from "express";
-import { ProfileData, profileSchema } from "../types/profile-schema";
+import {
+  billingAddressSchema,
+  ProfileData,
+  profileSchema,
+} from "../types/profile-schema";
 import {
   createUserProfile,
   getUserProfile,
   updateUserProfile,
 } from "../services/userService";
 import { sendSms } from "../services/smsService";
-import { sendOrderConfirmationEmail } from "../services/emailService";
+import {
+  sendOrderConfirmationEmail,
+  sendShippingEmail,
+} from "../services/emailService";
 import { getAddressFromCoordinates } from "../services/locationService";
 import { google } from "googleapis";
 
@@ -142,5 +149,19 @@ export const testController = async (req: Request, res: Response) => {
     return res.json({ message: "success" });
   } catch (error) {
     console.error("Error appending row:", error);
+  }
+};
+
+export const testLabel = async (req: Request, res: Response) => {
+  const result = billingAddressSchema.safeParse(req.body);
+  try {
+    await sendShippingEmail(result.data!);
+    return res.json({ message: "Shipping details successfully sent." });
+  } catch (error) {
+    console.error(
+      `Error generating shipping label for user ${result.data?.userId}`,
+      error
+    );
+    // Add to a 2nd DB?
   }
 };

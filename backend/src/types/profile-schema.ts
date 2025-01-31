@@ -1,8 +1,5 @@
 import { z } from "zod";
 
-/**
- * Define schema for ProfileData using Zod
- */
 export const profileSchema = z.object({
   name: z.string().min(1, "Name is required."),
   age: z.string().min(1, "Age is required."),
@@ -39,5 +36,15 @@ export const profileSchema = z.object({
     .min(1, "At least one insulin type is required."),
 });
 
-// Infer TypeScript type from Zod schema
+export const billingAddressSchema = z.object({
+  userId: z.string().min(1, "UserID is required."),
+  name: z.string().min(1, "Name is required."),
+  addressLine1: z.string().min(1, "Billing Address Line 1 is required."),
+  addressLine2: z.string().optional(),
+  city: z.string().min(1, "Billing City is required."),
+  county: z.string().optional(),
+  postcode: z.string().min(1, "Billing Postcode is required."),
+});
+
+export type BillingAddress = z.infer<typeof billingAddressSchema>;
 export type ProfileData = z.infer<typeof profileSchema>;

@@ -38,6 +38,10 @@ export interface ProfileData {
   emergencyInstructions: string;
   paymentPlaceholder?: string;
   id?: string;
+  meta: {
+    cardBorderColour: string;
+    cardTextColour: string;
+  };
 }
 
 const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
