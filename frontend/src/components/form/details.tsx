@@ -583,7 +583,11 @@ const Details: FC<CardPreviewProps> = ({
               </Box>
             )}
 
-            <Box className="flex justify-between gap-12 lg:pt-4 pt-12">
+            <Box
+              className={`flex ${
+                activeStep > 0 ? "justify-between" : "justify-end"
+              } gap-12 lg:pt-4 pt-12`}
+            >
               {activeStep > 0 && (
                 <Button
                   className="lg:h-fit h-[125px] w-full lg:w-fit rounded-full transition duration-300 ease-in-out transform hover:scale-105"
