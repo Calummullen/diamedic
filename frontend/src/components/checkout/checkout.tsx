@@ -57,7 +57,7 @@ export const Checkout: React.FC = () => {
         </div>
       </div>
       {/* Form Section */}
-      <div className="w-[50%]">
+      <div className="lg:w-[50%]">
         <Details
           onSubmit={onSubmit}
           data={

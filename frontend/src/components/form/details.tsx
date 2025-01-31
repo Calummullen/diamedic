@@ -15,6 +15,7 @@ import {
   useTheme,
   useMediaQuery,
   Tooltip,
+  Alert,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -517,6 +518,18 @@ const Details: FC<CardPreviewProps> = ({
 
             {activeStep === 2 && (
               <Box className="flex flex-col gap-4 items-center relative">
+                <Alert severity="warning" className="lg:w-[75%] mb-6">
+                  <p className="text-2xl lg:text-sm text-black">
+                    To ensure your card looks great, choose a text color that
+                    contrasts well with the background.
+                  </p>
+                  <p className="text-2xl lg:text-sm text-black">
+                    - To hide text, match the text color to the background.{" "}
+                    <br />- To remove the border, set both the text and border
+                    color to white.
+                  </p>
+                </Alert>
+
                 {/* Card + Button */}
                 <div className="flex flex-col lg:gap-4 gap-12 items-center">
                   <CardPreview

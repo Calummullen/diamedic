@@ -1,3 +1,4 @@
+import { useMediaQuery, useTheme } from "@mui/material";
 import { QRCodeSVG } from "qrcode.react";
 import { FC, useEffect, useState } from "react";
 
@@ -14,21 +15,13 @@ const CardPreview: FC<CardPreviewProps> = ({
   borderColour,
   textColour,
 }) => {
-  const [qrSize, setQrSize] = useState(100); // Default size for desktop
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
+  const [qrSize, setQrSize] = useState(isMobile ? 225 : 100); // Default size for desktop
 
-  useEffect(() => {
-    const updateSize = () => {
-      setQrSize(window.innerWidth < 1024 ? 200 : 100); // 200px for mobile, 100px for desktop
-    };
-
-    updateSize(); // Set initial size
-    window.addEventListener("resize", updateSize);
-
-    return () => window.removeEventListener("resize", updateSize);
-  }, []);
   return (
     <div
-      className={`h-[30rem] bg-white lg:h-[280px] font-roboto rounded-xl shadow-lg flex flex-col `}
+      className={`h-[30rem] bg-white lg:h-[280px] font-montserrat rounded-xl shadow-lg flex flex-col `}
       style={{ aspectRatio: "1.586" }} // Standard credit card ratio
     >
       {/* Header */}
@@ -47,26 +40,15 @@ const CardPreview: FC<CardPreviewProps> = ({
       {/* Main Content */}
       <div className="flex gap-2 pl-4 flex-1">
         {/* Left Column - Personal Details */}
-        <div className="flex-1 flex flex-col justify-center">
-          <div className="space-y-8 lg:space-y-4">
-            <h2 className="font-bold text-5xl lg:text-2xl min-h-[25px]">
-              {fullName}
-            </h2>
-            <div className="space-y-1">
-              <p className="text-5xl lg:text-lg">
-                {dateOfBirth ? new Date(dateOfBirth).toLocaleDateString() : ""}
-              </p>
-            </div>
-            <div className="mt-4">
-              <p className="text-2xl lg:text-sm font-medium">
-                I'm a{" "}
-                <span className="text-main-blue font-bold">
-                  Type 1 Diabetic.
-                </span>
-                <br />
-                All my medical details are
-                <br />
-                available by scanning the QR code.
+        <div className="flex-1 flex flex-col justify-center font-montserrat">
+          <div className="flex flex-col gap-12 lg:gap-6">
+            <p className="text-5xl lg:text-3xl">
+              I'm a{" "}
+              <span className="text-[#5268ff] font-bold">Type 1 Diabetic</span>
+            </p>
+            <div>
+              <p className="text-3xl lg:text-lg font-medium">
+                All my emergency details are available by scanning the QR code.
               </p>
             </div>
           </div>
@@ -81,11 +63,17 @@ const CardPreview: FC<CardPreviewProps> = ({
               level="L"
             />
           </div>
-          <p className="text-2xl lg:text-xs text-center mt-2 opacity-70">
+          <div className="flex items-center flex-col">
+            <p className="text-4xl font-bold lg:text-xs text-center mt-2">
+              Test User
+            </p>
+            <p className="text-2xl lg:text-xs">Date of Birth</p>
+          </div>
+          {/* <p className="text-2xl lg:text-xs text-center mt-2 opacity-70">
             Demo QR Code
             <br />
             Will be updated upon purchase
-          </p>
+          </p> */}
         </div>
 
         {/* Small Column - Vertical Text */}
