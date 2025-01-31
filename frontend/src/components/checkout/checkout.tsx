@@ -1,22 +1,12 @@
 import { useState } from "react";
-import CardPreview from "../card/card-preview";
 import MainLogo from "../../../public/main-logo.png";
-import HeaderImage from "../../../public/header-image.png";
 import Details from "../form/details";
 import { ProfileData } from "../profile/profile";
 import { QRCodeSVG } from "qrcode.react";
 import { useMediaQuery, useTheme } from "@mui/material";
 
 export const Checkout: React.FC = () => {
-  const [name, setName] = useState("");
-  const [dob, setDob] = useState("");
   const [qrCode, setQrCode] = useState("");
-  const [isPreviewVisible, setIsPreviewVisible] = useState(false);
-
-  const handleFieldChange = (name?: string, dob?: string) => {
-    setName(name || "");
-    setDob(dob || "");
-  };
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
@@ -69,7 +59,6 @@ export const Checkout: React.FC = () => {
       {/* Form Section */}
       <div className="w-[50%]">
         <Details
-          handleFieldChange={handleFieldChange}
           onSubmit={onSubmit}
           data={
             {

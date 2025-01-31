@@ -23,22 +23,17 @@ import CardPreview from "../card/card-preview";
 import { HexColorPicker } from "react-colorful";
 
 interface CardPreviewProps {
-  handleFieldChange: (name?: string, dob?: string) => void;
   onSubmit: (formData: ProfileData) => void;
   data?: ProfileData;
   isCheckout?: boolean;
 }
 
 const Details: FC<CardPreviewProps> = ({
-  handleFieldChange,
   onSubmit,
   data,
   isCheckout = true,
 }) => {
   const [activeStep, setActiveStep] = useState(0);
-  // const [borderColour, setBorderColour] = useState("#005EB8");
-  // const [textColour, setTextColour] = useState("#FFFFFF");
-  const [isColourPickerOpen, setIsColourPickerOpen] = useState<boolean>(false);
   const theme = useTheme();
   const sxTheme = (overrideFontSize?: string) => {
     return {
@@ -76,15 +71,8 @@ const Details: FC<CardPreviewProps> = ({
       ...data,
     },
   });
-  const name = watch("name", "");
-  const dob = watch("dateOfBirth", "");
   const borderColour = watch("meta.cardBorderColour");
   const textColour = watch("meta.cardTextColour");
-  console.log("bd", borderColour);
-
-  React.useEffect(() => {
-    handleFieldChange(name, dob);
-  }, [name, dob, handleFieldChange]);
 
   const {
     fields: contactFields,
