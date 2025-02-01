@@ -21,7 +21,7 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { ProfileData } from "../profile/profile";
 import CardPreview from "../card/card-preview";
-import { HexColorPicker } from "react-colorful";
+import { ColourPalette } from "../coloir-picker/colour-palette";
 
 interface CardPreviewProps {
   onSubmit: (formData: ProfileData) => void;
@@ -68,12 +68,17 @@ const Details: FC<CardPreviewProps> = ({
   } = useForm<ProfileData>({
     mode: "onChange",
     defaultValues: {
-      meta: { cardBorderColour: "#005EB8", cardTextColour: "#FFFFFF" },
+      meta: {
+        cardBorderColour: "#0000FF",
+        cardTextColour: "#FFFFFF",
+        matchBorderColor: false,
+      },
       ...data,
     },
   });
   const borderColour = watch("meta.cardBorderColour");
   const textColour = watch("meta.cardTextColour");
+  const matchBorderColor = watch("meta.matchBorderColor") ?? false;
 
   const {
     fields: contactFields,
@@ -537,49 +542,26 @@ const Details: FC<CardPreviewProps> = ({
                     dateOfBirth="12/01/1990"
                     borderColour={borderColour}
                     textColour={textColour}
+                    diabetesTextColour={
+                      matchBorderColor ? borderColour : "#000000"
+                    }
                   />
                 </div>
-
-                {/* Color Pickers */}
-
-                <div className="flex flex-col items-center w-fit">
-                  <div className="grid lg:grid-cols-2 grid-cols-1 w-full gap-12 lg:gap-4 p-4 ">
-                    <div className="flex flex-col gap-4 items-center lg:text-xl text-5xl">
-                      <p>Card Border Colour</p>
-                      <HexColorPicker
-                        {...register("meta.cardBorderColour", {
-                          required: "cardBorderColour is required",
-                          min: {
-                            value: 0,
-                            message: "Card Border Colour must be positive",
-                          },
-                        })}
-                        style={isMobile ? { width: 500, height: 500 } : {}}
-                        color={borderColour}
-                        onChange={(newColor) =>
-                          setValue("meta.cardBorderColour", newColor)
-                        }
-                      />
-                    </div>
-                    <div className="flex flex-col gap-4 items-center lg:text-xl text-5xl">
-                      <p>Text Colour</p>
-                      <HexColorPicker
-                        {...register("meta.cardTextColour", {
-                          required: "cardTextColour is required",
-                          min: {
-                            value: 0,
-                            message: "Card Text Colour must be positive",
-                          },
-                        })}
-                        style={isMobile ? { width: 500, height: 500 } : {}}
-                        color={textColour}
-                        onChange={(newColor) =>
-                          setValue("meta.cardTextColour", newColor)
-                        }
-                      />
-                    </div>
-                  </div>
+                <div className="flex items-center gap-4 my-6 lg:my-0">
+                  <input
+                    type="checkbox"
+                    className="w-12 h-12 lg:w-6 lg:h-6"
+                    checked={matchBorderColor}
+                    onChange={(e) => {
+                      setValue("meta.matchBorderColor", e.target.checked);
+                    }}
+                  />
+                  <label className="lg:text-sm text-3xl">
+                    Match "Type 1 Diabetic" text with border colour
+                  </label>
                 </div>
+                {/* Color Pickers */}
+                <ColourPalette setValue={setValue} watch={watch} />
               </Box>
             )}
 

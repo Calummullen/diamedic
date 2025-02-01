@@ -6,7 +6,6 @@ import { Features } from "./features";
 import { HowItWorks } from "./how-it-works";
 import { CTA } from "./cta";
 import { FAQ } from "./faq";
-import { Footer } from "./footer";
 
 export const LandingPage: React.FC = () => {
   const theme = useTheme();
@@ -53,11 +52,10 @@ export const LandingPage: React.FC = () => {
         onCancel={handleCancel}
       />
       <Header isMobile={isMobile} />
-      <Features isMobile={isMobile} />
+      <Features />
       <HowItWorks />
       <CTA />
       <FAQ />
-      <Footer />
     </div>
   );
 };

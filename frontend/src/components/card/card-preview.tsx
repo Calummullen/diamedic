@@ -7,6 +7,7 @@ interface CardPreviewProps {
   dateOfBirth: string;
   borderColour: string;
   textColour: string;
+  diabetesTextColour: string;
 }
 
 const CardPreview: FC<CardPreviewProps> = ({
@@ -14,6 +15,7 @@ const CardPreview: FC<CardPreviewProps> = ({
   // dateOfBirth,
   borderColour,
   textColour,
+  diabetesTextColour,
 }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
@@ -48,7 +50,9 @@ const CardPreview: FC<CardPreviewProps> = ({
           <div className="flex flex-col gap-14 lg:gap-6">
             <p className="text-5xl lg:text-3xl">
               I'm a{" "}
-              <span className="text-[#5268ff] font-bold">Type 1 Diabetic</span>
+              <span style={{ color: diabetesTextColour }} className="font-bold">
+                Type 1 Diabetic
+              </span>
             </p>
             <div>
               <p className="text-3xl lg:text-lg font-medium">

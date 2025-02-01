@@ -13,11 +13,9 @@ const PrivacyPolicyPage = () => {
 
       {/* Introduction */}
       <Typography variant="h6" className="mb-4 text-gray-700">
-        At Diamedic, your privacy is important to us. This Privacy Policy
-        outlines how we collect, use, and protect your personal information when
-        you use our services. By accessing or using our website and services,
-        you agree to the collection and use of information in accordance with
-        this policy.
+        This Privacy Policy explains how Calum Mullen trading as Diamedic ("we,"
+        "us," or "our") collects, uses, and protects your personal information.
+        By using our website and services, you agree to this policy.
       </Typography>
 
       {/* Data Collection */}
@@ -26,20 +24,16 @@ const PrivacyPolicyPage = () => {
           1. Information We Collect
         </Typography>
         <Typography className="mb-4">
-          We collect the following types of personal information when you use
-          our website or services:
+          We collect the following types of personal information:
         </Typography>
         <ul className="list-disc ml-6">
-          <li>Your name, email address, address and contact information</li>
-          <li>Medical information related to your emergency details</li>
+          <li>Your full name, email, address, and contact details</li>
+          <li>Medical details for your emergency page</li>
           <li>
-            Payment information (card details). This information is stored on
-            our payment provider, Stripe. It is never stored in our database.
+            Payment information (processed securely by Stripe, never stored on
+            our servers)
           </li>
-          <li>
-            Usage data such as your IP address, browser type, and device
-            information
-          </li>
+          <li>Usage data (IP address, browser type, device details)</li>
         </ul>
       </Box>
 
@@ -48,17 +42,11 @@ const PrivacyPolicyPage = () => {
         <Typography variant="h6" fontWeight="bold" className="mb-2">
           2. How We Use Your Information
         </Typography>
-        <Typography className="mb-4">
-          We use the information we collect for the following purposes:
-        </Typography>
         <ul className="list-disc ml-6">
-          <li>To process and fulfill your orders and payments</li>
-          <li>To provide you with access to your emergency medical details</li>
-          <li>To improve our website, services, and customer experience</li>
-          <li>
-            To communicate with you, including sending order confirmations,
-            updates, and marketing (if you opt-in)
-          </li>
+          <li>To process and fulfill your orders</li>
+          <li>To provide access to your emergency medical details</li>
+          <li>To improve our services and customer experience</li>
+          <li>To communicate important updates and (optional) marketing</li>
         </ul>
       </Box>
 
@@ -68,11 +56,9 @@ const PrivacyPolicyPage = () => {
           3. Data Storage and Security
         </Typography>
         <Typography className="mb-4">
-          We take reasonable steps to protect your personal information. Your
-          data is encrypted and stored securely and is only accessible by
-          scanning the QR code on your physical card. However, no method of data
-          transmission over the Internet or method of electronic storage is 100%
-          secure, so we cannot guarantee absolute security.
+          Your emergency details are encrypted and only accessible via scanning
+          the QR code on your Diamedic card. While we take security seriously,
+          no online system is 100% secure.
         </Typography>
       </Box>
 
@@ -81,20 +67,13 @@ const PrivacyPolicyPage = () => {
         <Typography variant="h6" fontWeight="bold" className="mb-2">
           4. Sharing of Information
         </Typography>
-        <Typography className="mb-4">
-          We do not sell, trade, or rent your personal information to third
-          parties. We may share your information in the following circumstances:
-        </Typography>
         <ul className="list-disc ml-6">
           <li>
-            With service providers who assist in the operation of our business
-            (e.g., payment processors, shipping carriers)
+            With essential service providers (e.g., payment processors, shipping
+            carriers)
           </li>
-          <li>As required by law or to comply with legal processes</li>
-          <li>
-            To protect the rights, property, or safety of Diamedic, our
-            customers, or others
-          </li>
+          <li>When required by law</li>
+          <li>To protect the rights and security of users and Diamedic</li>
         </ul>
       </Box>
 
@@ -104,11 +83,8 @@ const PrivacyPolicyPage = () => {
           5. Cookies
         </Typography>
         <Typography className="mb-4">
-          We use cookies to enhance your experience on our website. Cookies are
-          small data files stored on your device that help us recognize your
-          preferences and improve our website functionality. You can manage your
-          cookie settings in your browser, but disabling cookies may affect
-          certain features of our site.
+          We use cookies to enhance site functionality. You can disable cookies
+          in your browser settings, but some features may be affected.
         </Typography>
       </Box>
 
@@ -117,22 +93,13 @@ const PrivacyPolicyPage = () => {
         <Typography variant="h6" fontWeight="bold" className="mb-2">
           6. Your Rights
         </Typography>
-        <Typography className="mb-4">
-          You have the following rights regarding your personal information:
-        </Typography>
         <ul className="list-disc ml-6">
-          <li>The right to access and update your personal information</li>
-          <li>
-            The right to request the deletion of your personal information
-          </li>
-          <li>The right to opt-out of receiving marketing communications</li>
-          <li>
-            The right to object to the processing of your data in certain
-            circumstances
-          </li>
+          <li>Access, update, or request deletion of your personal data</li>
+          <li>Opt-out of marketing emails</li>
+          <li>Object to certain data processing</li>
         </ul>
         <Typography className="mb-4">
-          To exercise any of these rights, please contact us at{" "}
+          To exercise these rights, contact us at{" "}
           <Link href="mailto:calum.diamedic@gmail.com">
             calum.diamedic@gmail.com
           </Link>
@@ -140,16 +107,14 @@ const PrivacyPolicyPage = () => {
         </Typography>
       </Box>
 
-      {/* Changes to the Privacy Policy */}
+      {/* Changes to Privacy Policy */}
       <Box className="mb-6">
         <Typography variant="h6" fontWeight="bold" className="mb-2">
           7. Changes to This Privacy Policy
         </Typography>
         <Typography className="mb-4">
-          We reserve the right to update or modify this Privacy Policy at any
-          time. Any changes will be posted on this page with the updated date.
-          We encourage you to review this Privacy Policy periodically to stay
-          informed about how we are protecting your personal information.
+          We may update this Privacy Policy periodically. Changes will be posted
+          on this page.
         </Typography>
       </Box>
 
@@ -159,8 +124,7 @@ const PrivacyPolicyPage = () => {
           8. Contact Us
         </Typography>
         <Typography className="mb-4">
-          If you have any questions or concerns about this Privacy Policy,
-          please contact us at:
+          If you have any questions, please contact us at:
         </Typography>
         <Typography>
           Email:{" "}
@@ -169,6 +133,7 @@ const PrivacyPolicyPage = () => {
           </Link>
         </Typography>
       </Box>
+
       <Button
         className="mb-4 w-fit"
         variant="contained"
