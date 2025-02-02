@@ -49,17 +49,18 @@ export const getPaymentSessionController = async (
 
 export const paymentWebhookController = async (req: Request, res: Response) => {
   const sig = req.headers["stripe-signature"];
-
+  const payload = req.body.toString();
   try {
     if (!sig) {
       return res.status(400).send("Missing Stripe signature");
     }
+    console.log("sdfsdf", payload, process.env.STRIPE_WEBHOOK_SECRET);
     let event;
     try {
       event = stripe.webhooks.constructEvent(
-        req.body,
+        payload,
         sig,
-        process.env.STRIPE_SECRET_KEY!
+        process.env.STRIPE_WEBHOOK_SECRET!
       );
     } catch (error) {
       console.error(
