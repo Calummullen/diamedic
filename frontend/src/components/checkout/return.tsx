@@ -1,15 +1,12 @@
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { FC, useEffect, useState } from "react";
-import MainLogo from "../../../public/main-logo.png";
 import ThankYou from "../../../public/thank-you.jpeg";
-import { Link, useMediaQuery, useTheme } from "@mui/material";
+import { Link } from "@mui/material";
 
 const CheckoutReturnPage: FC = () => {
   const [searchParams] = useSearchParams();
   const sessionId = searchParams.get("session_id");
   const navigate = useNavigate();
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
   const [paymentId, setPaymentId] = useState<string>("");
 
   useEffect(() => {
