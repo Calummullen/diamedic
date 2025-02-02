@@ -59,12 +59,20 @@ export const paymentWebhookController = async (req: Request, res: Response) => {
       return res.status(400).send("Missing Stripe signature");
     }
     console.log("here4");
-
-    const event = stripe.webhooks.constructEvent(
-      req.body,
-      sig,
-      process.env.STRIPE_WEBHOOK_SECRET!
-    );
+    let event;
+    try {
+      event = stripe.webhooks.constructEvent(
+        req.body,
+        sig,
+        process.env.STRIPE_WEBHOOK_SECRET!
+      );
+    } catch (error) {
+      console.error(
+        "🚨 Stripe Signature Verification Failed:",
+        (error as Error).message
+      );
+      return res.status(400).send(`Webhook Error: ${(error as Error).message}`);
+    }
 
     console.log("event", event);
 
