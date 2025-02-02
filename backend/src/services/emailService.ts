@@ -78,7 +78,7 @@ export const sendOrderConfirmationEmail = async (to: string, id: string) => {
             <h2>Order Details</h2>
             <p><strong>Item:</strong> DiaMedic Card</p>
             <p><strong>Quantity:</strong> 1</p>
-            <p><strong>Total:</strong> £10.00</p>
+            <p><strong>Total:</strong> £12.99</p>
           </div>
           <div class="footer">
             <p>If you have any questions or any problems, feel free to <a href="mailto:calum.diamedic@gmail.com">contact us</a> and quote the number ${id}.</p>

@@ -34,11 +34,13 @@ export const Checkout: React.FC = () => {
     <div className="font-montserrat flex flex-col justify-center items-center ">
       <div className="relative bg-[#0101ff] pb-28 w-full">
         <div className="w-full flex items-center justify-center py-12 lg:py-6 ">
-          <img
-            src={MainLogo}
-            height={isMobile ? 600 : 300}
-            width={isMobile ? 600 : 300}
-          />
+          <a className="cursor-pointer" href="/">
+            <img
+              src={MainLogo}
+              height={isMobile ? 600 : 300}
+              width={isMobile ? 600 : 300}
+            />
+          </a>
         </div>
         <div
           className="absolute bottom-0 w-full overflow-hidden -mb-1 pointer-events-none"
