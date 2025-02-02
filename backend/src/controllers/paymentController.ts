@@ -76,6 +76,9 @@ export const paymentWebhookController = async (req: Request, res: Response) => {
       }
       try {
         await sendOrderConfirmationEmail(customer_details!.email!);
+        return res
+          .status(200)
+          .send(`Confirmation email sent to ${customer_details?.email}`);
       } catch (error: any) {
         console.error(
           "Failed to send order confirmation email:",

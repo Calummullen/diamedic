@@ -23,6 +23,10 @@ router.post("/label", testLabel);
 
 router.post("/create-checkout-session", paymentController);
 router.get("/session-status", getPaymentSessionController);
-router.post("/payment-webhook", paymentWebhookController);
+router.post(
+  "/payment-webhook",
+  express.raw({ type: "application/json" }),
+  paymentWebhookController
+);
 
 export default router;
