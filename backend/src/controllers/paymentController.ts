@@ -2,7 +2,7 @@ import Stripe from "stripe";
 import { Request, Response } from "express";
 import { sendOrderConfirmationEmail } from "../services/emailService";
 
-const stripe = new Stripe(process.env.STRIPE_TEST_SECRET_KEY!);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export const paymentController = async (req: Request, res: Response) => {
   try {
