@@ -6,7 +6,7 @@ import fs from "fs";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-export const sendOrderConfirmationEmail = async (to: string, id: string) => {
+export const sendOrderConfirmationEmail = async (to: string) => {
   return await resend.emails.send({
     from: "Diamedic <no-reply@diamedic.co.uk>",
     to: to,
@@ -81,7 +81,7 @@ export const sendOrderConfirmationEmail = async (to: string, id: string) => {
             <p><strong>Total:</strong> £12.99</p>
           </div>
           <div class="footer">
-            <p>If you have any questions or any problems, feel free to <a href="mailto:calum.diamedic@gmail.com">contact us</a> and quote the number ${id}.</p>
+            <p>If you have any questions or any problems, feel free to <a href="mailto:calum.diamedic@gmail.com">contact us</a>.</p>
             <p>Thank you for choosing Diamedic!</p>
           </div>
         </div>

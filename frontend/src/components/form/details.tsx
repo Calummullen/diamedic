@@ -1,11 +1,10 @@
-import React, { FC, useState } from "react";
+import React, { FC, useCallback, useState } from "react";
 import { useForm, useFieldArray, FieldError } from "react-hook-form";
 import InfoIcon from "@mui/icons-material/Info";
 import {
   Box,
   Button,
   TextField,
-  Typography,
   Stepper,
   Step,
   StepLabel,
@@ -21,6 +20,11 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { ProfileData } from "../profile/profile";
 import CardPreview from "../card/card-preview";
+import { loadStripe } from "@stripe/stripe-js";
+import {
+  EmbeddedCheckoutProvider,
+  EmbeddedCheckout,
+} from "@stripe/react-stripe-js";
 import { ColourPalette } from "../coloir-picker/colour-palette";
 
 interface CardPreviewProps {
@@ -28,6 +32,10 @@ interface CardPreviewProps {
   data?: ProfileData;
   isCheckout?: boolean;
 }
+
+const stripePromise = loadStripe(
+  "pk_test_51Qnr3lIXyhVTXfbeblisyuAUfUyUZMHeWq86UgqawamlteUUxzinvRJxDgIONPQ7oBlWTXl9qcVNljZ3XUYmaNwB00jRiLpRja"
+);
 
 const Details: FC<CardPreviewProps> = ({
   onSubmit,
@@ -56,6 +64,22 @@ const Details: FC<CardPreviewProps> = ({
     };
   };
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
+
+  const fetchClientSecret = useCallback(async () => {
+    // Create a Checkout Session
+    const res = await fetch(
+      `${import.meta.env.VITE_API_URL}/api/create-checkout-session`,
+      {
+        method: "POST",
+      }
+    );
+    const data = await res.json();
+    console.log("here1", data);
+
+    return data.clientSecret;
+  }, []);
+
+  const options = { fetchClientSecret };
 
   const {
     register,
@@ -122,6 +146,10 @@ const Details: FC<CardPreviewProps> = ({
     // }
     // const isStepValid = await trigger(fieldsToValidate);
     // if (isStepValid)
+
+    // Submit after all customer details are filled in
+    if (activeStep === 2) {
+    }
     setActiveStep((prev) => prev + 1);
   };
 
@@ -524,11 +552,11 @@ const Details: FC<CardPreviewProps> = ({
             {activeStep === 2 && (
               <Box className="flex flex-col gap-4 items-center relative">
                 <Alert severity="warning" className="lg:w-[75%] mb-6">
-                  <p className="text-2xl lg:text-sm text-black">
+                  <p className="text-3xl lg:text-sm text-black mb-4">
                     To ensure your card looks great, choose a text color that
                     contrasts well with the background.
                   </p>
-                  <p className="text-2xl lg:text-sm text-black">
+                  <p className="text-3xl lg:text-sm text-black">
                     - To hide text, match the text color to the background.{" "}
                     <br />- To remove the border, set both the text and border
                     color to white.
@@ -567,9 +595,17 @@ const Details: FC<CardPreviewProps> = ({
 
             {activeStep === 3 && (
               <Box className="space-y-4">
-                <Typography variant="h6" className="mb-4">
+                <div id="checkout">
+                  <EmbeddedCheckoutProvider
+                    stripe={stripePromise}
+                    options={options}
+                  >
+                    <EmbeddedCheckout />
+                  </EmbeddedCheckoutProvider>
+                </div>
+                {/* <Typography variant="h6" className="mb-4">
                   Payment Details - tbd
-                </Typography>
+                </Typography> */}
                 {/* <TextField
               fullWidth
               label="Payment Information (Placeholder)"
@@ -590,27 +626,27 @@ const Details: FC<CardPreviewProps> = ({
                   variant="outlined"
                   onClick={handleBack}
                 >
-                  <p className="text-5xl lg:text-xl">Back</p>
+                  <p className="text-3xl lg:text-xl">Back</p>
                 </Button>
               )}
-              {activeStep < steps.length - 1 ? (
+              {activeStep < steps.length - 2 ? (
                 <Button
-                  className="lg:h-fit h-[125px] w-full lg:w-fit rounded-full transition duration-300 ease-in-out transform hover:scale-105"
+                  className="w-full lg:w-fit rounded-full transition duration-300 ease-in-out transform hover:scale-105"
                   type="button"
                   variant="contained"
                   onClick={handleNext}
                 >
-                  <p className="text-5xl lg:text-xl">Next</p>
+                  <p className="text-3xl lg:text-lg">Next</p>
                 </Button>
               ) : (
                 <Button
-                  className="lg:h-fit h-[125px] w-full lg:w-fit rounded-full transition duration-300 ease-in-out transform hover:scale-105"
-                  type="submit"
+                  className="w-full lg:w-fit rounded-full transition duration-300 ease-in-out transform hover:scale-105"
+                  type="button"
                   variant="contained"
-                  disabled
+                  onClick={handleNext}
                 >
                   <p className="text-5xl lg:text-xl">
-                    {isCheckout ? "Submit" : "Save"}
+                    {isCheckout ? "Proceed to Payment" : "Save"}
                   </p>
                 </Button>
               )}

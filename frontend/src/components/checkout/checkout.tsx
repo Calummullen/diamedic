@@ -1,31 +1,19 @@
-import { useState } from "react";
 import MainLogo from "../../../public/main-logo.png";
 import Details from "../form/details";
 import { ProfileData } from "../profile/profile";
-import { QRCodeSVG } from "qrcode.react";
 import { useMediaQuery, useTheme } from "@mui/material";
 
 export const Checkout: React.FC = () => {
-  const [qrCode, setQrCode] = useState("");
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
   const onSubmit = async (formData: ProfileData) => {
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/users`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-        }
-      );
-
-      const data = await response.json();
-
-      if (data.qrCode) {
-        setQrCode(data.qrCode);
-      }
+      await fetch(`${import.meta.env.VITE_API_URL}/api/users`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
     } catch (error) {
       console.error("Error submitting form:", error);
     }
@@ -69,63 +57,7 @@ export const Checkout: React.FC = () => {
             } as ProfileData
           }
         />
-        {qrCode && <QRCodeSVG value={qrCode} />}
       </div>
-
-      {/* Preview Section (Desktop) */}
-      {/* <div className="hidden lg:flex lg:basis-2/5 flex-col gap-8 items-center justify-center">
-        <div className="flex flex-col gap-2 items-center text-center">
-          <h3 className="font-bold text-5xl">Example card</h3>
-          <p className=" text-md">
-            Fill out the Full Name and Date of Birth fields to populate the
-            example card
-          </p>
-        </div>
-
-        <CardPreview
-          fullName={name}
-          dateOfBirth={dob}
-          borderColour="#005EB8"
-          textColour="#000000"
-        />
-
-        <p className="text-md text-red-600">
-          All cards will resemble the preview above, though some text sizes may
-          vary, particularly for longer names.
-        </p>
-      </div> */}
-
-      {/* Mobile Preview (Sticky) */}
-      {/* <div className="lg:hidden fixed bottom-0 left-0 w-full bg-white shadow-md border-t p-4 z-50">
-        <button
-          className="w-full text-3xl bg-green-500 text-white p-6 rounded-md font-semibold"
-          onClick={() => setIsPreviewVisible(!isPreviewVisible)}
-        >
-          {isPreviewVisible ? "Hide Card Preview" : "Show Card Preview"}
-        </button>
-
-        {isPreviewVisible && (
-          <div className="mt-4 flex flex-col gap-12 py-4 items-center text-center bg-white">
-            <div>
-              <h3 className="font-bold text-6xl lg:text-xl">Example card</h3>
-              <p className=" text-3xl pt-4">
-                Fill out the Full Name and Date of Birth fields to populate the
-                example card
-              </p>
-            </div>
-            <CardPreview
-              fullName={name}
-              dateOfBirth={dob}
-              borderColour="#005EB8"
-              textColour="#000000"
-            />
-            <p className="text-3xl lg:text-sm text-red-600">
-              All cards will resemble the preview above, though some text sizes
-              may vary.
-            </p>
-          </div>
-        )}
-      </div> */}
     </div>
   );
 };

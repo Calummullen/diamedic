@@ -37,7 +37,7 @@ export const ColourPalette: FC<{
               <button
                 key={color.value}
                 type="button"
-                className={`w-12 h-12 rounded-xl border-2 ${
+                className={`w-24 h-24 lg:h-12 lg:w-12 rounded-xl border-2 ${
                   borderColour === color.value
                     ? "border-black"
                     : "border-gray-300"
@@ -57,7 +57,7 @@ export const ColourPalette: FC<{
               <button
                 key={color.value}
                 type="button"
-                className={`w-12 h-12 rounded-xl border-2 ${
+                className={`w-24 h-24 lg:h-12 lg:w-12 rounded-xl border-2 ${
                   textColour === color.value
                     ? "border-black"
                     : "border-gray-300"

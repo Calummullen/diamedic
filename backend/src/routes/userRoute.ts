@@ -6,6 +6,11 @@ import {
   testLabel,
   updateUserController,
 } from "../controllers/userController";
+import {
+  getPaymentSessionController,
+  paymentController,
+  paymentWebhookController,
+} from "../controllers/paymentController";
 
 const router = express.Router();
 
@@ -15,5 +20,9 @@ router.put("/users/:id", updateUserController);
 
 router.get("/test", testController);
 router.post("/label", testLabel);
+
+router.post("/create-checkout-session", paymentController);
+router.get("/session-status", getPaymentSessionController);
+router.post("/payment-webhook", paymentWebhookController);
 
 export default router;

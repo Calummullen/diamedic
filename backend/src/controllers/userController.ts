@@ -10,10 +10,7 @@ import {
   updateUserProfile,
 } from "../services/userService";
 import { sendSms } from "../services/smsService";
-import {
-  sendOrderConfirmationEmail,
-  sendShippingEmail,
-} from "../services/emailService";
+import { sendShippingEmail } from "../services/emailService";
 import { getAddressFromCoordinates } from "../services/locationService";
 import { google } from "googleapis";
 
@@ -30,13 +27,8 @@ export const createUserController = async (req: Request, res: Response) => {
   }
 
   try {
-    const { userId, qrCode } = await createUserProfile(result.data);
-    try {
-      await sendOrderConfirmationEmail(result.data.email, userId);
-    } catch (error: any) {
-      console.error("Failed to send order confirmation email:", error.message);
-    }
-    res.json({ qrCode }).status(201);
+    await createUserProfile(result.data);
+    res.status(201);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to create profile" });

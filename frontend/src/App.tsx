@@ -12,6 +12,7 @@ import { LandingPage } from "./components/landing-page/landing-page";
 import TermsPage from "./components/footer/terms-and-conditions";
 import PrivacyPolicyPage from "./components/footer/privacy-policy";
 import Contact from "./components/footer/contact";
+import CheckoutReturnPage from "./components/checkout/return";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="/checkout/return" element={<CheckoutReturnPage />} />
         <Route path="/:id" element={<UserInfo />} />
         <Route path="/:id/edit-profile" element={<EditProfile />} />
         <Route path="/terms-and-conditions" element={<TermsPage />} />
