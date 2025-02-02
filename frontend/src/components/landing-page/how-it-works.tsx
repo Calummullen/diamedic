@@ -16,19 +16,19 @@ export const HowItWorks: React.FC = () => {
             {
               step: "1",
               title: "Create Your Profile",
-              desc: "Enter your emergency contacts and medical information in just a few minutes.",
+              desc: "Enter your emergency contacts and medical information in just a few minutes",
               img: TypingImage,
             },
             {
               step: "2",
               title: "Get Your QR Code",
-              desc: "We generate and print a unique QR code onto a compact, wallet-sized card that links to your emergency details.",
+              desc: "We generate and print a unique QR code onto a compact, wallet-sized card that links to your emergency details",
               img: PrinterImage,
             },
             {
               step: "3",
               title: "Stay Protected",
-              desc: "Keep your Diamedic card with you for instant access anytime, anywhere.",
+              desc: "Keep your Diamedic card with you for instant access anytime, anywhere",
               img: WalletImage,
             },
           ].map((item, idx) => (

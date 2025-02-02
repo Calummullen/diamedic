@@ -23,8 +23,8 @@ export const Features: React.FC = () => (
       <div className="text-black text-3xl lg:text-lg italic lg:w-3/4 lg:px-0 px-12">
         <p className="mb-4">
           “Living with Type 1 Diabetes for over 20 years, I've experienced both
-          mild and severe hypos. In most scenarios I've lucky to receive help
-          from those who knew what to do, but that's not always the case.
+          mild and severe hypos. In most scenarios I've been lucky to receive
+          help from those who knew what to do, but that's not always the case.
         </p>
         <p className="mb-4">
           Traditional medical cards lack crucial diabetic-specific details;
@@ -47,7 +47,7 @@ export const Features: React.FC = () => (
             <>
               The QR code can be scanned for{" "}
               <span className="font-bold text-main-blue">instant access</span>{" "}
-              to access critical medical details.
+              to critical medical details
             </>
           }
         />
@@ -67,7 +67,7 @@ export const Features: React.FC = () => (
                 {" "}
                 emergency contacts
               </span>{" "}
-              (if enabled) anytime your QR code is scanned.
+              (if enabled) anytime your QR code is scanned
             </>
           }
         />
@@ -84,7 +84,7 @@ export const Features: React.FC = () => (
             <>
               Update your{" "}
               <span className="font-bold text-main-blue">medical info</span> at
-              any time without needing to replace your card.
+              any time without needing to replace your card
             </>
           }
         />
@@ -107,7 +107,7 @@ export const Features: React.FC = () => (
           <SmallCard
             icon={faQrcode}
             title="Easy Access"
-            desc="Simply can the QR code on any device to gain immediately
+            desc="Simply scan the QR code on any device to gain immediate
               access to emergency information"
             align="text-start"
             border={false}
@@ -130,7 +130,7 @@ export const Features: React.FC = () => (
           <SmallCard
             icon={faWallet}
             title="Standard Wallet Fit"
-            desc="Fits perfectly in your wallet, with the outter edge visible to
+            desc="Fits perfectly in your wallet, with the outer edge visible to
               attract attention"
             align="text-end"
           />
@@ -138,14 +138,13 @@ export const Features: React.FC = () => (
             icon={faHandBackFist}
             title="Durable Material"
             desc="Crafted from durable PVC, your Diamedic card is sturdy,
-              waterproof, and built to withstand any conditions."
+              waterproof, and built to withstand any conditions"
             align="text-end"
           />
           <SmallCard
             icon={faCreditCard}
             title="Free Replacement"
-            desc="If your card is lost or stolen, you can get a replacement free
-              of charge (with proof of purchase)"
+            desc="If your card is lost or stolen, you can get a free replacement (with proof of purchase)"
             align="text-end"
             border={false}
           />

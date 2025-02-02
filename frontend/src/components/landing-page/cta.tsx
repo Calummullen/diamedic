@@ -21,11 +21,9 @@ export const CTA: React.FC = () => {
             <p className="lg:font-normal font-bold text-white text-6xl lg:text-3xl">
               Your Diamedic Card
             </p>
-            <p className="lg:text-3xl text-5xl text-white font-semibold">
-              £tbd
-            </p>
+            <p className="lg:text-3xl text-5xl text-white font-semibold">£10</p>
             <p className="text-white lg:text-xl text-3xl">
-              Includes 1 Diamedic card.
+              Includes 1 Diamedic card
             </p>
 
             {/* Features List */}
