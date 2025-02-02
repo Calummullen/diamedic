@@ -48,33 +48,26 @@ export const getPaymentSessionController = async (
 };
 
 export const paymentWebhookController = async (req: Request, res: Response) => {
-  console.log("here1");
   const sig = req.headers["stripe-signature"];
-  console.log("here2");
 
   try {
     if (!sig) {
-      console.log("here3");
-
       return res.status(400).send("Missing Stripe signature");
     }
-    console.log("here4");
     let event;
     try {
       event = stripe.webhooks.constructEvent(
         req.body,
         sig,
-        process.env.STRIPE_WEBHOOK_SECRET!
+        process.env.STRIPE_SECRET_KEY!
       );
     } catch (error) {
       console.error(
-        "🚨 Stripe Signature Verification Failed:",
+        "Stripe Signature Verification Failed:",
         (error as Error).message
       );
       return res.status(400).send(`Webhook Error: ${(error as Error).message}`);
     }
-
-    console.log("event", event);
 
     if (event.type === "checkout.session.completed") {
       const { customer_details } = event.data.object as Stripe.Checkout.Session;
