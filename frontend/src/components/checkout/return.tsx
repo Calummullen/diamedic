@@ -18,7 +18,7 @@ const CheckoutReturnPage: FC = () => {
       const res = await fetch(
         `${
           import.meta.env.VITE_API_URL
-        }/api//session-status?session_id=${sessionId}`,
+        }/api/session-status?session_id=${sessionId}`,
         {
           method: "GET",
         }
