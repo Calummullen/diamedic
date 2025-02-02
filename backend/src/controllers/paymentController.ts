@@ -64,8 +64,13 @@ export const paymentWebhookController = async (req: Request, res: Response) => {
     console.log("event", event);
 
     if (event.type === "checkout.session.completed") {
+      const { customer_details } = event.data.object as Stripe.Checkout.Session;
+
+      if (!customer_details?.email) {
+        console.error("Failed to find customer_details", customer_details);
+      }
       try {
-        // await sendOrderConfirmationEmail(result.data.email);
+        await sendOrderConfirmationEmail(customer_details!.email!);
       } catch (error: any) {
         console.error(
           "Failed to send order confirmation email:",
