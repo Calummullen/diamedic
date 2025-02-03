@@ -143,9 +143,8 @@ const Details: FC<CardPreviewProps> = ({
           "emergencyInstructions",
         ];
     }
-    // const isStepValid = await trigger(fieldsToValidate);
-    // if (isStepValid)
-    setActiveStep((prev) => prev + 1);
+    const isStepValid = await trigger(fieldsToValidate);
+    if (isStepValid) setActiveStep((prev) => prev + 1);
   };
 
   const handleBack = () => {
