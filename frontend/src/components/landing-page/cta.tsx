@@ -76,23 +76,28 @@ export const CTA: React.FC = () => {
               information than traditional medical ID cards, including:
             </p>
 
-            <ul className="flex flex-col px-16 lg:px-8 lg:gap-2 gap-10 text-5xl lg:text-lg text-start text-black list-disc list-outside">
+            <ul className="flex flex-col px-16 lg:px-10 lg:gap-2 gap-10 text-5xl lg:text-lg text-start text-black list-disc list-outside">
               <li>
                 <strong className="text-main-blue">
                   Insulin types and dosages
                 </strong>{" "}
-                for precise treatment guidance
+                {/* for precise treatment guidance */}
               </li>
               <li>
                 <strong className="text-main-blue">Emergency protocols</strong>{" "}
-                for managing hypo events, even if semi-conscious or unconscious
+                {/* for managing hypo events, even if semi-conscious or unconscious */}
               </li>
               <li>
                 <strong className="text-main-blue">
                   Recommended food and drink
                 </strong>{" "}
-                to stabilize blood sugar levels, with guidance on when to use
-                them
+                {/* to stabilize blood sugar levels, with guidance on when to use */}
+              </li>
+              <li>
+                <strong className="text-main-blue">
+                  Diabetic-specific information
+                </strong>{" "}
+                {/* to stabilize blood sugar levels, with guidance on when to use */}
               </li>
             </ul>
           </div>

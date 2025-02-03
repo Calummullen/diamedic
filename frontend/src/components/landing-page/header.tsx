@@ -21,9 +21,9 @@ export const Header: React.FC<{ isMobile: boolean }> = ({ isMobile }) => {
             Emergency Info, Always at Your Fingertips
           </p>
           <p className="text-5xl lg:text-xl text-white">
-            The Diamedic card is a compact, wallet-sized card featuring a unique
-            QR code that provides instant access to your emergency medical
-            details.
+            The Diamedic card is a compact, wallet-sized card with a unique QR
+            code that provides instant access to your critical medical
+            information in case of a severe low blood sugar episode.
           </p>
 
           <Button
