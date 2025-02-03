@@ -4,8 +4,11 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import userRoutes from "./routes/userRoute";
 import Stripe from "stripe";
-import { sendOrderConfirmationEmail } from "./services/emailService";
-import bodyParser from "body-parser";
+import {
+  sendOrderConfirmationEmail,
+  sendShippingEmail,
+} from "./services/emailService";
+import { addRowToGoogleReport } from "./services/googleDocsService";
 
 dotenv.config();
 
@@ -17,47 +20,75 @@ app.post(
   async (request, response) => {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
     const sig = request.headers["stripe-signature"];
+
+    if (!sig) {
+      return response.status(400).send("Missing Stripe signature");
+    }
+    let event;
     try {
-      if (!sig) {
-        return response.status(400).send("Missing Stripe signature");
+      event = stripe.webhooks.constructEvent(
+        request.body,
+        sig,
+        process.env.STRIPE_WEBHOOK_SECRET!
+      );
+    } catch (error) {
+      console.error(
+        "Stripe Signature Verification Failed:",
+        (error as Error).message
+      );
+      return response
+        .status(400)
+        .send(`Webhook Error: ${(error as Error).message}`);
+    }
+    response.status(200).send();
+
+    if (event!.type === "checkout.session.completed") {
+      const session = event.data.object as Stripe.Checkout.Session;
+      const paymentIntentId = session.payment_intent as string;
+      const customerData = session.customer_details!;
+
+      if (!session.customer_details?.email) {
+        console.error(
+          "Failed to find customer_details",
+          session.customer_details
+        );
       }
-      let event;
+
+      // Generate Invoice, Send Order Confirmation and append row to report
       try {
-        event = stripe.webhooks.constructEvent(
-          request.body,
-          sig,
-          process.env.STRIPE_WEBHOOK_SECRET!
+        const invoice = await stripe.invoices.retrieve(
+          session.invoice?.toString()!
+        );
+        await addRowToGoogleReport(invoice.hosted_invoice_url || "N/A");
+      } catch (error) {
+        console.error(
+          `Unable to add row to Google report for ${customerData.email}`,
+          error
+        );
+      }
+
+      try {
+        await sendShippingEmail(customerData);
+      } catch (error) {
+        console.error(
+          `Unable to generate shipping label for ${customerData.email}`,
+          error
+        );
+      }
+      try {
+        await sendOrderConfirmationEmail(
+          customerData?.email!,
+          paymentIntentId.toString()
         );
       } catch (error) {
         console.error(
-          "Stripe Signature Verification Failed:",
-          (error as Error).message
+          `Unable to send order confirmation email tp ${customerData.email}`,
+          error
         );
-        return response
-          .status(400)
-          .send(`Webhook Error: ${(error as Error).message}`);
       }
-
-      if (event!.type === "checkout.session.completed") {
-        const { customer_details } = event.data
-          .object as Stripe.Checkout.Session;
-
-        if (!customer_details?.email) {
-          console.error("Failed to find customer_details", customer_details);
-        }
-        try {
-          await sendOrderConfirmationEmail(customer_details!.email!);
-          return response
-            .status(200)
-            .send(`Confirmation email sent to ${customer_details?.email}`);
-        } catch (error: any) {
-          console.error(
-            "Failed to send order confirmation email:",
-            error.message
-          );
-        }
-      }
-    } catch (error) {}
+      return response.status(200).send("Webhook received");
+    }
+    return response.status(200).send("Webhook received");
   }
 );
 

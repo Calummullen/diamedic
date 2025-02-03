@@ -3,10 +3,14 @@ import { BillingAddress } from "../types/profile-schema";
 import PDFDocument from "pdfkit";
 import path from "path";
 import fs from "fs";
+import Stripe from "stripe";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-export const sendOrderConfirmationEmail = async (to: string) => {
+export const sendOrderConfirmationEmail = async (
+  to: string,
+  paymentId: string
+) => {
   return await resend.emails.send({
     from: "Diamedic <no-reply@diamedic.co.uk>",
     to: to,
@@ -79,9 +83,10 @@ export const sendOrderConfirmationEmail = async (to: string) => {
             <p><strong>Item:</strong> DiaMedic Card</p>
             <p><strong>Quantity:</strong> 1</p>
             <p><strong>Total:</strong> £12.99</p>
+            <p><strong>Payment ID:</strong> ${paymentId}</p>
           </div>
           <div class="footer">
-            <p>If you have any questions or any problems, feel free to <a href="mailto:calum.diamedic@gmail.com">contact us</a>.</p>
+            <p>If you have any questions or any problems, feel free to <a href="mailto:calum.diamedic@gmail.com">contact us</a> and quote the above payment ID.</p>
             <p>Thank you for choosing Diamedic!</p>
           </div>
         </div>
@@ -91,7 +96,7 @@ export const sendOrderConfirmationEmail = async (to: string) => {
 };
 
 export const generateShippingDetails = async (
-  billingAddress: BillingAddress
+  customerData: Stripe.Checkout.Session.CustomerDetails
 ): Promise<string> => {
   // Define PDF dimensions (15x10 cm = 425 x 283 points)
   const doc = new PDFDocument({
@@ -102,7 +107,7 @@ export const generateShippingDetails = async (
   // const montserratFontPath = "./fonts/montserrat.ttf"; // Ensure this path is correct
 
   // Define output path (adjust as needed)
-  const filePath = `${billingAddress.userId}_shipping_label.pdf`;
+  const filePath = `${customerData.email}_shipping_label.pdf`;
   const stream = fs.createWriteStream(filePath);
   doc.pipe(stream);
 
@@ -123,11 +128,11 @@ export const generateShippingDetails = async (
   doc
     .font(montserratFontPath)
     .fontSize(20)
-    .text(billingAddress.name)
-    .text(billingAddress.addressLine1)
-    .text(billingAddress.addressLine2 || "") // Optional line
-    .text(`${billingAddress.city}, ${billingAddress.county || ""}`)
-    .text(billingAddress.postcode)
+    .text(customerData.name ?? "")
+    .text(customerData.address?.line1 || "")
+    .text(customerData.address?.line2 || "") // Optional line
+    .text(customerData.address?.city || "")
+    .text(customerData.address?.postal_code || "")
     .moveDown();
 
   // Optional: Draw a border around the label
@@ -142,10 +147,14 @@ export const generateShippingDetails = async (
   });
 };
 
-export const sendShippingEmail = async (billingAddress: BillingAddress) => {
+export const sendShippingEmail = async (
+  customerData: Stripe.Checkout.Session.CustomerDetails
+) => {
+  console.log("inside sendShippingEmail");
+
   try {
     // Generate the shipping label PDF
-    const pdfPath = await generateShippingDetails(billingAddress);
+    const pdfPath = await generateShippingDetails(customerData);
 
     // Read PDF as base64
     const pdfBuffer = fs.readFileSync(pdfPath);
@@ -157,11 +166,11 @@ export const sendShippingEmail = async (billingAddress: BillingAddress) => {
       to: "calum.diamedic@gmail.com",
       subject: "Your Shipping Label",
       html: `
-        <p>Shipping label for user ${billingAddress.userId}</p>
+        <p>Shipping label for ${customerData.email}</p>
       `,
       attachments: [
         {
-          filename: `${billingAddress.userId}_shipping_label.pdf`,
+          filename: `${customerData.email}_shipping_label.pdf`,
           content: pdfBase64,
           contentType: "application/pdf",
         },

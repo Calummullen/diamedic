@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useState } from "react";
+import React, { FC, useCallback, useEffect, useState } from "react";
 import { useForm, useFieldArray, FieldError } from "react-hook-form";
 import InfoIcon from "@mui/icons-material/Info";
 import {
@@ -29,6 +29,7 @@ import { ColourPalette } from "../coloir-picker/colour-palette";
 
 interface CardPreviewProps {
   onSubmit: (formData: ProfileData) => void;
+  activePage: number;
   data?: ProfileData;
   isCheckout?: boolean;
 }
@@ -41,9 +42,13 @@ const Details: FC<CardPreviewProps> = ({
   onSubmit,
   data,
   isCheckout = true,
+  activePage,
 }) => {
-  const [activeStep, setActiveStep] = useState(0);
+  const [activeStep, setActiveStep] = useState<number>(activePage);
   const theme = useTheme();
+  useEffect(() => {
+    setActiveStep(activePage);
+  }, [activePage]);
   const sxTheme = (overrideFontSize?: string) => {
     return {
       [theme.breakpoints.down("lg")]: {
@@ -74,7 +79,6 @@ const Details: FC<CardPreviewProps> = ({
       }
     );
     const data = await res.json();
-    console.log("here1", data);
 
     return data.clientSecret;
   }, []);
@@ -86,7 +90,7 @@ const Details: FC<CardPreviewProps> = ({
     control,
     handleSubmit,
     setValue,
-    // trigger,
+    trigger,
     formState: { errors },
     watch,
   } = useForm<ProfileData>({
@@ -115,41 +119,32 @@ const Details: FC<CardPreviewProps> = ({
     append: appendInsulin,
     remove: removeInsulin,
   } = useFieldArray({ control, name: "insulinTypes" });
-
+  console.log("ahh", activeStep);
   const handleNext = async (e: React.MouseEvent) => {
     e.preventDefault();
-    // let fieldsToValidate: (keyof ProfileData)[] = [];
+    let fieldsToValidate: (keyof ProfileData)[] = [];
 
-    // switch (activeStep) {
-    //   case 0:
-    //     fieldsToValidate = [
-    //       "name",
-    //       "age",
-    //       "dateOfBirth",
-    //       "email",
-    //       "addressLine1",
-    //       "city",
-    //       "postcode",
-    //     ];
-    //     break;
-    //   case 1:
-    //     fieldsToValidate = [
-    //       "emergencyContacts",
-    //       "insulinTypes",
-    //       "emergencyInstructions",
-    //     ];
-    //     break;
-    //     // If needed for customisation
-    //     // case 2:
-    //     //   fieldsToValidate = [];
-    //     break;
-    // }
+    switch (activeStep) {
+      case 0:
+        fieldsToValidate = [
+          "name",
+          "age",
+          "dateOfBirth",
+          "email",
+          "addressLine1",
+          "city",
+          "postcode",
+        ];
+        break;
+      case 1:
+        fieldsToValidate = [
+          "emergencyContacts",
+          "insulinTypes",
+          "emergencyInstructions",
+        ];
+    }
     // const isStepValid = await trigger(fieldsToValidate);
     // if (isStepValid)
-
-    // Submit after all customer details are filled in
-    if (activeStep === 2) {
-    }
     setActiveStep((prev) => prev + 1);
   };
 
@@ -161,7 +156,7 @@ const Details: FC<CardPreviewProps> = ({
     "Personal Details",
     "Emergency Details",
     "Customise Card",
-    "Payment",
+    // "Payment",
   ];
 
   return (
@@ -629,7 +624,7 @@ const Details: FC<CardPreviewProps> = ({
                   <p className="text-3xl lg:text-xl">Back</p>
                 </Button>
               )}
-              {activeStep < steps.length - 2 ? (
+              {activeStep < steps.length - 2 && (
                 <Button
                   className="w-full lg:w-fit rounded-full transition duration-300 ease-in-out transform hover:scale-105"
                   type="button"
@@ -638,12 +633,13 @@ const Details: FC<CardPreviewProps> = ({
                 >
                   <p className="text-3xl lg:text-lg">Next</p>
                 </Button>
-              ) : (
+              )}
+
+              {activeStep === 2 && (
                 <Button
                   className="w-full lg:w-fit rounded-full transition duration-300 ease-in-out transform hover:scale-105"
-                  type="button"
+                  type="submit"
                   variant="contained"
-                  onClick={handleNext}
                 >
                   <p className="text-5xl lg:text-xl">
                     {isCheckout ? "Proceed to Payment" : "Save"}

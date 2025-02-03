@@ -1,12 +1,10 @@
 import { db } from "../helpers/firestore";
-import { encryptData, decryptData } from "../helpers/encryption";
 import { ProfileData } from "../types/profile-schema";
-import QRCode from "qrcode";
 import uuid4 from "uuid4";
 
 export const createUserProfile = async (data: ProfileData) => {
   const userId = uuid4();
-  return await db.collection("users").doc(userId).set({ data });
+  await db.collection("users").doc(userId).set(data);
 };
 
 export const getUserProfile = async (userId: string) => {

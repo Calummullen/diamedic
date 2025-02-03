@@ -34,6 +34,11 @@ export const profileSchema = z.object({
       })
     )
     .min(1, "At least one insulin type is required."),
+  meta: z.object({
+    cardBorderColour: z.string().min(1, "Card border colour is required."),
+    cardTextColour: z.string().min(1, "Card text colour is required."),
+    matchBorderColor: z.boolean(),
+  }),
 });
 
 export const billingAddressSchema = z.object({

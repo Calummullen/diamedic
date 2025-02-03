@@ -1,3 +1,4 @@
+import { useState } from "react";
 import MainLogo from "../../../public/main-logo.png";
 import Details from "../form/details";
 import { ProfileData } from "../profile/profile";
@@ -6,6 +7,7 @@ import { useMediaQuery, useTheme } from "@mui/material";
 export const Checkout: React.FC = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
+  const [activePage, setActivePage] = useState<number>(0);
 
   const onSubmit = async (formData: ProfileData) => {
     try {
@@ -14,6 +16,7 @@ export const Checkout: React.FC = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
+      setActivePage(3);
     } catch (error) {
       console.error("Error submitting form:", error);
     }
@@ -56,6 +59,7 @@ export const Checkout: React.FC = () => {
               insulinTypes: [{ type: "", dosage: "" }],
             } as ProfileData
           }
+          activePage={activePage}
         />
       </div>
     </div>

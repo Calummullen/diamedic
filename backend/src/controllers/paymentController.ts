@@ -1,6 +1,5 @@
 import Stripe from "stripe";
 import { Request, Response } from "express";
-import { sendOrderConfirmationEmail } from "../services/emailService";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
@@ -16,6 +15,17 @@ export const paymentController = async (req: Request, res: Response) => {
         },
       ],
       mode: "payment",
+      customer_creation: "always",
+      invoice_creation: {
+        enabled: true,
+        invoice_data: {
+          custom_fields: [{ name: "test_field", value: "123AAA" }],
+        },
+      },
+      billing_address_collection: "required",
+      shipping_address_collection: {
+        allowed_countries: ["GB"],
+      },
       return_url: `${process.env.FRONTEND_BASE_URL}/checkout/return?session_id={CHECKOUT_SESSION_ID}`,
     });
 
@@ -45,48 +55,4 @@ export const getPaymentSessionController = async (
     console.error("Error retrieving checkout session:", error);
     res.status(500).json({ error: "Internal server error" });
   }
-};
-
-export const paymentWebhookController = async (req: Request, res: Response) => {
-  const sig = req.headers["stripe-signature"];
-  const payload = req.body.toString();
-  try {
-    if (!sig) {
-      return res.status(400).send("Missing Stripe signature");
-    }
-    console.log("sdfsdf", payload, process.env.STRIPE_WEBHOOK_SECRET);
-    let event;
-    try {
-      event = stripe.webhooks.constructEvent(
-        payload,
-        sig,
-        process.env.STRIPE_WEBHOOK_SECRET!
-      );
-    } catch (error) {
-      console.error(
-        "Stripe Signature Verification Failed:",
-        (error as Error).message
-      );
-      return res.status(400).send(`Webhook Error: ${(error as Error).message}`);
-    }
-
-    if (event.type === "checkout.session.completed") {
-      const { customer_details } = event.data.object as Stripe.Checkout.Session;
-
-      if (!customer_details?.email) {
-        console.error("Failed to find customer_details", customer_details);
-      }
-      try {
-        await sendOrderConfirmationEmail(customer_details!.email!);
-        return res
-          .status(200)
-          .send(`Confirmation email sent to ${customer_details?.email}`);
-      } catch (error: any) {
-        console.error(
-          "Failed to send order confirmation email:",
-          error.message
-        );
-      }
-    }
-  } catch (error) {}
 };
