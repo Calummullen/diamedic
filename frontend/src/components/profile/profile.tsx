@@ -6,6 +6,8 @@ import {
   Typography,
   Divider,
   Button,
+  useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import {
   Person,
@@ -16,6 +18,7 @@ import {
   Phone,
 } from "@mui/icons-material";
 import { useNavigate, useParams } from "react-router-dom";
+import MainLogo from "../../../public/main-logo.png";
 
 interface EmergencyContact {
   name: string;
@@ -48,15 +51,243 @@ export interface ProfileData {
 const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
   const { id } = useParams();
   const navigate = useNavigate(); // Initialize the useHistory hook to navigate
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
   const handleEditClick = () => {
     navigate(`/${id}/edit-profile`, { state: { ...data, id } }); // Navigate to edit page
   };
-  return (
-    <div className="flex flex-col gap-8 mx-4">
-      <Button variant="outlined" color="primary" onClick={handleEditClick}>
-        Edit
-      </Button>
+  return isMobile ? (
+    <>
+      <div className="bg-[#0101ff] flex justify-center py-6">
+        <img src={MainLogo} height={600} width={600} />
+      </div>
+      <div className="flex flex-col gap-16 m-8 pb-8">
+        <div className="flex flex-col gap-4">
+          <Typography variant="h3">I'm a Type 1 Diabetic.</Typography>
+          <Typography variant="h3">
+            I'm having a severe low blood episode. My{" "}
+            <span className="text-red-600 font-bold">
+              Emergency Instructions
+            </span>{" "}
+            can be found below.
+          </Typography>
+          <Typography variant="h3" className="text-red-600">
+            Call 999 if you haven't already, and follow my emergency
+            instructions. If I'm unconscious, unable to swallow, or experiencing
+            seizures, do not attempt to give me food or drink.
+          </Typography>
+        </div>
+        {/* Personal Information */}
+        <div className=" p-12 rounded-lg shadow-lg border-l-8 border-blue-600 bg-blue-50">
+          <div className="flex items-center gap-3 mb-4 ">
+            {/* <div className="bg-blue-600 text-white p-2 rounded-full">
+      <Person style={{ fontSize: 125 }} />
+    </div> */}
+            <Typography variant="h1" className="font-bold text-blue-600">
+              Personal Information
+            </Typography>
+          </div>
+          <div className="grid grid-cols-1 gap-6">
+            {/* <div className="flex flex-col gap-4"> */}
+            <div className="flex flex-row gap-4 items-center">
+              <Typography variant="h3" className="text-gray-900">
+                Name:
+              </Typography>
+              <Typography variant="h3" className="text-gray-900 font-bold">
+                {data.name}
+              </Typography>
+            </div>
+            <div className="flex flex-row gap-4 items-center">
+              <Typography variant="h3" className="text-gray-900">
+                Age:
+              </Typography>
+              <Typography variant="h3" className="text-gray-900 font-bold">
+                {data.age}
+              </Typography>
+            </div>
+            <div className="flex flex-row gap-4 items-center">
+              <Typography variant="h3" className="text-gray-900">
+                Date of Birth:
+              </Typography>
+              <Typography variant="h3" className="text-gray-900 font-bold">
+                {data.dateOfBirth}
+              </Typography>
+            </div>
+          </div>
+        </div>
+
+        {/* Emergency Contacts */}
+        <div className="rounded-lg shadow-lg border-l-8 border-red-600">
+          <Accordion
+            sx={{ boxShadow: "none", backgroundColor: "#fef2f2", padding: 4 }}
+          >
+            <AccordionSummary
+              expandIcon={<ExpandMore style={{ fontSize: 100 }} />}
+            >
+              <div className="flex items-center gap-3">
+                {/* <div className="bg-red-600 text-white p-2 rounded-full">
+      <Emergency />
+    </div> */}
+                <Typography variant="h1" className="font-bold text-red-600">
+                  Emergency Information
+                </Typography>
+              </div>
+            </AccordionSummary>
+            <AccordionDetails className="flex flex-col gap-4">
+              <Typography variant="h3" className="font-bold text-red-600">
+                Emergency Contacts
+              </Typography>
+              <div className="grid grid-cols-1 gap-4">
+                {data.emergencyContacts.map((contact, index) => (
+                  <div
+                    key={index}
+                    className="bg-red-50 items-start rounded-lg flex flex-col gap-4"
+                  >
+                    <Typography
+                      variant="h3"
+                      className="text-gray-600 font-semibold"
+                    >
+                      {contact.name}
+                    </Typography>
+                    <Button
+                      variant="contained"
+                      color="error"
+                      href={`tel:${contact.phone}`}
+                      className=" w-full h-[100px] flex items-center justify-between gap-12"
+                    >
+                      <Phone style={{ fontSize: 50 }} />
+                      <p className="text-3xl flex-1 text-center">
+                        {contact.phone}
+                      </p>
+                    </Button>
+                  </div>
+                ))}
+              </div>
+              <Divider className="pt-2" />
+              <div className="flex flex-col gap-4">
+                <Typography
+                  variant="h3"
+                  className="mb-2 font-bold text-red-600"
+                >
+                  Emergency Instructions
+                </Typography>
+                <Typography
+                  variant="h4"
+                  className="p-4 border-l-8 border-2 border-red-500 text-black rounded-lg font-bold"
+                >
+                  {data.emergencyInstructions}
+                </Typography>
+              </div>
+            </AccordionDetails>
+          </Accordion>
+        </div>
+
+        {/* Insulin Information */}
+        <div className="rounded-lg shadow-lg border-l-8 border-purple-600 bg-purple-50">
+          <Accordion
+            sx={{ boxShadow: "none", backgroundColor: "#faf5ff", padding: 4 }}
+          >
+            <AccordionSummary
+              expandIcon={<ExpandMore style={{ fontSize: 100 }} />}
+            >
+              <div className="flex items-center gap-3">
+                {/* <div className="bg-purple-600 text-white p-2 rounded-full">
+      <Medication />
+    </div> */}
+                <Typography variant="h1" className="font-bold text-purple-600">
+                  Insulin Information
+                </Typography>
+              </div>
+            </AccordionSummary>
+            <AccordionDetails>
+              <div className="flex flex-col gap-4">
+                {data.insulinTypes.map((insulin, index) => (
+                  <div
+                    key={index}
+                    className="bg-purple-50 rounded-lg border-l-8 py-4 px-8 border-2 border-purple-600"
+                  >
+                    <Typography
+                      variant="h3"
+                      className="text-black font-semibold"
+                    >
+                      Name: {insulin.type}
+                    </Typography>
+                    <Typography variant="h3">
+                      Dosage: {insulin.dosage}
+                    </Typography>
+                  </div>
+                ))}
+              </div>
+            </AccordionDetails>
+          </Accordion>
+        </div>
+        {/* Address */}
+        <div className="rounded-lg shadow-lg border-l-8 border-green-600">
+          <Accordion
+            sx={{ boxShadow: "none", backgroundColor: "#f0fdf4", padding: 4 }}
+          >
+            <AccordionSummary
+              expandIcon={<ExpandMore style={{ fontSize: 100 }} />}
+            >
+              <div className="flex items-center gap-3">
+                {/* <div className="bg-green-600 text-white p-2 rounded-full">
+      <Home />
+    </div> */}
+                <Typography variant="h1" className="font-bold text-green-600">
+                  Address
+                </Typography>
+              </div>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography variant="h3" className="text-lg">
+                {data.addressLine1}
+              </Typography>
+              {data.addressLine2 && (
+                <Typography variant="h3" className="text-lg">
+                  {data.addressLine2}
+                </Typography>
+              )}
+              <Typography variant="h3" className="text-lg">
+                {data.city}
+              </Typography>
+              {data.county && (
+                <Typography variant="h3" className="text-lg">
+                  {data.county}
+                </Typography>
+              )}
+              <Typography variant="h3" className="text-lg font-semibold">
+                {data.postcode}
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+        </div>
+        <Button
+          className="w-full h-[100px]"
+          variant="outlined"
+          color="primary"
+          onClick={handleEditClick}
+          style={{ textTransform: "none" }}
+        >
+          <p className="text-4xl">Edit</p>
+        </Button>
+      </div>
+    </>
+  ) : (
+    <div className="flex flex-col gap-8 my-12 w-[60%] mx-auto">
+      <div className="flex flex-col gap-4">
+        <Typography variant="h5">I'm a Type 1 Diabetic.</Typography>
+        <Typography variant="h5">
+          I'm having a severe low blood episode. My{" "}
+          <span className="text-red-600 font-bold">Emergency Instructions</span>{" "}
+          can be found below.
+        </Typography>
+        <Typography variant="h5" className="text-red-600">
+          Call 999 if you haven't already, and follow my emergency instructions.
+          If I'm unconscious, unable to swallow, or experiencing seizures, do
+          not attempt to give me food or drink.
+        </Typography>
+      </div>
       {/* Personal Information */}
       <div className="bg-white p-6 rounded-lg shadow-lg border-l-8 border-blue-600">
         <div className="flex items-center gap-3 mb-4 ">
@@ -201,6 +432,9 @@ const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
           </AccordionDetails>
         </Accordion>
       </div>
+      <Button variant="outlined" color="primary" onClick={handleEditClick}>
+        Edit
+      </Button>
     </div>
   );
 };
