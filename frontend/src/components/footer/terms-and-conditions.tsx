@@ -56,8 +56,8 @@ const TermsPage = () => {
           4. Privacy & Data Protection
         </Typography>
         <Typography className="mb-4">
-          Your data is encrypted and securely stored. However, due to the nature
-          of the product, anyone scanning your QR code can access your emergency
+          Your data is stored in our database. However, due to the nature of the
+          product, anyone scanning your QR code can access your emergency
           details. By using this service, you consent to data collection and
           processing as outlined in our{" "}
           <Link href="/privacy-policy">Privacy Policy</Link>.

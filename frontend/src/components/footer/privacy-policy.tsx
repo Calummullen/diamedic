@@ -56,9 +56,11 @@ const PrivacyPolicyPage = () => {
           3. Data Storage and Security
         </Typography>
         <Typography className="mb-4">
-          Your emergency details are encrypted and only accessible via scanning
-          the QR code on your Diamedic card. While we take security seriously,
-          no online system is 100% secure.
+          Your emergency details are stored in our database and only accessible
+          via scanning the QR code on your Diamedic card. While we take security
+          seriously, no online system is 100% secure. By purchasing a Diamedic
+          card, you acknowledge the medical information is accessible by anybody
+          scanning your QR code and doesn't require any kind of login.
         </Typography>
       </Box>
 

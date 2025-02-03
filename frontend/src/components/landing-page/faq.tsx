@@ -148,10 +148,11 @@ export const FAQ = () => {
             </AccordionSummary>
             <AccordionDetails>
               <Typography sx={sx}>
-                Your personal information is securely stored and only accessible
-                through the QR code linked to your card. We use
-                industry-standard encryption to ensure your data remains private
-                and protected.
+                Your personal information is securely stored and accessible
+                through the QR code linked to your card. While this provides
+                less security than a traditional login, this is required to
+                enable first responders and bystanders to access your emergency
+                information.
               </Typography>
             </AccordionDetails>
           </Accordion>
