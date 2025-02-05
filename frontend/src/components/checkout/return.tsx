@@ -32,7 +32,7 @@ const CheckoutReturnPage: FC = () => {
   return (
     <>
       {/* <div className="relative bg-[#0101ff] pb-28 w-full">
-        <div className="w-full flex items-center justify-center py-12 lg:py-6 ">
+        <div className="w-full flex items-center justify-center py-12 md:py-6 ">
           <a className="cursor-pointer" href="/">
             <img
               src={MainLogo}
@@ -57,23 +57,23 @@ const CheckoutReturnPage: FC = () => {
           </svg>
         </div>
       </div> */}
-      <div className="flex font-montserrat flex-col gap-12 lg:gap-4 border-2 rounded-xl mx-auto my-12 p-12 lg:w-[1000px]">
+      <div className="flex font-montserrat flex-col gap-12 md:gap-4 border-2 rounded-xl mx-auto my-12 p-12 md:w-[1000px]">
         <img
           src={ThankYou}
           //   height={isMobile ? 600 : 300}
           //   width={isMobile ? 600 : 300}
         />
-        <p className="lg:text-xl text-5xl">
+        <p className="md:text-xl text-5xl">
           Your payment has successfully been processed and your order placed.
         </p>
-        <p className="lg:text-xl text-4xl">
+        <p className="md:text-xl text-4xl">
           Payment ID: <span className="font-bold">{paymentId}</span>
         </p>
-        <p className="lg:text-xl text-4xl">
+        <p className="md:text-xl text-4xl">
           We estimate your Diamedic card will arrive between 3 and 5 working
           days, however we'll update you if anything changes.
         </p>
-        <p className="lg:text-xl text-4xl">
+        <p className="md:text-xl text-4xl">
           If you have any problems or concerns, please contact{" "}
           <Link
             href="mailto:calum@diamedic.com"

@@ -132,7 +132,7 @@ const PrivacyPolicyPage = () => {
       </Box>
 
       <Button
-        className="mb-4 w-fit"
+        className="mb-4 w-full md:w-fit"
         variant="contained"
         onClick={() => navigate("/")}
       >

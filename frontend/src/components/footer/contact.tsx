@@ -18,7 +18,7 @@ const ContactPage = () => {
       </Typography>
 
       {/* Additional Contact Information */}
-      <Box mt={4} textAlign="center">
+      <Box mt={4} mb={4} textAlign="center">
         <Typography variant="h5" color="textSecondary" gutterBottom>
           Email:
         </Typography>
@@ -32,7 +32,11 @@ const ContactPage = () => {
         </Link>
       </Box>
 
-      <Button sx={{ mt: 6 }} variant="contained" onClick={() => navigate("/")}>
+      <Button
+        variant="contained"
+        className="w-full"
+        onClick={() => navigate("/")}
+      >
         Home
       </Button>
     </Container>

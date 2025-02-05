@@ -58,106 +58,78 @@ const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
     navigate(`/${id}/edit-profile`, { state: { ...data, id } }); // Navigate to edit page
   };
   return isMobile ? (
-    <>
+    <div className="font-montserrat">
       <div className="bg-[#0101ff] flex justify-center py-6">
-        <img src={MainLogo} height={600} width={600} />
+        <img src={MainLogo} height={250} width={250} />
       </div>
-      <div className="flex flex-col gap-16 m-8 pb-8">
+      <div className="flex flex-col gap-12 m-4 pb-8">
         <div className="flex flex-col gap-4">
-          <Typography variant="h3">I'm a Type 1 Diabetic.</Typography>
-          <Typography variant="h3">
+          <h2 className="text-2xl">I'm a Type 1 Diabetic.</h2>
+          <h3 className="text-2xl">
             I'm having a severe low blood episode. My{" "}
             <span className="text-red-600 font-bold">
               Emergency Instructions
             </span>{" "}
             can be found below.
-          </Typography>
-          <Typography variant="h3" className="text-red-600">
+          </h3>
+          <h4 className="text-red-600 text-2xl">
             Call 999 if you haven't already, and follow my emergency
             instructions. If I'm unconscious, unable to swallow, or experiencing
             seizures, do not attempt to give me food or drink.
-          </Typography>
+          </h4>
         </div>
         {/* Personal Information */}
-        <div className=" p-12 rounded-lg shadow-lg border-l-8 border-blue-600 bg-blue-50">
-          <div className="flex items-center gap-3 mb-4 ">
-            {/* <div className="bg-blue-600 text-white p-2 rounded-full">
-      <Person style={{ fontSize: 125 }} />
-    </div> */}
-            <Typography variant="h1" className="font-bold text-blue-600">
-              Personal Information
-            </Typography>
+        <div className=" p-4 rounded-lg shadow-lg border-l-4 border-blue-600 bg-blue-50">
+          <div className="flex items-center gap-3 mb-2">
+            <h1 className="text-blue-600 text-4xl">Personal Information</h1>
           </div>
-          <div className="grid grid-cols-1 gap-6">
+          <div className="grid grid-cols-1 gap-2 text-xl">
             {/* <div className="flex flex-col gap-4"> */}
-            <div className="flex flex-row gap-4 items-center">
-              <Typography variant="h3" className="text-gray-900">
-                Name:
-              </Typography>
-              <Typography variant="h3" className="text-gray-900 font-bold">
-                {data.name}
-              </Typography>
+            <div className="flex flex-row gap-2 items-center">
+              <h3 className="text-black">Name:</h3>
+              <h3 className="text-black">{data.name}</h3>
             </div>
-            <div className="flex flex-row gap-4 items-center">
-              <Typography variant="h3" className="text-gray-900">
-                Age:
-              </Typography>
-              <Typography variant="h3" className="text-gray-900 font-bold">
-                {data.age}
-              </Typography>
+            <div className="flex flex-row gap-2 items-center">
+              <h3 className="text-black">Age:</h3>
+              <h3 className="text-black">{data.age}</h3>
             </div>
-            <div className="flex flex-row gap-4 items-center">
-              <Typography variant="h3" className="text-gray-900">
-                Date of Birth:
-              </Typography>
-              <Typography variant="h3" className="text-gray-900 font-bold">
-                {data.dateOfBirth}
-              </Typography>
+            <div className="flex flex-row gap-2 items-center">
+              <h3 className="text-black">Date of Birth:</h3>
+              <h3 className="text-black">
+                {new Date(data.dateOfBirth).toLocaleDateString()}
+              </h3>
             </div>
           </div>
         </div>
 
         {/* Emergency Contacts */}
-        <div className="rounded-lg shadow-lg border-l-8 border-red-600">
-          <Accordion
-            sx={{ boxShadow: "none", backgroundColor: "#fef2f2", padding: 4 }}
-          >
+
+        <div className="rounded-lg shadow-lg border-l-4 border-red-600">
+          <Accordion sx={{ boxShadow: "none", backgroundColor: "#fef2f2" }}>
             <AccordionSummary
-              expandIcon={<ExpandMore style={{ fontSize: 100 }} />}
+              expandIcon={<ExpandMore style={{ fontSize: 50 }} />}
             >
-              <div className="flex items-center gap-3">
-                {/* <div className="bg-red-600 text-white p-2 rounded-full">
-      <Emergency />
-    </div> */}
-                <Typography variant="h1" className="font-bold text-red-600">
-                  Emergency Information
-                </Typography>
+              <div className="flex items-center">
+                <h1 className="text-red-600 text-4xl">Emergency Information</h1>
               </div>
             </AccordionSummary>
-            <AccordionDetails className="flex flex-col gap-4">
-              <Typography variant="h3" className="font-bold text-red-600">
-                Emergency Contacts
-              </Typography>
+            <AccordionDetails className="flex flex-col gap-2">
+              <h2 className="text-red-600 text-xl">Emergency Contacts</h2>
               <div className="grid grid-cols-1 gap-4">
                 {data.emergencyContacts.map((contact, index) => (
                   <div
                     key={index}
-                    className="bg-red-50 items-start rounded-lg flex flex-col gap-4"
+                    className="bg-red-50 items-start rounded-lg flex flex-col gap-1"
                   >
-                    <Typography
-                      variant="h3"
-                      className="text-gray-600 font-semibold"
-                    >
-                      {contact.name}
-                    </Typography>
+                    <h3 className="text-gray-600 text-2xl">{contact.name}</h3>
                     <Button
                       variant="contained"
                       color="error"
                       href={`tel:${contact.phone}`}
-                      className=" w-full h-[100px] flex items-center justify-between gap-12"
+                      className=" w-full h-[50px] md:h-[100px] flex items-center justify-between gap-12"
                     >
-                      <Phone style={{ fontSize: 50 }} />
-                      <p className="text-3xl flex-1 text-center">
+                      <Phone style={{ fontSize: 30 }} />
+                      <p className="text-2xl flex-1 text-center">
                         {contact.phone}
                       </p>
                     </Button>
@@ -166,38 +138,25 @@ const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
               </div>
               <Divider className="pt-2" />
               <div className="flex flex-col gap-4">
-                <Typography
-                  variant="h3"
-                  className="mb-2 font-bold text-red-600"
-                >
-                  Emergency Instructions
-                </Typography>
-                <Typography
-                  variant="h4"
-                  className="p-4 border-l-8 border-2 border-red-500 text-black rounded-lg font-bold"
-                >
+                <h3 className="text-xl text-red-600">Emergency Instructions</h3>
+                <h4 className="p-2 border-l-4 border-[1px] border-red-500 text-black rounded-lg">
                   {data.emergencyInstructions}
-                </Typography>
+                </h4>
               </div>
             </AccordionDetails>
           </Accordion>
         </div>
 
         {/* Insulin Information */}
-        <div className="rounded-lg shadow-lg border-l-8 border-purple-600 bg-purple-50">
-          <Accordion
-            sx={{ boxShadow: "none", backgroundColor: "#faf5ff", padding: 4 }}
-          >
+        <div className="rounded-lg shadow-lg border-l-4 border-purple-600 bg-purple-50">
+          <Accordion sx={{ boxShadow: "none", backgroundColor: "#faf5ff" }}>
             <AccordionSummary
-              expandIcon={<ExpandMore style={{ fontSize: 100 }} />}
+              expandIcon={<ExpandMore style={{ fontSize: 50 }} />}
             >
               <div className="flex items-center gap-3">
-                {/* <div className="bg-purple-600 text-white p-2 rounded-full">
-      <Medication />
-    </div> */}
-                <Typography variant="h1" className="font-bold text-purple-600">
+                <h1 className=" text-purple-600 text-4xl">
                   Insulin Information
-                </Typography>
+                </h1>
               </div>
             </AccordionSummary>
             <AccordionDetails>
@@ -205,66 +164,21 @@ const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
                 {data.insulinTypes.map((insulin, index) => (
                   <div
                     key={index}
-                    className="bg-purple-50 rounded-lg border-l-8 py-4 px-8 border-2 border-purple-600"
+                    className="bg-purple-50 rounded-lg border-l-4 py-4 px-2 border-[1px] border-purple-600"
                   >
-                    <Typography
-                      variant="h3"
-                      className="text-black font-semibold"
-                    >
+                    <h3 className="text-black text-2xl">
                       Name: {insulin.type}
-                    </Typography>
-                    <Typography variant="h3">
-                      Dosage: {insulin.dosage}
-                    </Typography>
+                    </h3>
+                    <h3 className="text-2xl">Dosage: {insulin.dosage}</h3>
                   </div>
                 ))}
               </div>
             </AccordionDetails>
           </Accordion>
         </div>
-        {/* Address */}
-        <div className="rounded-lg shadow-lg border-l-8 border-green-600">
-          <Accordion
-            sx={{ boxShadow: "none", backgroundColor: "#f0fdf4", padding: 4 }}
-          >
-            <AccordionSummary
-              expandIcon={<ExpandMore style={{ fontSize: 100 }} />}
-            >
-              <div className="flex items-center gap-3">
-                {/* <div className="bg-green-600 text-white p-2 rounded-full">
-      <Home />
-    </div> */}
-                <Typography variant="h1" className="font-bold text-green-600">
-                  Address
-                </Typography>
-              </div>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography variant="h3" className="text-lg">
-                {data.addressLine1}
-              </Typography>
-              {data.addressLine2 && (
-                <Typography variant="h3" className="text-lg">
-                  {data.addressLine2}
-                </Typography>
-              )}
-              <Typography variant="h3" className="text-lg">
-                {data.city}
-              </Typography>
-              {data.county && (
-                <Typography variant="h3" className="text-lg">
-                  {data.county}
-                </Typography>
-              )}
-              <Typography variant="h3" className="text-lg font-semibold">
-                {data.postcode}
-              </Typography>
-            </AccordionDetails>
-          </Accordion>
-        </div>
         <Button
-          className="w-full h-[100px]"
-          variant="outlined"
+          className="w-full "
+          variant="contained"
           color="primary"
           onClick={handleEditClick}
           style={{ textTransform: "none" }}
@@ -272,9 +186,9 @@ const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
           <p className="text-4xl">Edit</p>
         </Button>
       </div>
-    </>
+    </div>
   ) : (
-    <div className="flex flex-col gap-8 my-12 w-[60%] mx-auto">
+    <div className="flex font-montserrat flex-col gap-8 my-12 w-[60%] mx-auto">
       <div className="flex flex-col gap-4">
         <Typography variant="h5">I'm a Type 1 Diabetic.</Typography>
         <Typography variant="h5">
@@ -289,7 +203,7 @@ const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
         </Typography>
       </div>
       {/* Personal Information */}
-      <div className="bg-white p-6 rounded-lg shadow-lg border-l-8 border-blue-600">
+      <div className="bg-white p-6 rounded-lg shadow-lg border-l-4 border-blue-600">
         <div className="flex items-center gap-3 mb-4 ">
           <div className="bg-blue-600 text-white p-2 rounded-full">
             <Person />
@@ -302,7 +216,7 @@ const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
           {/* <div className="flex flex-col gap-4"> */}
           <div>
             <Typography className="text-gray-600 uppercase">Name</Typography>
-            <Typography variant="h4" className="text-gray-900 font-bold">
+            <Typography variant="h4" className="text-black font-bold">
               {data.name}
             </Typography>
           </div>
@@ -324,7 +238,7 @@ const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
       </div>
 
       {/* Emergency Contacts */}
-      <div className="rounded-lg shadow-lg border-l-8 border-red-600">
+      <div className="rounded-lg shadow-lg border-l-4 border-red-600">
         <Accordion sx={{ boxShadow: "none" }}>
           <AccordionSummary expandIcon={<ExpandMore />}>
             <div className="flex items-center gap-3">
@@ -363,7 +277,7 @@ const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
               <Typography variant="h6" className="mb-2 font-bold text-red-600">
                 Emergency Instructions
               </Typography>
-              <Typography className="p-4 border-l-8 border-2 border-red-500 text-black rounded-lg text-lg font-bold">
+              <Typography className="p-4 border-l-4 border-2 border-red-500 text-black rounded-lg text-lg font-bold">
                 {data.emergencyInstructions}
               </Typography>
             </div>
@@ -372,7 +286,7 @@ const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
       </div>
 
       {/* Address */}
-      <div className="rounded-lg shadow-lg border-l-8 border-green-600">
+      <div className="rounded-lg shadow-lg border-l-4 border-green-600">
         <Accordion sx={{ boxShadow: "none" }}>
           <AccordionSummary expandIcon={<ExpandMore />}>
             <div className="flex items-center gap-3">
@@ -401,7 +315,7 @@ const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
       </div>
 
       {/* Insulin Information */}
-      <div className="rounded-lg shadow-lg border-l-8 border-purple-600">
+      <div className="rounded-lg shadow-lg border-l-4 border-purple-600">
         <Accordion sx={{ boxShadow: "none" }}>
           <AccordionSummary expandIcon={<ExpandMore />}>
             <div className="flex items-center gap-3">

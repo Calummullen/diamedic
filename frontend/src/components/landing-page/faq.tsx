@@ -15,17 +15,17 @@ export const FAQ = () => {
   };
   const sx = {
     fontSize: {
-      xs: "2.5rem", // font size for extra small screens
-      sm: "2.5rem", // font size for small screens
-      md: "2.5rem", // font size for medium screens
+      xs: "1.0rem", // font size for extra small screens
+      sm: "1.5rem", // font size for small screens
+      md: "1.5rem", // font size for medium screens
       lg: "1.25rem", // font size for large screens
     },
   };
   return (
-    <div className="bg-white text-black py-20">
+    <div className="bg-white text-black">
       <Container className="py-12 flex flex-col gap-8 bg-white">
         {/* Title */}
-        <p className="lg:text-5xl text-7xl text-center">
+        <p className="md:text-3xl text-3xl text-center">
           Frequently Asked Questions (FAQs)
         </p>
 
@@ -41,7 +41,7 @@ export const FAQ = () => {
         </Typography>
 
         {/* FAQ Accordion */}
-        <Box className="space-y-6 mt-8">
+        <Box className="space-y-4">
           <Accordion sx={accordionSx}>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}

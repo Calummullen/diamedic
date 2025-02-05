@@ -8,19 +8,19 @@ export const Header: React.FC<{ isMobile: boolean }> = ({ isMobile }) => {
 
   return (
     <div className="relative bg-[#0101ff] pb-36">
-      <div className="w-full flex items-center justify-center py-12 lg:py-6 ">
+      <div className="w-full flex items-center justify-center py-4 md:py-6 ">
         <img
           src={MainLogo}
-          height={isMobile ? 600 : 300}
-          width={isMobile ? 600 : 300}
+          height={isMobile ? 250 : 300}
+          width={isMobile ? 250 : 300}
         />
       </div>
-      <Container className="flex flex-col lg:flex-row gap-20 lg:gap-12 pb-24 pt-12 justify-between items-center">
-        <div className="flex flex-col gap-36 lg:gap-12 text-start lg:basis-1/2 lg:mx-0 mx-12">
-          <p className="leading-tight font-semibold text-8xl lg:text-6xl text-white">
+      <Container className="flex flex-col md:flex-row pt-8 gap-4 md:gap-12 justify-between items-center">
+        <div className="flex flex-col gap-12 md:gap-12 text-start md:basis-1/2 md:mx-0 mx-2">
+          <p className="leading-tight font-semibold text-4xl md:text-6xl text-white">
             Emergency Info, Always at Your Fingertips
           </p>
-          <p className="text-5xl lg:text-xl text-white">
+          <p className="text-xl md:text-xl text-white">
             The Diamedic card is a compact, wallet-sized card with a unique QR
             code that provides instant access to your critical medical
             information in case of a severe low blood sugar episode.
@@ -29,13 +29,12 @@ export const Header: React.FC<{ isMobile: boolean }> = ({ isMobile }) => {
           <Button
             onClick={() => navigate("/checkout")}
             variant="contained"
-            size="large"
-            className="lg:h-fit h-[125px] w-full lg:w-fit rounded-xl transition ease-in-out transform z-10"
+            className="md:h-[50px] md:w-fit rounded-xl transition ease-in-out transform z-10"
           >
-            <p className="text-3xl font-bold lg:text-xl">Get Your Card Now</p>
+            <p className="text-3xl font-bold md:text-xl">Get Your Card Now</p>
           </Button>
         </div>
-        <div className="flex flex-col items-center justify-center lg:basis-1/2 gap-12 px-16 pt-12 lg:pt-0 lg:px-0">
+        <div className="flex flex-col items-center justify-center md:basis-1/2 gap-12 px-2  pt-12 md:pt-0 md:px-0">
           <img className="rounded-[25rem]" src={HeaderImage} />
         </div>
       </Container>

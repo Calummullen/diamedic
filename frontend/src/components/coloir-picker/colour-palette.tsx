@@ -28,16 +28,16 @@ export const ColourPalette: FC<{
 
   return (
     <div className="flex flex-col items-center w-fit">
-      <div className="grid lg:grid-cols-2 grid-cols-1 w-full gap-12 lg:gap-4 p-4">
+      <div className="grid md:grid-cols-2 grid-cols-1 w-full gap-8 md:gap-4 p-4">
         {/* Card Border Colour Selection */}
-        <div className="flex flex-col gap-12 lg:gap-4 items-center lg:text-xl text-5xl">
+        <div className="flex flex-col gap-6 md:gap-4 items-center md:text-xl text-3xl">
           <p>Card Border Colour</p>
           <div className="grid grid-cols-3 gap-4">
             {predefinedBorderColors.map((color) => (
               <button
                 key={color.value}
                 type="button"
-                className={`w-24 h-24 lg:h-12 lg:w-12 rounded-xl border-2 ${
+                className={`w-16 h-16 md:h-12 md:w-12 rounded-xl border-2 ${
                   borderColour === color.value
                     ? "border-black"
                     : "border-gray-300"
@@ -50,14 +50,14 @@ export const ColourPalette: FC<{
         </div>
 
         {/* Text Colour Selection */}
-        <div className="flex flex-col gap-12 lg:gap-4 items-center lg:text-xl text-5xl">
+        <div className="flex flex-col gap-6 md:gap-4 items-center md:text-xl text-3xl">
           <p>Text Colour</p>
           <div className="flex gap-4">
             {predefinedTextColors.map((color) => (
               <button
                 key={color.value}
                 type="button"
-                className={`w-24 h-24 lg:h-12 lg:w-12 rounded-xl border-2 ${
+                className={`w-16 h-16 md:h-12 md:w-12 rounded-xl border-2 ${
                   textColour === color.value
                     ? "border-black"
                     : "border-gray-300"

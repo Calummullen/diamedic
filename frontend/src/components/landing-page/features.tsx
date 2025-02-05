@@ -15,12 +15,12 @@ import {
 import CardPreview from "../card/card-preview";
 
 export const Features: React.FC = () => (
-  <div className="bg-[#eff6ff] lg:pt-0 pt-36 pb-20 px-4">
-    <Container className="flex flex-col gap-24 lg:gap-12 items-center">
-      <p className="text-8xl text-center lg:text-6xl font-bold">
+  <div className="bg-[#eff6ff] md:pt-0 pt-12 pb-6 px-4">
+    <Container className="flex flex-col gap-8 md:gap-12 items-center">
+      <p className="text-4xl text-center md:text-6xl font-bold">
         Why Diamedic?
       </p>
-      <div className="text-black text-3xl lg:text-lg italic lg:w-3/4 lg:px-0 px-12">
+      <div className="text-black text-md md:text-lg italic md:w-3/4 md:px-0 px-8">
         <p className="mb-4">
           “Living with Type 1 Diabetes for over 20 years, I've experienced both
           mild and severe hypos. In most scenarios I've been lucky to receive
@@ -33,7 +33,7 @@ export const Features: React.FC = () => (
         </p>
         <p className="text-right not-italic font-bold">- Calum</p>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-12 gap-12">
+      <div className="grid grid-cols-1 md:grid-cols-3 md:gap-12 gap-12">
         <LandingPageCard
           icon={
             <FontAwesomeIcon
@@ -89,8 +89,8 @@ export const Features: React.FC = () => (
           }
         />
       </div>
-      <div className="flex flex-col lg:flex-row gap-24 mt-8 items-center">
-        <div className="flex flex-col gap-14 basis-1/3">
+      <div className="flex flex-col md:flex-row gap-12 mt-8 items-center">
+        <div className="flex flex-col gap-4 md:basis-1/3">
           <SmallCard
             icon={faPalette}
             title="Custom Colour"
@@ -113,9 +113,9 @@ export const Features: React.FC = () => (
             border={false}
           />
         </div>
-        <div className="flex flex-col gap-4 items-center relative">
+        <div className="flex flex-col gap-4 items-center">
           {/* Card + Button */}
-          <div className="flex flex-col lg:gap-4 gap-12 items-center">
+          <div className="flex flex-col md:gap-4 gap-12 items-center">
             <CardPreview
               fullName="Test User"
               dateOfBirth="12/01/1990"
@@ -126,7 +126,7 @@ export const Features: React.FC = () => (
           </div>
         </div>
 
-        <div className="flex flex-col gap-14 basis-1/3">
+        <div className="flex flex-col gap-14 md:basis-1/3">
           <SmallCard
             icon={faWallet}
             title="Standard Wallet Fit"
@@ -164,10 +164,10 @@ const LandingPageCard = ({
   desc: JSX.Element;
 }) => {
   return (
-    <div className=" bg-white shadow-md flex flex-col lg:mx-0 mx-24 gap-14 lg:gap-6 rounded-3xl px-16 py-36 lg:px-6 lg:py-12 text-center hover:shadow-xl transition duration-300">
+    <div className=" bg-white shadow-md flex flex-col md:mx-0 mx-4 gap-6 rounded-3xl px-4 py-8 md:px-6 md:py-12 text-center hover:shadow-xl transition duration-300">
       {icon}
-      <p className="lg:text-3xl font-bold text-6xl text-black">{title}</p>
-      <p className="text-black lg:text-lg text-4xl">{desc}</p>
+      <p className="md:text-3xl font-bold text-2xl text-black">{title}</p>
+      <p className="text-black md:text-lg text-xl">{desc}</p>
     </div>
   );
 };
@@ -187,14 +187,14 @@ const SmallCard = ({
 }) => (
   <div
     className={`space-y-2 ${
-      border && "border-b-2 pb-14 border-gray-200"
+      border && "border-b-2 pb-6 border-gray-200"
     } ${align}`}
   >
     <FontAwesomeIcon
       icon={icon}
-      className="text-[#0101ff] lg:mb-0 mb-8 text-6xl lg:text-2xl"
+      className="text-[#0101ff] md:mb-0 mb-2 text-2xl md:text-3xl"
     />
-    <p className="font-bold text-black text-5xl lg:text-xl">{title}</p>
-    <p className="text-4xl lg:text-lg">{desc}</p>
+    <p className="font-bold text-black text-xl md:text-xl">{title}</p>
+    <p className="text-sm md:text-lg">{desc}</p>
   </div>
 );

@@ -49,25 +49,7 @@ const Details: FC<CardPreviewProps> = ({
   useEffect(() => {
     setActiveStep(activePage);
   }, [activePage]);
-  const sxTheme = (overrideFontSize?: string) => {
-    return {
-      [theme.breakpoints.down("lg")]: {
-        "& .MuiInputBase-root": {
-          fontSize: overrideFontSize || "3.5rem",
-          paddingLeft: "1rem",
-          height: "125px",
-        },
-        "& .MuiFormLabel-root": {
-          fontSize: "3rem",
-          marginLeft: "1rem",
-          marginTop: "-1rem",
-        },
-        "& .MuiFormHelperText-root.Mui-error": {
-          fontSize: "1.5rem",
-        },
-      },
-    };
-  };
+
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
   const fetchClientSecret = useCallback(async () => {
@@ -124,27 +106,28 @@ const Details: FC<CardPreviewProps> = ({
     e.preventDefault();
     let fieldsToValidate: (keyof ProfileData)[] = [];
 
-    switch (activeStep) {
-      case 0:
-        fieldsToValidate = [
-          "name",
-          "age",
-          "dateOfBirth",
-          "email",
-          "addressLine1",
-          "city",
-          "postcode",
-        ];
-        break;
-      case 1:
-        fieldsToValidate = [
-          "emergencyContacts",
-          "insulinTypes",
-          "emergencyInstructions",
-        ];
-    }
-    const isStepValid = await trigger(fieldsToValidate);
-    if (isStepValid) setActiveStep((prev) => prev + 1);
+    // switch (activeStep) {
+    //   case 0:
+    //     fieldsToValidate = [
+    //       "name",
+    //       "age",
+    //       "dateOfBirth",
+    //       "email",
+    //       "addressLine1",
+    //       "city",
+    //       "postcode",
+    //     ];
+    //     break;
+    //   case 1:
+    //     fieldsToValidate = [
+    //       "emergencyContacts",
+    //       "insulinTypes",
+    //       "emergencyInstructions",
+    //     ];
+    // }
+    // const isStepValid = await trigger(fieldsToValidate);
+    // if (isStepValid)
+    setActiveStep((prev) => prev + 1);
   };
 
   const handleBack = () => {
@@ -159,45 +142,22 @@ const Details: FC<CardPreviewProps> = ({
   ];
 
   return (
-    <div className=" mx-auto  p-4">
+    <div className="mx-auto p-2">
       {isCheckout && (
         <Stepper activeStep={activeStep} className="mb-8">
           {steps.map((label) => (
             <Step key={label}>
-              <StepLabel
-                sx={(theme) => ({
-                  "& .MuiStepLabel-label": {
-                    fontSize: "1.5rem",
-                    [theme.breakpoints.up("lg")]: {
-                      fontSize: "1rem",
-                    },
-                  },
-                  "& .MuiStepIcon-root": {
-                    fontSize: "2.5rem",
-                    marginRight: "0.5rem",
-                    marginLeft: "0.5rem",
-                    [theme.breakpoints.up("lg")]: {
-                      fontSize: "1.5rem",
-                      marginRight: "0rem",
-                      marginLeft: "0rem",
-                    },
-                  },
-                })}
-              >
-                {label}
-              </StepLabel>
+              <StepLabel>{label}</StepLabel>
             </Step>
           ))}
         </Stepper>
       )}
-      <Box className="">
+      <Box className="mx-2">
         <Paper className="p-6">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             {activeStep === 0 && (
-              <Box className="space-y-12 lg:space-y-4">
-                <p className="mb-12 lg:mb-4 lg:text-xl text-5xl">
-                  Personal Details
-                </p>
+              <Box className="space-y-8 md:space-y-4">
+                <p className="mb-4 md:text-xl text-2xl">Personal Details</p>
                 <TextField
                   fullWidth
                   label="Full Name"
@@ -206,7 +166,6 @@ const Details: FC<CardPreviewProps> = ({
                   {...(isMobile && {
                     slotProps: { inputLabel: { shrink: true } },
                   })}
-                  sx={sxTheme()}
                   helperText={errors.name?.message}
                 />
                 <TextField
@@ -220,7 +179,6 @@ const Details: FC<CardPreviewProps> = ({
                   {...(isMobile && {
                     slotProps: { inputLabel: { shrink: true } },
                   })}
-                  sx={sxTheme("4.25rem")}
                   error={!!errors.age}
                   helperText={errors.age?.message}
                 />
@@ -232,20 +190,6 @@ const Details: FC<CardPreviewProps> = ({
                     required: "Date of birth is required",
                   })}
                   slotProps={{ inputLabel: { shrink: true } }}
-                  sx={{
-                    [theme.breakpoints.down("lg")]: {
-                      "& .MuiInputBase-root": {
-                        fontSize: "3.25rem",
-                        paddingLeft: "1rem",
-                        height: "125px",
-                      },
-                      "& .MuiFormLabel-root": {
-                        fontSize: "3rem",
-                        marginLeft: "1rem",
-                        marginTop: "-1rem",
-                      },
-                    },
-                  }}
                   error={!!errors.dateOfBirth}
                   helperText={errors.dateOfBirth?.message}
                 />
@@ -258,7 +202,6 @@ const Details: FC<CardPreviewProps> = ({
                   {...(isMobile && {
                     slotProps: { inputLabel: { shrink: true } },
                   })}
-                  sx={sxTheme()}
                   helperText={errors.name?.message}
                 />
                 <TextField
@@ -270,7 +213,6 @@ const Details: FC<CardPreviewProps> = ({
                   {...(isMobile && {
                     slotProps: { inputLabel: { shrink: true } },
                   })}
-                  sx={sxTheme("3.25rem")}
                   error={!!errors.addressLine1}
                   helperText={errors.addressLine1?.message}
                 />
@@ -281,7 +223,6 @@ const Details: FC<CardPreviewProps> = ({
                   {...(isMobile && {
                     slotProps: { inputLabel: { shrink: true } },
                   })}
-                  sx={sxTheme("3.25rem")}
                 />
                 <TextField
                   fullWidth
@@ -290,7 +231,6 @@ const Details: FC<CardPreviewProps> = ({
                   {...(isMobile && {
                     slotProps: { inputLabel: { shrink: true } },
                   })}
-                  sx={sxTheme("4rem")}
                   error={!!errors.city}
                   helperText={errors.city?.message}
                 />
@@ -301,7 +241,6 @@ const Details: FC<CardPreviewProps> = ({
                   {...(isMobile && {
                     slotProps: { inputLabel: { shrink: true } },
                   })}
-                  sx={sxTheme("3.25rem")}
                 />
                 <TextField
                   fullWidth
@@ -312,7 +251,6 @@ const Details: FC<CardPreviewProps> = ({
                   {...(isMobile && {
                     slotProps: { inputLabel: { shrink: true } },
                   })}
-                  sx={sxTheme("3.5rem")}
                   error={!!errors.postcode}
                   helperText={errors.postcode?.message}
                 />
@@ -320,9 +258,9 @@ const Details: FC<CardPreviewProps> = ({
             )}
 
             {activeStep === 1 && (
-              <Box className="space-y-6 lg:space-y-4">
-                <p className=" lg:text-xl text-5xl">Emergency Contacts</p>
-                <p className="lg:text-xs text-xl">
+              <Box className="space-y-6 md:space-y-4">
+                <p className=" md:text-xl text-2xl">Emergency Contacts</p>
+                <p className="md:text-xs text-xl">
                   You have the option to enable SMS notifications for each of
                   your emergency contacts, ensuring they are alerted whenever
                   your QR code is scanned.
@@ -330,9 +268,9 @@ const Details: FC<CardPreviewProps> = ({
                 {contactFields.map((field, index) => (
                   <Box
                     key={field.id}
-                    className="flex flex-col gap-8 lg:bg-white bg-gray-50 lg:gap-4 w-full lg:border-none border border-gray-300 lg:p-0 p-12 rounded-lg lg:shadow-none shadow-sm"
+                    className="flex flex-col md:bg-white bg-gray-50 gap-4 w-full md:border-none border border-gray-300 md:p-0 p-5 rounded-lg md:shadow-none shadow-sm"
                   >
-                    <div className="flex lg:flex-row flex-col gap-12 lg:gap-4">
+                    <div className="flex md:flex-row flex-col gap-4 md:gap-4">
                       <TextField
                         className="flex-1 bg-white"
                         label="Emergency Contact Name"
@@ -345,7 +283,6 @@ const Details: FC<CardPreviewProps> = ({
                         {...(isMobile && {
                           slotProps: { inputLabel: { shrink: true } },
                         })}
-                        sx={sxTheme("3.25rem")}
                         error={!!errors.emergencyContacts?.[index]?.name}
                         helperText={
                           errors.emergencyContacts?.[index]?.name?.message
@@ -363,7 +300,6 @@ const Details: FC<CardPreviewProps> = ({
                         {...(isMobile && {
                           slotProps: { inputLabel: { shrink: true } },
                         })}
-                        sx={sxTheme("3.5rem")}
                         error={!!errors.emergencyContacts?.[index]?.phone}
                         helperText={
                           errors.emergencyContacts?.[index]?.phone?.message
@@ -379,31 +315,20 @@ const Details: FC<CardPreviewProps> = ({
                         </IconButton>
                       )}
                     </div>
-                    <Box className="flex items-center ml-2 justify-start flex-row lg:gap-6 gap-12 lg:text-lg text-4xl">
-                      <label className="flex items-center lg:gap-4 gap-6">
+                    <Box className="flex items-center ml-2 justify-start flex-row md:gap-6 gap-12 md:text-lg text-xl">
+                      <label className="flex items-center gap-4">
                         <input
                           type="checkbox"
-                          className="lg:w-3 w-6 lg:h-3 h-6 scale-150 accent-blue-600" // Adjust size and color
+                          className="md:w-3 w-6 md:h-3 h-6  accent-blue-600" // Adjust size and color
                           {...register(`emergencyContacts.${index}.notifySMS`)}
                         />
                         <span>Notify via SMS</span>
                       </label>
-                      {/* <label className="flex items-center lg:gap-4 gap-6">
-                      <input
-                        type="checkbox"
-                        className="lg:w-3 w-6 lg:h-3 h-6 scale-150 accent-blue-600" // Adjust size and color
-                        {...register(`emergencyContacts.${index}.notifyEmail`)}
-                      />
-                      <span>Notify via Email</span>
-                    </label> */}
                       <Tooltip
                         title="By ticking this box, your emergency contact will receive notifications anytime the QR code is scanned."
                         arrow
                       >
-                        <InfoIcon
-                          fontSize={isMobile ? "large" : "small"}
-                          color="action"
-                        />
+                        <InfoIcon color="action" />
                       </Tooltip>
                     </Box>
                     {contactFields.length > 1 && isMobile && (
@@ -413,31 +338,29 @@ const Details: FC<CardPreviewProps> = ({
                         color="error"
                         className="w-fit"
                       >
-                        <div className="flex flex-row gap-3 items-end p-4">
-                          <DeleteIcon fontSize="large" />
-                          <p className="text-2xl">Remove Emergency Contact</p>
+                        <div className="flex flex-row gap-3 items-end">
+                          <DeleteIcon />
+                          <p className="text-md">Remove Emergency Contact</p>
                         </div>
                       </Button>
                     )}
                   </Box>
                 ))}
                 <Button
-                  className="flex flex-row lg:gap-1 gap-3"
+                  className="flex flex-row md:gap-1 gap-3"
                   onClick={() => appendContact({ name: "", phone: "" })}
                 >
-                  <AddIcon fontSize={isMobile ? "large" : "small"} />
-                  <p className="lg:text-sm text-4xl">Add Emergency Contact</p>
+                  <AddIcon />
+                  <p className="md:text-sm text-xl">Add Emergency Contact</p>
                 </Button>
-                <Divider className="pt-12 lg:pt-0" />
-                <p className="lg:text-xl text-5xl lg:pt-0 pt-12">
-                  Insulin Information
-                </p>
+                <Divider className="pt-4 md:pt-0" />
+                <p className="md:text-xl text-2xl">Insulin Information</p>
                 {insulinFields.map((field, index) => (
                   <Box
                     key={field.id}
-                    className="flex flex-col gap-14 lg:bg-white bg-gray-50 lg:flex-row lg:gap-4 w-full lg:border-none border border-gray-300 lg:p-0 p-12 rounded-lg shadow-sm"
+                    className="flex flex-col md:bg-white bg-gray-50 gap-4 w-full md:border-none border border-gray-300 md:p-0 p-5 rounded-lg md:shadow-none shadow-sm"
                   >
-                    <div className="flex flex-col lg:flex-1 w-full lg:mt-0 mt-4">
+                    <div className="flex md:flex-row flex-col gap-4 md:gap-4">
                       <TextField
                         className="flex-1 bg-white"
                         label="Insulin Type"
@@ -447,7 +370,6 @@ const Details: FC<CardPreviewProps> = ({
                         {...(isMobile && {
                           slotProps: { inputLabel: { shrink: true } },
                         })}
-                        sx={sxTheme("3.4rem")}
                         error={!!errors.insulinTypes?.[index]?.type}
                         helperText={
                           (errors.insulinTypes?.[index]?.type as FieldError)
@@ -456,7 +378,7 @@ const Details: FC<CardPreviewProps> = ({
                       />
                     </div>
 
-                    <div className="flex flex-col lg:flex-1 w-full">
+                    <div className="flex flex-col md:flex-1 w-full">
                       <TextField
                         className="flex-1 bg-white"
                         label="Dosage"
@@ -466,7 +388,6 @@ const Details: FC<CardPreviewProps> = ({
                         {...(isMobile && {
                           slotProps: { inputLabel: { shrink: true } },
                         })}
-                        sx={sxTheme("3.6rem")}
                         error={!!errors.insulinTypes?.[index]?.dosage}
                         helperText={
                           errors.insulinTypes?.[index]?.dosage?.message
@@ -482,9 +403,9 @@ const Details: FC<CardPreviewProps> = ({
                           color="error"
                           className="w-fit"
                         >
-                          <div className="flex flex-row gap-3 items-end p-4">
+                          <div className="flex flex-row gap-3 items-end">
                             <DeleteIcon fontSize="large" />
-                            <p className="text-2xl">Remove Insulin Entry</p>
+                            <p className="text-md">Remove Insulin Entry</p>
                           </div>
                         </Button>
                       ) : (
@@ -498,16 +419,11 @@ const Details: FC<CardPreviewProps> = ({
                   </Box>
                 ))}
                 <Button
-                  className="flex flex-row lg:gap-1 gap-3"
+                  className="flex flex-row md:gap-1 gap-3"
                   onClick={() => appendInsulin({ type: "", dosage: "" })}
                 >
-                  <AddIcon
-                    fontSize={isMobile ? "large" : "small"}
-                    className="mb-12 lg:mb-0"
-                  />
-                  <p className="lg:text-sm text-4xl lg:mb-0 mb-12">
-                    Add Insulin Type
-                  </p>
+                  <AddIcon />
+                  <p className="md:text-sm text-xl">Add Insulin Type</p>
                 </Button>
                 <TextField
                   fullWidth
@@ -521,22 +437,6 @@ const Details: FC<CardPreviewProps> = ({
                   {...(isMobile && {
                     slotProps: { inputLabel: { shrink: true } },
                   })}
-                  sx={{
-                    [theme.breakpoints.down("lg")]: {
-                      "& .MuiInputBase-root": {
-                        fontSize: "3.15rem",
-                        paddingLeft: "1rem",
-                      },
-                      "& .MuiFormLabel-root": {
-                        fontSize: "3rem",
-                        marginLeft: "1rem",
-                        marginTop: "-1rem",
-                      },
-                      "& .MuiFormHelperText-root.Mui-error": {
-                        fontSize: "2rem", // Increase error text size
-                      },
-                    },
-                  }}
                   error={!!errors.emergencyInstructions}
                   helperText={errors.emergencyInstructions?.message}
                 />
@@ -545,12 +445,12 @@ const Details: FC<CardPreviewProps> = ({
 
             {activeStep === 2 && (
               <Box className="flex flex-col gap-4 items-center relative">
-                <Alert severity="warning" className="lg:w-[75%] mb-6">
-                  <p className="text-3xl lg:text-sm text-black mb-4">
+                <Alert severity="warning" className="md:w-[75%] mb-6">
+                  <p className="text-md md:text-sm text-black mb-2">
                     To ensure your card looks great, choose a text color that
                     contrasts well with the background.
                   </p>
-                  <p className="text-3xl lg:text-sm text-black">
+                  <p className="text-md md:text-sm text-black">
                     - To hide text, match the text color to the background.{" "}
                     <br />- To remove the border, set both the text and border
                     color to white.
@@ -558,7 +458,7 @@ const Details: FC<CardPreviewProps> = ({
                 </Alert>
 
                 {/* Card + Button */}
-                <div className="flex flex-col lg:gap-4 gap-12 items-center">
+                <div className="flex flex-col md:gap-4 gap-12 items-center">
                   <CardPreview
                     fullName="Test User"
                     dateOfBirth="12/01/1990"
@@ -569,16 +469,16 @@ const Details: FC<CardPreviewProps> = ({
                     }
                   />
                 </div>
-                <div className="flex items-center gap-4 my-6 lg:my-0">
+                <div className="flex items-center gap-4 my-6 md:my-0 mx-4">
                   <input
                     type="checkbox"
-                    className="w-12 h-12 lg:w-6 lg:h-6"
+                    className="w-10 h-10 md:w-6 md:h-6"
                     checked={matchBorderColor}
                     onChange={(e) => {
                       setValue("meta.matchBorderColor", e.target.checked);
                     }}
                   />
-                  <label className="lg:text-sm text-3xl">
+                  <label className="md:text-sm text-md">
                     Match "Type 1 Diabetic" text with border colour
                   </label>
                 </div>
@@ -609,38 +509,38 @@ const Details: FC<CardPreviewProps> = ({
             )}
 
             <Box
-              className={`flex ${
+              className={`flex md:flex-row flex-col ${
                 activeStep > 0 ? "justify-between" : "justify-end"
-              } gap-12 lg:pt-4 pt-12`}
+              } gap-4 md:pt-4 pt-4`}
             >
               {activeStep > 0 && (
                 <Button
-                  className="lg:h-fit h-[125px] w-full lg:w-fit rounded-full transition duration-300 ease-in-out transform hover:scale-105"
+                  className="md:h-fit w-full md:w-fit rounded-full transition duration-300 ease-in-out transform"
                   type="button"
                   variant="outlined"
                   onClick={handleBack}
                 >
-                  <p className="text-3xl lg:text-xl">Back</p>
+                  <p className="text-3xl md:text-xl">Back</p>
                 </Button>
               )}
-              {activeStep < steps.length - 2 && (
+              {activeStep < steps.length - 1 && (
                 <Button
-                  className="w-full lg:w-fit rounded-full transition duration-300 ease-in-out transform hover:scale-105"
+                  className="md:h-fit w-full md:w-fit rounded-full transition duration-300 ease-in-out transform"
                   type="button"
                   variant="contained"
                   onClick={handleNext}
                 >
-                  <p className="text-3xl lg:text-lg">Next</p>
+                  <p className="text-3xl md:text-lg">Next</p>
                 </Button>
               )}
 
               {activeStep === 2 && (
                 <Button
-                  className="w-full lg:w-fit rounded-full transition duration-300 ease-in-out transform hover:scale-105"
+                  className="md:h-fit w-full md:w-fit rounded-full transition duration-300 ease-in-out transform"
                   type="submit"
                   variant="contained"
                 >
-                  <p className="text-5xl lg:text-xl">
+                  <p className="text-3xl md:text-xl">
                     {isCheckout ? "Proceed to Payment" : "Save"}
                   </p>
                 </Button>

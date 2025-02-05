@@ -7,7 +7,7 @@ export const HowItWorks: React.FC = () => {
   return (
     <div className="bg-white text-black py-20">
       <Container>
-        <p className="text-center font-semibold text-9xl lg:text-7xl">
+        <p className="text-center font-semibold text-5xl md:text-7xl">
           How It Works
         </p>
 
@@ -34,25 +34,25 @@ export const HowItWorks: React.FC = () => {
           ].map((item, idx) => (
             <div
               key={idx}
-              className="flex lg:flex-row flex-col-reverse items-center gap-8 px-12 shadow-md border-x-0 border-[1px] rounded-3xl p-24 lg:p-16"
+              className="flex md:flex-row flex-col-reverse items-center gap-8 shadow-md border-x-0 border-[1px] rounded-3xl p-4 md:p-16"
             >
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-2">
                 <div>
-                  <p className="text-9xl font-bold text-yellow-500">
+                  <p className="text-5xl font-bold text-yellow-500">
                     {item.step}.
                   </p>
                 </div>
                 <div>
-                  <p className="lg:text-4xl text-6xl mb-6 font-bold">
+                  <p className="md:text-4xl text-2xl mb-3 font-bold">
                     {item.title}
                   </p>
-                  <p className="lg:text-xl text-4xl text-gray-700">
+                  <p className="md:text-xl text-xl text-gray-700">
                     {item.desc}
                   </p>
                 </div>
               </div>
               <div>
-                <img width={300} height={300} src={item.img} />
+                <img className="w-[225px] h-[150px]" src={item.img} />
               </div>
             </div>
           ))}

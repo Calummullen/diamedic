@@ -78,7 +78,7 @@ const TermsPage = () => {
           changes will not affect already confirmed and processed orders.
         </Typography>
         <Button
-          className="mt-6 w-fit"
+          className="mt-6 w-full md:w-fit"
           variant="contained"
           onClick={() => navigate("/")}
         >
