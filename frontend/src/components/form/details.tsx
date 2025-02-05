@@ -11,8 +11,6 @@ import {
   Paper,
   IconButton,
   Divider,
-  useTheme,
-  useMediaQuery,
   Tooltip,
   Alert,
 } from "@mui/material";
@@ -26,6 +24,7 @@ import {
   EmbeddedCheckout,
 } from "@stripe/react-stripe-js";
 import { ColourPalette } from "../coloir-picker/colour-palette";
+import { useIsMobile } from "../../hooks/useIsMobile";
 
 interface CardPreviewProps {
   onSubmit: (formData: ProfileData) => void;
@@ -45,12 +44,11 @@ const Details: FC<CardPreviewProps> = ({
   activePage,
 }) => {
   const [activeStep, setActiveStep] = useState<number>(activePage);
-  const theme = useTheme();
   useEffect(() => {
     setActiveStep(activePage);
   }, [activePage]);
 
-  const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
+  const isMobile = useIsMobile();
 
   const fetchClientSecret = useCallback(async () => {
     // Create a Checkout Session
@@ -163,9 +161,6 @@ const Details: FC<CardPreviewProps> = ({
                   label="Full Name"
                   {...register("name", { required: "Name is required" })}
                   error={!!errors.name}
-                  {...(isMobile && {
-                    slotProps: { inputLabel: { shrink: true } },
-                  })}
                   helperText={errors.name?.message}
                 />
                 <TextField
@@ -175,9 +170,6 @@ const Details: FC<CardPreviewProps> = ({
                   {...register("age", {
                     required: "Age is required",
                     min: { value: 0, message: "Age must be positive" },
-                  })}
-                  {...(isMobile && {
-                    slotProps: { inputLabel: { shrink: true } },
                   })}
                   error={!!errors.age}
                   helperText={errors.age?.message}
@@ -199,9 +191,6 @@ const Details: FC<CardPreviewProps> = ({
                   label="Email"
                   {...register("email", { required: "Email is required" })}
                   error={!!errors.name}
-                  {...(isMobile && {
-                    slotProps: { inputLabel: { shrink: true } },
-                  })}
                   helperText={errors.name?.message}
                 />
                 <TextField
@@ -210,9 +199,6 @@ const Details: FC<CardPreviewProps> = ({
                   {...register("addressLine1", {
                     required: "Address is required",
                   })}
-                  {...(isMobile && {
-                    slotProps: { inputLabel: { shrink: true } },
-                  })}
                   error={!!errors.addressLine1}
                   helperText={errors.addressLine1?.message}
                 />
@@ -220,17 +206,11 @@ const Details: FC<CardPreviewProps> = ({
                   fullWidth
                   label="Address Line 2 (Optional)"
                   {...register("addressLine2")}
-                  {...(isMobile && {
-                    slotProps: { inputLabel: { shrink: true } },
-                  })}
                 />
                 <TextField
                   fullWidth
                   label="City"
                   {...register("city", { required: "City is required" })}
-                  {...(isMobile && {
-                    slotProps: { inputLabel: { shrink: true } },
-                  })}
                   error={!!errors.city}
                   helperText={errors.city?.message}
                 />
@@ -238,18 +218,12 @@ const Details: FC<CardPreviewProps> = ({
                   fullWidth
                   label="County (Optional)"
                   {...register("county")}
-                  {...(isMobile && {
-                    slotProps: { inputLabel: { shrink: true } },
-                  })}
                 />
                 <TextField
                   fullWidth
                   label="Postcode"
                   {...register("postcode", {
                     required: "Postcode is required",
-                  })}
-                  {...(isMobile && {
-                    slotProps: { inputLabel: { shrink: true } },
                   })}
                   error={!!errors.postcode}
                   helperText={errors.postcode?.message}
@@ -280,9 +254,6 @@ const Details: FC<CardPreviewProps> = ({
                             required: "Contact name is required",
                           }
                         )}
-                        {...(isMobile && {
-                          slotProps: { inputLabel: { shrink: true } },
-                        })}
                         error={!!errors.emergencyContacts?.[index]?.name}
                         helperText={
                           errors.emergencyContacts?.[index]?.name?.message
@@ -297,9 +268,6 @@ const Details: FC<CardPreviewProps> = ({
                             required: "Phone number is required",
                           }
                         )}
-                        {...(isMobile && {
-                          slotProps: { inputLabel: { shrink: true } },
-                        })}
                         error={!!errors.emergencyContacts?.[index]?.phone}
                         helperText={
                           errors.emergencyContacts?.[index]?.phone?.message
@@ -367,9 +335,6 @@ const Details: FC<CardPreviewProps> = ({
                         {...register(`insulinTypes.${index}.type`, {
                           required: "Insulin type is required",
                         })}
-                        {...(isMobile && {
-                          slotProps: { inputLabel: { shrink: true } },
-                        })}
                         error={!!errors.insulinTypes?.[index]?.type}
                         helperText={
                           (errors.insulinTypes?.[index]?.type as FieldError)
@@ -433,9 +398,6 @@ const Details: FC<CardPreviewProps> = ({
                   label="Instructions for Emergency Services"
                   {...register("emergencyInstructions", {
                     required: "Emergency instructions are required",
-                  })}
-                  {...(isMobile && {
-                    slotProps: { inputLabel: { shrink: true } },
                   })}
                   error={!!errors.emergencyInstructions}
                   helperText={errors.emergencyInstructions?.message}

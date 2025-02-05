@@ -6,8 +6,6 @@ import {
   Typography,
   Divider,
   Button,
-  useTheme,
-  useMediaQuery,
 } from "@mui/material";
 import {
   Person,
@@ -19,6 +17,7 @@ import {
 } from "@mui/icons-material";
 import { useNavigate, useParams } from "react-router-dom";
 import MainLogo from "../../../public/main-logo.png";
+import { useIsMobile } from "../../hooks/useIsMobile";
 
 interface EmergencyContact {
   name: string;
@@ -51,8 +50,7 @@ export interface ProfileData {
 const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
   const { id } = useParams();
   const navigate = useNavigate(); // Initialize the useHistory hook to navigate
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
+  const isMobile = useIsMobile();
 
   const handleEditClick = () => {
     navigate(`/${id}/edit-profile`, { state: { ...data, id } }); // Navigate to edit page

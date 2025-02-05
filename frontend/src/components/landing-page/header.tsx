@@ -2,9 +2,11 @@ import { Button, Container } from "@mui/material";
 import MainLogo from "../../../public/main-logo.png";
 import HeaderImage from "../../../public/header-image.png";
 import { useNavigate } from "react-router-dom";
+import { useIsMobile } from "../../hooks/useIsMobile";
 
-export const Header: React.FC<{ isMobile: boolean }> = ({ isMobile }) => {
+export const Header: React.FC = () => {
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
 
   return (
     <div className="relative bg-[#0101ff] pb-36">

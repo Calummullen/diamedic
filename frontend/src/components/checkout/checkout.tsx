@@ -2,11 +2,10 @@ import { useState } from "react";
 import MainLogo from "../../../public/main-logo.png";
 import Details from "../form/details";
 import { ProfileData } from "../profile/profile";
-import { useMediaQuery, useTheme } from "@mui/material";
+import { useIsMobile } from "../../hooks/useIsMobile";
 
 export const Checkout: React.FC = () => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
+  const isMobile = useIsMobile();
   const [activePage, setActivePage] = useState<number>(0);
 
   const onSubmit = async (formData: ProfileData) => {

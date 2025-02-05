@@ -1,4 +1,3 @@
-import { useMediaQuery, useTheme } from "@mui/material";
 import ConfirmDialog from "../confirm/confirm";
 import { useState } from "react";
 import { Header } from "./header";
@@ -6,10 +5,10 @@ import { Features } from "./features";
 import { HowItWorks } from "./how-it-works";
 import { CTA } from "./cta";
 import { FAQ } from "./faq";
+import { useIsMobile } from "../../hooks/useIsMobile";
 
 export const LandingPage: React.FC = () => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
+  const isMobile = useIsMobile();
   const [dialogOpen, setDialogOpen] = useState(false);
 
   // useEffect(() => {
@@ -51,7 +50,7 @@ export const LandingPage: React.FC = () => {
         onConfirm={handleConfirm}
         onCancel={handleCancel}
       />
-      <Header isMobile={isMobile} />
+      <Header />
       <Features />
       <HowItWorks />
       <CTA />

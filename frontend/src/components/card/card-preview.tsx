@@ -1,6 +1,6 @@
-import { useMediaQuery, useTheme } from "@mui/material";
 import { QRCodeSVG } from "qrcode.react";
 import { FC, useEffect, useState } from "react";
+import { useIsMobile } from "../../hooks/useIsMobile";
 
 interface CardPreviewProps {
   fullName: string;
@@ -17,17 +17,12 @@ const CardPreview: FC<CardPreviewProps> = ({
   textColour,
   diabetesTextColour,
 }) => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
-  const [qrSize, setQrSize] = useState(isMobile ? 225 : 150); // Default size for desktop
-
-  useEffect(() => {
-    setQrSize(isMobile ? 90 : 150);
-  }, [isMobile]);
+  const isMobile = useIsMobile();
+  const [qrSize] = useState(isMobile ? 100 : 150);
 
   return (
     <div
-      className={`h-[200px] w-[325px] bg-white md:h-[280px] font-montserrat rounded-xl shadow-lg flex flex-col `}
+      className={`h-[200px] md:w-[450px] w-[325px] bg-white md:h-[280px] font-montserrat rounded-xl shadow-lg flex flex-col `}
       style={{ aspectRatio: "1.586" }} // Standard credit card ratio
     >
       {/* Header */}
