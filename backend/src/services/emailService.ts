@@ -86,7 +86,7 @@ export const sendOrderConfirmationEmail = async (
             <p><strong>Payment ID:</strong> ${paymentId}</p>
           </div>
           <div class="footer">
-            <p>If you have any questions or any problems, feel free to <a href="mailto:calum.diamedic@gmail.com">contact us</a> and quote the above payment ID.</p>
+            <p>If you have any questions or any problems, feel free to <a href="mailto:calum@diamedic.com">contact us</a> and quote the above payment ID.</p>
             <p>Thank you for choosing Diamedic!</p>
           </div>
         </div>
@@ -163,7 +163,7 @@ export const sendShippingEmail = async (
     // Send the email with the PDF attachment
     const emailResponse = await resend.emails.send({
       from: "Shipping Diamedic <no-reply@diamedic.co.uk>", // Use a verified sender email
-      to: "calum.diamedic@gmail.com",
+      to: "calum@diamedic.com",
       subject: "Your Shipping Label",
       html: `
         <p>Shipping label for ${customerData.email}</p>

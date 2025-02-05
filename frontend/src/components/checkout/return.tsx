@@ -76,12 +76,12 @@ const CheckoutReturnPage: FC = () => {
         <p className="lg:text-xl text-4xl">
           If you have any problems or concerns, please contact{" "}
           <Link
-            href="mailto:calum.diamedic@gmail.com"
+            href="mailto:calum@diamedic.com"
             variant="h6"
             color="primary"
             underline="hover"
           >
-            calum.diamedic@gmail.com
+            calum@diamedic.com
           </Link>{" "}
           and quote the above payment ID, and we'll do our best to resolve any
           problems.
