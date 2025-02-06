@@ -54,12 +54,25 @@ const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
   const isMobile = useIsMobile();
   const [dialogOpen, setDialogOpen] = useState(true);
 
+  useEffect(() => {
+    if (dialogOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [dialogOpen]);
+
   const handleConfirm = () => {
     setDialogOpen(false);
 
     // Call Geolocation API
     navigator.geolocation.getCurrentPosition(
       (position) => {
+        // Don't need to await, fire and forget
         fetch(`${import.meta.env.VITE_API_URL}/api/send-emergency-sms`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -81,18 +94,6 @@ const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
     console.log("User denied location access.");
   };
 
-  //   useEffect(() => {
-  //   if (navigator.permissions) {
-  //     const getPermission = async () => {
-  //       const { state } = await navigator.permissions.query({
-  //         name: "geolocation",
-  //       });
-  //       setDialogOpen(state !== "granted");
-  //     };
-  //     getPermission();
-  //   }
-  // }, []);
-
   const handleEditClick = () => {
     navigate(`/${id}/edit-profile`, { state: { ...data, id } }); // Navigate to edit page
   };
@@ -100,9 +101,9 @@ const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
     <div>
       <ConfirmDialog
         open={dialogOpen}
-        message="We need your location to provide emergency services. Do you want to allow location access?"
         onConfirm={handleConfirm}
         onCancel={handleCancel}
+        name={data.name}
       />
       {isMobile ? (
         <div className="font-montserrat">
