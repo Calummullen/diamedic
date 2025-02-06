@@ -9,6 +9,15 @@ import {
   sendShippingEmail,
 } from "./services/emailService";
 import { addRowToGoogleReport } from "./services/googleDocsService";
+import { rateLimit } from "express-rate-limit";
+
+const limiter = rateLimit({
+  windowMs: 5 * 60 * 1000, // 5 minutes
+  limit: 50, // Allow up to 30 requests per IP per window.
+  standardHeaders: "draft-8", // draft-6: `RateLimit-*` headers; draft-7 & draft-8: combined `RateLimit` header
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
+  message: "Too many requests, please try again later.",
+});
 
 dotenv.config();
 
@@ -99,6 +108,7 @@ app.use(
     credentials: true,
   })
 );
+app.use(limiter);
 app.use(express.json());
 app.use(cookieParser());
 
