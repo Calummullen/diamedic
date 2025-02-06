@@ -38,13 +38,14 @@ const formatPossessive = (name: string) => {
   }
 };
 
-export const getUserController = async (req: Request, res: Response) => {
-  const { id } = req.params;
+export const sendEmergencySms = async (req: Request, res: Response) => {
+  const { id, latitude, longitude } = req.body;
 
   try {
     const profile: ProfileData = await getUserProfile(id);
-    const addressData = await getAddressFromCoordinates(51.3341366, -2.9787137);
+    const addressData = await getAddressFromCoordinates(latitude, longitude);
     const currentTime = new Date().toLocaleTimeString();
+
     const message = `🚨 Diamedic Alert 🚨
 
 ${formatPossessive(profile.name)} QR code has been scanned.
@@ -63,6 +64,16 @@ Time: ${currentTime}
         console.error(`Failed to send SMS to ${phone}:`, error);
       }
     });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getUserController = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    const profile: ProfileData = await getUserProfile(id);
 
     res.json(profile);
   } catch (error) {
