@@ -23,12 +23,12 @@ const ContactPage = () => {
           Email:
         </Typography>
         <Link
-          href="mailto:calum@diamedic.com"
+          href="mailto:calum@diamedic.co.uk"
           variant="h4"
           color="primary"
           underline="hover"
         >
-          calum@diamedic.com
+          calum@diamedic.co.uk
         </Link>
       </Box>
 

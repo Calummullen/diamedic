@@ -17,7 +17,7 @@ export const Header: React.FC = () => {
           width={isMobile ? 250 : 300}
         />
       </div>
-      <Container className="flex flex-col md:flex-row pt-8 gap-4 md:gap-12 justify-between items-center">
+      <Container className="flex flex-col md:flex-row py-12 gap-4 md:gap-12 justify-between items-center">
         <div className="flex flex-col gap-12 md:gap-12 text-start md:basis-1/2 md:mx-0 mx-2">
           <p className="leading-tight font-semibold text-4xl md:text-6xl text-white">
             Emergency Info, Always at Your Fingertips

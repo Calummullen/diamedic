@@ -102,7 +102,7 @@ const PrivacyPolicyPage = () => {
         </ul>
         <Typography className="mb-4">
           To exercise these rights, contact us at{" "}
-          <Link href="mailto:calum@diamedic.com">calum@diamedic.com</Link>.
+          <Link href="mailto:calum@diamedic.co.uk">calum@diamedic.co.uk</Link>.
         </Typography>
       </Box>
 
@@ -127,7 +127,7 @@ const PrivacyPolicyPage = () => {
         </Typography>
         <Typography>
           Email:{" "}
-          <Link href="mailto:calum@diamedic.com">calum@diamedic.com</Link>
+          <Link href="mailto:calum@diamedic.co.uk">calum@diamedic.co.uk</Link>
         </Typography>
       </Box>
 
