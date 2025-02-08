@@ -75,7 +75,7 @@ export const CTA: React.FC = () => {
               information than traditional medical ID cards, including:
             </p>
 
-            <ul className="flex flex-col px-5 md:px-10 md:gap-2 gap-4 text-xl md:text-lg text-start text-black list-disc list-outside">
+            <ul className="flex flex-col px-5 md:gap-2 gap-4 text-xl md:text-lg text-start text-black list-disc list-outside">
               <li>
                 <strong className="text-main-blue">
                   Insulin types and dosages
