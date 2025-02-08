@@ -1,5 +1,5 @@
 import { QRCodeSVG } from "qrcode.react";
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import { useIsMobile } from "../../hooks/useIsMobile";
 
 interface CardPreviewProps {

@@ -70,7 +70,7 @@ const Details: FC<CardPreviewProps> = ({
     control,
     handleSubmit,
     setValue,
-    trigger,
+    // trigger,
     formState: { errors },
     watch,
   } = useForm<ProfileData>({
@@ -102,7 +102,7 @@ const Details: FC<CardPreviewProps> = ({
   console.log("ahh", activeStep);
   const handleNext = async (e: React.MouseEvent) => {
     e.preventDefault();
-    let fieldsToValidate: (keyof ProfileData)[] = [];
+    // let fieldsToValidate: (keyof ProfileData)[] = [];
 
     // switch (activeStep) {
     //   case 0:
@@ -150,7 +150,7 @@ const Details: FC<CardPreviewProps> = ({
           ))}
         </Stepper>
       )}
-      <Box className="mx-2">
+      <Box>
         <Paper className="p-6">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             {activeStep === 0 && (
