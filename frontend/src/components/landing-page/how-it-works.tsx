@@ -22,7 +22,7 @@ export const HowItWorks: React.FC = () => {
             {
               step: "2",
               title: "Get Your QR Code",
-              desc: "We generate and print a unique QR code onto a compact, wallet-sized card that links to your emergency details",
+              desc: "We generate and print a unique QR code onto a compact, wallet-sized card",
               img: PrinterImage,
             },
             {

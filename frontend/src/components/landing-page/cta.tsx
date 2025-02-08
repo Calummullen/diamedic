@@ -16,8 +16,8 @@ export const CTA: React.FC = () => {
         </p>
 
         {/* Pricing Section */}
-        <div className="mt-12 mx-4 grid grid-cols-1 md:grid-cols-2 gap-12 text-start items-center">
-          <div className="p-8 bg-[#0101ff] w-fit rounded-lg shadow-xl flex flex-col md:gap-6 gap-2 items-center">
+        <div className="mt-12 mx-4 grid grid-cols-1 md:grid-cols-2 gap-12">
+          <div className="p-8 bg-[#0101ff] rounded-lg shadow-xl flex flex-col md:gap-6 gap-2 items-center">
             <p className="md:font-normal font-bold text-white text-2xl md:text-3xl">
               Your Diamedic Card
             </p>
@@ -29,7 +29,28 @@ export const CTA: React.FC = () => {
             </p>
 
             {/* Features List */}
-            <ul className="mt-4 text-white md:text-lg text-lg flex flex-col gap-2">
+
+            <p className="text-md text-white">
+              Designed specifically for diabetics, it offers more comprehensive
+              information than traditional medical ID cards, including:
+            </p>
+
+            <ul className="flex flex-col text-start list-disc list-outside text-white">
+              <li>
+                <strong className="">Insulin types and dosages</strong>{" "}
+              </li>
+              <li>
+                <strong className="">Emergency protocols</strong>{" "}
+              </li>
+              <li>
+                <strong className="">Recommended food and drink</strong>{" "}
+              </li>
+              <li>
+                <strong className="e">Diabetic-specific information</strong>{" "}
+              </li>
+            </ul>
+
+            {/* <ul className="mt-4 text-white md:text-lg text-lg flex flex-col gap-2">
               <li className="flex items-center">
                 <span className="md:mr-2 mr-6 text-green-400">✔</span> Printed
                 and shipped to you
@@ -46,7 +67,7 @@ export const CTA: React.FC = () => {
                 <span className="md:mr-2 mr-6 text-green-400">✔</span> Update
                 your details anytime*
               </li>
-            </ul>
+            </ul> */}
             <span className="italic text-white text-md md:text-sm pt-4">
               * Internet connection required to update information
             </span>
@@ -69,36 +90,16 @@ export const CTA: React.FC = () => {
               </Button>
             </div>
           </div>
-          <div>
-            <p className="text-xl md:text-xl md:font-bold md:my-0 my-4 md:mb-4">
-              Designed specifically for diabetics, it offers more comprehensive
-              information than traditional medical ID cards, including:
-            </p>
+          <div className="md:h-full h-[526px] bg-green-300 text-black rounded-lg shadow-xl flex flex-col justify-center items-center relative">
+            {/* Coming Soon Badge */}
+            <div className="absolute top-3 right-3 bg-black text-white px-4 py-1 rounded-full text-sm font-semibold">
+              Coming Soon
+            </div>
 
-            <ul className="flex flex-col px-5 md:gap-2 gap-4 text-xl md:text-lg text-start text-black list-disc list-outside">
-              <li>
-                <strong className="text-main-blue">
-                  Insulin types and dosages
-                </strong>{" "}
-                {/* for precise treatment guidance */}
-              </li>
-              <li>
-                <strong className="text-main-blue">Emergency protocols</strong>{" "}
-                {/* for managing hypo events, even if semi-conscious or unconscious */}
-              </li>
-              <li>
-                <strong className="text-main-blue">
-                  Recommended food and drink
-                </strong>{" "}
-                {/* to stabilize blood sugar levels, with guidance on when to use */}
-              </li>
-              <li>
-                <strong className="text-main-blue">
-                  Diabetic-specific information
-                </strong>{" "}
-                {/* to stabilize blood sugar levels, with guidance on when to use */}
-              </li>
-            </ul>
+            {/* Centered Title */}
+            <p className="md:font-normal font-bold text-2xl md:text-3xl text-center">
+              Your DiaMedic Wristband
+            </p>
           </div>
         </div>
       </Container>

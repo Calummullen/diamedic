@@ -90,7 +90,7 @@ export const Features: React.FC = () => (
         />
       </div>
       <div className="flex flex-col md:flex-row gap-12 mt-8 items-center">
-        <div className="flex flex-col gap-4 md:basis-1/3">
+        <div className="flex flex-col gap-14 md:basis-1/3">
           <SmallCard
             icon={faPalette}
             title="Custom Colour"

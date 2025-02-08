@@ -1,20 +1,8 @@
-import { useState, useEffect } from "react";
-import { useTheme } from "@mui/material";
+import { useTheme, useMediaQuery } from "@mui/material";
 
 export function useIsMobile() {
   const theme = useTheme();
-  const [isMobile, setIsMobile] = useState(false);
+  const isMobile = useMediaQuery(theme.breakpoints.down("md")); // Directly use MUI hook
 
-  useEffect(() => {
-    const mediaQuery = window.matchMedia(theme.breakpoints.down("lg"));
-    setIsMobile(mediaQuery.matches);
-
-    const handler = (event: MediaQueryListEvent) => setIsMobile(event.matches);
-    mediaQuery.addEventListener("change", handler);
-
-    console.log("isMob", isMobile);
-    return () => mediaQuery.removeEventListener("change", handler);
-  }, [theme]);
-
-  return !isMobile;
+  return isMobile; // Return correctly without inverting the value
 }
