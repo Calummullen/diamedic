@@ -17,7 +17,7 @@ export const CTA: React.FC = () => {
 
         {/* Pricing Section */}
         <div className="mt-12 mx-4 grid grid-cols-1 md:grid-cols-2 gap-12 text-start items-center">
-          <div className="p-6 bg-[#0101ff] rounded-lg shadow-xl flex flex-col md:gap-6 gap-2 items-center">
+          <div className="p-8 bg-[#0101ff] w-fit rounded-lg shadow-xl flex flex-col md:gap-6 gap-2 items-center">
             <p className="md:font-normal font-bold text-white text-2xl md:text-3xl">
               Your Diamedic Card
             </p>
