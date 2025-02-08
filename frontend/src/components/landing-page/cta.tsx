@@ -98,7 +98,7 @@ export const CTA: React.FC = () => {
 
             {/* Centered Title */}
             <p className="md:font-normal font-bold text-2xl md:text-3xl text-center">
-              Your DiaMedic Wristband
+              Your Diamedic Wristband
             </p>
           </div>
         </div>
