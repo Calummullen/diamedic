@@ -9,7 +9,7 @@ export const Header: React.FC = () => {
   const isMobile = useIsMobile();
 
   return (
-    <div className="relative bg-[#0101ff] pb-36">
+    <div className="relative bg-[#0101ff] pb-16 md:pb-36">
       <div className="w-full flex items-center justify-center py-4 md:py-6 ">
         <img
           src={MainLogo}

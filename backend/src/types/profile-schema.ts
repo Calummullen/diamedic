@@ -41,15 +41,14 @@ export const profileSchema = z.object({
   }),
 });
 
-export const billingAddressSchema = z.object({
-  userId: z.string().min(1, "UserID is required."),
+export const addressSchema = z.object({
   name: z.string().min(1, "Name is required."),
-  addressLine1: z.string().min(1, "Billing Address Line 1 is required."),
+  addressLine1: z.string().min(1, "Address Line 1 is required."),
   addressLine2: z.string().optional(),
-  city: z.string().min(1, "Billing City is required."),
+  city: z.string().min(1, "City is required."),
   county: z.string().optional(),
-  postcode: z.string().min(1, "Billing Postcode is required."),
+  postcode: z.string().min(1, "Postcode is required."),
 });
 
-export type BillingAddress = z.infer<typeof billingAddressSchema>;
+export type Address = z.infer<typeof addressSchema>;
 export type ProfileData = z.infer<typeof profileSchema>;

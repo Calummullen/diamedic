@@ -2,9 +2,11 @@ import { db } from "../helpers/firestore";
 import { ProfileData } from "../types/profile-schema";
 import uuid4 from "uuid4";
 
-export const createUserProfile = async (data: ProfileData) => {
-  const userId = uuid4();
-  await db.collection("users").doc(userId).set(data);
+export const createUserProfile = async (data: ProfileData, userId: string) => {
+  await db
+    .collection("users")
+    .doc(userId)
+    .set({ ...data, hasPaid: false });
 };
 
 export const getUserProfile = async (userId: string) => {

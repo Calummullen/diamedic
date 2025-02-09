@@ -15,7 +15,7 @@ import {
 import CardPreview from "../card/card-preview";
 
 export const Features: React.FC = () => (
-  <div className="bg-[#eff6ff] md:pt-0 pt-12 pb-6 px-4">
+  <div className="bg-[#eff6ff] md:pt-0 pt-12 pb-6 md:px-4">
     <Container className="flex flex-col gap-8 md:gap-12 items-center">
       <p className="text-4xl text-center md:text-6xl font-bold">
         Why Diamedic?

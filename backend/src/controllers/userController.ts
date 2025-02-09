@@ -7,6 +7,7 @@ import {
 } from "../services/userService";
 import { sendSms } from "../services/smsService";
 import { getAddressFromCoordinates } from "../services/locationService";
+import uuid4 from "uuid4";
 
 const isLive = false;
 
@@ -15,14 +16,17 @@ export const createUserController = async (req: Request, res: Response) => {
     return res.json({});
   }
   const result = profileSchema.safeParse(req.body);
+  const userId = uuid4();
 
   if (!result.success) {
     return res.status(400).json({ errors: result.error.format() });
   }
 
   try {
-    await createUserProfile(result.data);
-    return res.status(201).json({ message: "User created successfully." });
+    await createUserProfile(result.data, userId);
+    return res
+      .status(201)
+      .json({ message: "User created successfully.", userId });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to create profile" });

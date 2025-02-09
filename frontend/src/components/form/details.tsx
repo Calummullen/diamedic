@@ -29,6 +29,7 @@ import { useIsMobile } from "../../hooks/useIsMobile";
 interface CardPreviewProps {
   onSubmit: (formData: ProfileData) => void;
   activePage: number;
+  userId?: string;
   data?: ProfileData;
   isCheckout?: boolean;
 }
@@ -40,10 +41,13 @@ const stripePromise = loadStripe(
 const Details: FC<CardPreviewProps> = ({
   onSubmit,
   data,
+  userId,
   isCheckout = true,
   activePage,
 }) => {
   const [activeStep, setActiveStep] = useState<number>(activePage);
+  console.log("userId", userId);
+
   useEffect(() => {
     setActiveStep(activePage);
   }, [activePage]);
@@ -56,6 +60,7 @@ const Details: FC<CardPreviewProps> = ({
       `${import.meta.env.VITE_API_URL}/api/create-checkout-session`,
       {
         method: "POST",
+        body: JSON.stringify({ userId }),
       }
     );
     const data = await res.json();
@@ -99,7 +104,6 @@ const Details: FC<CardPreviewProps> = ({
     append: appendInsulin,
     remove: removeInsulin,
   } = useFieldArray({ control, name: "insulinTypes" });
-  console.log("ahh", activeStep);
   const handleNext = async (e: React.MouseEvent) => {
     e.preventDefault();
     // let fieldsToValidate: (keyof ProfileData)[] = [];

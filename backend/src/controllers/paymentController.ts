@@ -4,9 +4,17 @@ import { Request, Response } from "express";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export const paymentController = async (req: Request, res: Response) => {
+  const { userId } = req.body;
+
+  if (!userId) {
+    return res.status(400).json({ error: "User ID is required." });
+  }
   try {
     const session = await stripe.checkout.sessions.create({
       ui_mode: "embedded",
+      metadata: {
+        userId,
+      },
       payment_method_types: ["card"],
       line_items: [
         {
