@@ -39,6 +39,7 @@ export interface ProfileData {
   county?: string;
   postcode: string;
   emergencyInstructions: string;
+  hasPaid: boolean;
   paymentPlaceholder?: string;
   id?: string;
   meta: {

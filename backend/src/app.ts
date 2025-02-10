@@ -80,7 +80,7 @@ app.post(
         userId,
         stripePaymentReference: paymentIntentId,
         bookingDate: new Date().toISOString(),
-        isComplete: false,
+        status: "not-complete",
         address: {
           name: session.customer_details?.name || "",
           addressLine1: session.customer_details?.address?.line1 || "",

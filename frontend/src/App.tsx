@@ -75,6 +75,13 @@ const UserInfo = () => {
     return (
       <ErrorPage text="No user data found" id={userId || "ID not found"} />
     );
+  if (!userData.hasPaid)
+    return (
+      <ErrorPage
+        text="Payment has not been made. Please contacr support for assistance."
+        id={userId || "ID not found"}
+      />
+    );
 
   return <Profile data={userData} />;
 };
