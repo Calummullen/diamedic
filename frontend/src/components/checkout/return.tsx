@@ -31,34 +31,9 @@ const CheckoutReturnPage: FC = () => {
 
   return (
     <>
-      {/* <div className="relative bg-[#0101ff] pb-28 w-full">
-        <div className="w-full flex items-center justify-center py-12 md:py-6 ">
-          <a className="cursor-pointer" href="/">
-            <img
-              src={MainLogo}
-              height={isMobile ? 600 : 300}
-              width={isMobile ? 600 : 300}
-            />
-          </a>
-        </div>
-        <div
-          className="absolute bottom-0 w-full overflow-hidden -mb-1 pointer-events-none"
-          style={{ zIndex: 0 }} // Ensure it's behind everything
-        >
-          <svg
-            viewBox="0 0 1440 200" // Reduced height to cut off extra space
-            className="w-full h-auto"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill="#ffffff" // Matches bg-blue-50
-              d="M0,160 C480,200 960,80 1440,160 L1440,200 L0,200 Z" // Adjusted for less bottom space
-            ></path>
-          </svg>
-        </div>
-      </div> */}
       <div className="flex flex-col gap-12 md:gap-4 border-2 rounded-xl mx-auto my-12 p-12 md:w-[1000px]">
         <img
+          alt="Thank you for your purchase"
           src={ThankYou}
           //   height={isMobile ? 600 : 300}
           //   width={isMobile ? 600 : 300}

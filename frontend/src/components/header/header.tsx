@@ -8,6 +8,7 @@ export const Header = () => {
       <div className="flex items-center justify-center py-4 md:py-6 ">
         <a href="/">
           <img
+            alt="Main Logo"
             src={MainLogo}
             height={isMobile ? 250 : 300}
             width={isMobile ? 250 : 300}

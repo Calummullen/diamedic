@@ -109,7 +109,7 @@ const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
       {isMobile ? (
         <div>
           <div className="bg-[#0101ff] flex justify-center py-6">
-            <img src={MainLogo} height={250} width={250} />
+            <img alt="Main logo" src={MainLogo} height={250} width={250} />
           </div>
           <div className="flex flex-col gap-12 m-4 pb-8">
             <div className="flex flex-col gap-4">

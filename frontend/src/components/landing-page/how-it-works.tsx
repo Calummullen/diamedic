@@ -53,6 +53,7 @@ export const HowItWorks: React.FC = () => {
               </div>
               <div>
                 <img
+                  alt="Typing Image"
                   className="w-[225px] h-[150px]"
                   src={item.img}
                   loading="lazy"

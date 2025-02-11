@@ -15,6 +15,7 @@ export const Checkout: React.FC = () => {
       <div className="relative bg-[#0101ff] md:pb-40 pb-14">
         <div className="flex items-center justify-center py-4 md:py-6 ">
           <img
+            alt="Main Logo"
             src={MainLogo}
             height={isMobile ? 250 : 300}
             width={isMobile ? 250 : 300}
