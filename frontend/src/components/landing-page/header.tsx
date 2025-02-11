@@ -19,9 +19,9 @@ export const Header: React.FC = () => {
       </div>
       <Container className="flex flex-col md:flex-row py-12 gap-4 md:gap-12 justify-between items-center">
         <div className="flex flex-col gap-12 md:gap-12 text-start md:basis-1/2 md:mx-0 mx-2">
-          <p className="leading-tight font-semibold text-4xl md:text-6xl text-white">
+          <h1 className="leading-tight font-semibold text-4xl md:text-6xl text-white">
             Emergency Info, Always at Your Fingertips
-          </p>
+          </h1>
           <p className="text-xl md:text-xl text-white">
             The Diamedic card is a compact, wallet-sized card with a unique QR
             code that provides instant access to your critical medical
@@ -29,6 +29,7 @@ export const Header: React.FC = () => {
           </p>
 
           <Button
+            aria-label="Get Your Card Now"
             onClick={() => navigate("/checkout")}
             variant="contained"
             className="md:h-[50px] md:w-fit rounded-xl transition ease-in-out transform z-10"

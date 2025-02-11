@@ -90,7 +90,7 @@ export default App;
 
 const ErrorPage = ({ text, id }: { text: string; id: string }) => {
   return (
-    <div className="flex flex-col gap-4 font-montserrat flex-grow items-center text-center justify-center min-h-[calc(100vh-100px)] bg-white md:mx-0 mx-6">
+    <div className="flex flex-col gap-4 flex-grow items-center text-center justify-center min-h-[calc(100vh-100px)] bg-white md:mx-0 mx-6">
       <h2 className="text-4xl font-semibold text-gray-800">{text}</h2>
       <p className="text-lg">
         Please contact{" "}

@@ -203,6 +203,7 @@ const ContactPage = () => {
 
                 {/* Submit Button (Disabled Until Valid) */}
                 <Button
+                  aria-label="submit"
                   variant="contained"
                   color="primary"
                   type="submit"
@@ -211,7 +212,7 @@ const ContactPage = () => {
                   Submit
                 </Button>
                 <Divider />
-                <p className="font-montserrat">
+                <p>
                   If the above form doesn't work, please contact us at{" "}
                   <a
                     className="text-blue-500"
@@ -227,6 +228,7 @@ const ContactPage = () => {
 
         {/* Home Button */}
         <Button
+          aria-label="home"
           variant="contained"
           className="md:w-fit w-full mt-6"
           onClick={() => navigate("/")}

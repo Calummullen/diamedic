@@ -25,7 +25,7 @@ export const FAQ = () => {
     <div className="bg-white text-black">
       <Container className="py-12 flex flex-col gap-8 bg-white">
         {/* Title */}
-        <p className="md:text-3xl text-3xl text-center">
+        <p className="md:text-5xl text-3xl text-center">
           Frequently Asked Questions (FAQs)
         </p>
 

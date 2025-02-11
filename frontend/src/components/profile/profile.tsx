@@ -107,7 +107,7 @@ const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
         name={data.name}
       />
       {isMobile ? (
-        <div className="font-montserrat">
+        <div>
           <div className="bg-[#0101ff] flex justify-center py-6">
             <img src={MainLogo} height={250} width={250} />
           </div>
@@ -176,6 +176,7 @@ const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
                           {contact.name}
                         </h3>
                         <Button
+                          aria-label="Call Emergency Contact"
                           variant="contained"
                           color="error"
                           href={`tel:${contact.phone}`}
@@ -232,6 +233,7 @@ const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
               </Accordion>
             </div>
             <Button
+              aria-label="Edit Profile"
               className="w-full "
               variant="contained"
               color="primary"
@@ -243,7 +245,7 @@ const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
           </div>
         </div>
       ) : (
-        <div className="flex font-montserrat flex-col gap-8 my-12 w-[60%] mx-auto">
+        <div className="flex flex-col gap-8 my-12 w-[60%] mx-auto">
           <div className="flex flex-col gap-4">
             <Typography variant="h5">I'm a Type 1 Diabetic.</Typography>
             <Typography variant="h5">
@@ -320,6 +322,7 @@ const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
                         {contact.name}
                       </Typography>
                       <Button
+                        aria-label={`Call ${contact.name}`}
                         variant="contained"
                         color="error"
                         startIcon={<Phone />}
@@ -413,7 +416,12 @@ const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
               </AccordionDetails>
             </Accordion>
           </div>
-          <Button variant="outlined" color="primary" onClick={handleEditClick}>
+          <Button
+            aria-label="edit"
+            variant="outlined"
+            color="primary"
+            onClick={handleEditClick}
+          >
             Edit
           </Button>
         </div>

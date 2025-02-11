@@ -5,16 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- SEO Meta Tags -->
-    <title>Diamedic - Smart Emergency ID for Diabetics</title>
+    <title>
+      Diamedic: The Smart Emergency ID for Diabetics - Stay Safe Anytime
+    </title>
     <meta
       name="description"
       content="Diamedic provides a smart emergency ID system for diabetics, ensuring quick access to life-saving information."
     />
-    <meta
-      name="keywords"
-      content="diabetic emergency ID, medical alert, QR code ID, diabetes care, emergency contacts"
-    />
     <meta name="author" content="Diamedic" />
+    <meta name="theme-color" content="#0101ff" />
 
     <!-- Open Graph (OG) Meta Tags for Social Sharing -->
     <meta
@@ -29,6 +28,11 @@
       property="og:image"
       content="https://www.diamedic.co.uk/og-image.jpg"
     />
+    <meta
+      name="twitter:image"
+      content="https://www.diamedic.co.uk/twitter-card.jpg"
+    />
+
     <meta property="og:url" content="https://www.diamedic.co.uk" />
     <meta property="og:type" content="website" />
 
@@ -42,21 +46,28 @@
       name="twitter:description"
       content="Ensure safety with Diamedic's smart emergency ID system for diabetics."
     />
-    <meta
-      name="twitter:image"
-      content="https://www.diamedic.co.uk/twitter-card.jpg"
-    />
+    <meta name="robots" content="index, follow" />
 
+    <link rel="canonical" href="https://www.diamedic.co.uk" />
     <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap"
-      rel="stylesheet"
-    />
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Diamedic",
+        "url": "https://www.diamedic.co.uk",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://www.diamedic.co.uk/?s={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    </script>
   </body>
 </html>

@@ -2,6 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "Montserrat";
+  src: url("/fonts/Montserrat-Regular.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
+html {
+  font-family: "Montserrat", sans-serif;
+}
+
 .clip-diagonal-right {
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 50%);
 }

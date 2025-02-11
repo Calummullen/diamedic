@@ -36,6 +36,7 @@ export const ColourPalette: FC<{
             {predefinedBorderColors.map((color) => (
               <button
                 key={color.value}
+                aria-label={`Select border ${color.name} colour`}
                 type="button"
                 className={`w-16 h-16 md:h-12 md:w-12 rounded-xl border-2 ${
                   borderColour === color.value
@@ -56,6 +57,7 @@ export const ColourPalette: FC<{
             {predefinedTextColors.map((color) => (
               <button
                 key={color.value}
+                aria-label={`Select text colour ${color.name}`}
                 type="button"
                 className={`w-16 h-16 md:h-12 md:w-12 rounded-xl border-2 ${
                   textColour === color.value

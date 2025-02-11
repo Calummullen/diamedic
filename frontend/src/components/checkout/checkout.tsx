@@ -1,11 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import MainLogo from "../../../public/main-logo.png";
 import Details from "../form/details";
 import { ProfileData } from "../profile/profile";
 import { useIsMobile } from "../../hooks/useIsMobile";
-import { set } from "react-hook-form";
-import LoadingSpinner from "../loading/loading-spinner";
-
 export const Checkout: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -14,9 +11,9 @@ export const Checkout: React.FC = () => {
   const isLive = false;
 
   return isLive ? (
-    <div className="flex m-auto text-4xl font-montserrat">Coming soon...</div>
+    <div className="flex m-auto text-4xl">Coming soon...</div>
   ) : (
-    <div className="font-montserrat mb-8">
+    <div className="mb-8">
       <div className="relative bg-[#0101ff] md:pb-40 pb-14">
         <div className="flex items-center justify-center py-4 md:py-6 ">
           <img

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Static Pages -->
+  <url>
+    <loc>https://www.diamedic.co.uk/</loc>
+    <lastmod>2024-02-10</lastmod>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://www.diamedic.co.uk/checkout</loc>
+    <lastmod>2024-02-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.diamedic.co.uk/checkout/return</loc>
+    <lastmod>2024-02-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.diamedic.co.uk/terms-and-conditions</loc>
+    <lastmod>2024-02-10</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.diamedic.co.uk/privacy-policy</loc>
+    <lastmod>2024-02-10</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.diamedic.co.uk/contact</loc>
+    <lastmod>2024-02-10</lastmod>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Dynamic User Profile (Pattern) -->
+  <url>
+    <loc>https://www.diamedic.co.uk/{user_id}</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://www.diamedic.co.uk/{user_id}/edit-profile</loc>
+    <priority>0.4</priority>
+  </url>
+</urlset>

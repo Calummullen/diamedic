@@ -6,7 +6,7 @@ import { FAQ } from "./faq";
 
 export const LandingPage: React.FC = () => {
   return (
-    <div className="font-montserrat bg-blue-200">
+    <div className=" bg-blue-200">
       <Header />
       <Features />
       <HowItWorks />

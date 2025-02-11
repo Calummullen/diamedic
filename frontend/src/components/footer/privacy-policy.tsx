@@ -138,6 +138,7 @@ const PrivacyPolicyPage = () => {
         </Box>
 
         <Button
+          aria-label="home"
           className="mb-4 w-full md:w-fit"
           variant="contained"
           onClick={() => navigate("/")}

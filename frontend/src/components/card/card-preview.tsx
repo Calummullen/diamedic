@@ -22,7 +22,7 @@ const CardPreview: FC<CardPreviewProps> = ({
 
   return (
     <div
-      className={`h-[200px] md:w-[450px] w-[325px] bg-white md:h-[280px] font-montserrat rounded-xl shadow-lg flex flex-col `}
+      className={`h-[200px] md:w-[450px] w-[325px] bg-white md:h-[280px] rounded-xl shadow-lg flex flex-col `}
       style={{ aspectRatio: "1.586" }} // Standard credit card ratio
     >
       {/* Header */}
@@ -41,7 +41,7 @@ const CardPreview: FC<CardPreviewProps> = ({
       {/* Main Content */}
       <div className="flex gap-2 pl-4 flex-1">
         {/* Left Column - Personal Details */}
-        <div className="flex-1 flex flex-col justify-center font-montserrat">
+        <div className="flex-1 flex flex-col justify-center">
           <div className="flex flex-col gap-2 md:gap-6">
             <p className="text-xl md:text-3xl">
               I'm a{" "}

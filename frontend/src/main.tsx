@@ -7,25 +7,13 @@ import { ThemeProvider } from "@emotion/react";
 import { createTheme } from "@mui/material";
 import { Footer } from "./components/landing-page/footer.tsx";
 
-const theme = createTheme({
-  typography: {
-    fontFamily: '"Montserrat", sans-serif',
-  },
-});
+const theme = createTheme({});
 
 createRoot(document.getElementById("root")!).render(
   <div className="flex flex-col min-h-screen">
     <ThemeProvider theme={theme}>
       <StrictMode>
         <Analytics />
-        {/* <div className="relative bg-main-blue text-white md:pt-6 clip-diagonal-right-mobile h-[450px] md:h-[250px] ">
-        <div className="flex flex-col items-center justify-center font-macondo ">
-          <div className="font-bold text-[10rem] md:text-8xl flex items-center justify-center">
-            Dia<span className="text-blue-300">medic</span>
-          </div>
-          <div className="text-4xl md:text-xl">Emergency Info in Seconds</div>
-        </div>
-      </div> */}
         <App />
         <Footer />
       </StrictMode>

@@ -57,7 +57,7 @@ const CheckoutReturnPage: FC = () => {
           </svg>
         </div>
       </div> */}
-      <div className="flex font-montserrat flex-col gap-12 md:gap-4 border-2 rounded-xl mx-auto my-12 p-12 md:w-[1000px]">
+      <div className="flex flex-col gap-12 md:gap-4 border-2 rounded-xl mx-auto my-12 p-12 md:w-[1000px]">
         <img
           src={ThankYou}
           //   height={isMobile ? 600 : 300}

@@ -7,13 +7,13 @@ export const CTA: React.FC = () => {
   return (
     <div className="md:py-20 py-12 text-center bg-blue-50">
       <Container className="flex flex-col md:gap-6 gap-2">
-        <p className="md:text-5xl text-3xl text-[#0101ff] font-bold">
+        <h2 className="md:text-5xl text-3xl text-[#0101ff] font-bold">
           Get Your Diamedic Card Today
-        </p>
-        <p className="md:mt-2 mt-4 text-black font-semibold text-xl md:text-xl">
+        </h2>
+        <h3 className="md:mt-2 mt-4 text-black font-semibold text-xl md:text-xl">
           A Diamedic card is a one-time purchase (with free shipping). Once
           acquired, there are no recurring fees or additional costs.
-        </p>
+        </h3>
 
         {/* Pricing Section */}
         <div className="mt-12 mx-4 grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -65,6 +65,7 @@ export const CTA: React.FC = () => {
             {/* Call-to-Action Button */}
             <div className="mt-4">
               <Button
+                aria-label="Get Started"
                 onClick={() => navigate("/checkout")}
                 sx={{
                   background: "linear-gradient(to right, #FFD700, #FFA500)",

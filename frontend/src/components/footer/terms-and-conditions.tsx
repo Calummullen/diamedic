@@ -82,6 +82,7 @@ const TermsPage = () => {
             changes will not affect already confirmed and processed orders.
           </Typography>
           <Button
+            aria-label="home"
             className="mt-6 w-full md:w-fit"
             variant="contained"
             onClick={() => navigate("/")}

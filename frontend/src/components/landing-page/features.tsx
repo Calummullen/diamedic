@@ -17,9 +17,9 @@ import CardPreview from "../card/card-preview";
 export const Features: React.FC = () => (
   <div className="bg-[#eff6ff] md:pt-0 pt-12 pb-6 md:px-4">
     <Container className="flex flex-col gap-8 md:gap-12 items-center">
-      <p className="text-4xl text-center md:text-6xl font-bold">
+      <h2 className="text-4xl text-center md:text-6xl font-bold">
         Why Diamedic?
-      </p>
+      </h2>
       <div className="text-black text-md md:text-lg italic md:w-3/4 md:px-0 px-8">
         <p className="mb-4">
           “Living with Type 1 Diabetes for over 20 years, I've experienced both

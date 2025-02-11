@@ -293,6 +293,7 @@ const Details: FC<CardPreviewProps> = ({
                     </Box>
                     {contactFields.length > 1 && isMobile && (
                       <Button
+                        aria-label={`Remove emergency contact ${index}`}
                         onClick={() => removeContact(index)}
                         variant="contained"
                         color="error"
@@ -307,6 +308,7 @@ const Details: FC<CardPreviewProps> = ({
                   </Box>
                 ))}
                 <Button
+                  aria-label="Add emergency contact"
                   className="flex flex-row md:gap-1 gap-3"
                   onClick={() => appendContact({ name: "", phone: "" })}
                 >
@@ -352,6 +354,7 @@ const Details: FC<CardPreviewProps> = ({
                       {insulinFields.length > 1 &&
                         (isMobile ? (
                           <Button
+                            aria-label={`Remove insulin entry ${index}`}
                             onClick={() => removeInsulin(index)}
                             variant="contained"
                             color="error"
@@ -374,6 +377,7 @@ const Details: FC<CardPreviewProps> = ({
                   </Box>
                 ))}
                 <Button
+                  aria-label="Add insulin type"
                   className="flex flex-row md:gap-1 gap-3"
                   onClick={() => appendInsulin({ type: "", dosage: "" })}
                 >
@@ -467,6 +471,7 @@ const Details: FC<CardPreviewProps> = ({
             >
               {activeStep > 0 && (
                 <Button
+                  aria-label="Back"
                   className="md:h-fit w-full md:w-fit rounded-full transition duration-300 ease-in-out transform"
                   type="button"
                   variant="outlined"
@@ -477,6 +482,7 @@ const Details: FC<CardPreviewProps> = ({
               )}
               {activeStep < steps.length - 1 && (
                 <Button
+                  aria-label="Next"
                   className="md:h-fit w-full md:w-fit rounded-full transition duration-300 ease-in-out transform"
                   type="button"
                   variant="contained"
@@ -488,6 +494,7 @@ const Details: FC<CardPreviewProps> = ({
 
               {activeStep === 2 && (
                 <Button
+                  aria-label="Save"
                   className="md:h-fit w-full md:w-fit rounded-full transition duration-300 ease-in-out transform"
                   type="submit"
                   variant="contained"

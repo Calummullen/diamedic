@@ -7,9 +7,9 @@ export const HowItWorks: React.FC = () => {
   return (
     <div className="bg-white text-black py-20">
       <Container>
-        <p className="text-center font-semibold text-5xl md:text-7xl">
+        <h2 className="text-center font-semibold text-5xl md:text-7xl">
           How It Works
-        </p>
+        </h2>
 
         <div className="flex flex-col gap-14 mt-14">
           {[
@@ -52,7 +52,11 @@ export const HowItWorks: React.FC = () => {
                 </div>
               </div>
               <div>
-                <img className="w-[225px] h-[150px]" src={item.img} />
+                <img
+                  className="w-[225px] h-[150px]"
+                  src={item.img}
+                  loading="lazy"
+                />
               </div>
             </div>
           ))}
