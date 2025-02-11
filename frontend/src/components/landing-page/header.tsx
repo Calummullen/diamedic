@@ -12,6 +12,7 @@ export const Header: React.FC = () => {
     <div className="relative bg-[#0101ff] pb-16 md:pb-36">
       <div className="w-full flex items-center justify-center py-4 md:py-6 ">
         <img
+          rel="preload"
           src={MainLogo}
           height={isMobile ? 250 : 300}
           width={isMobile ? 250 : 300}
@@ -38,7 +39,7 @@ export const Header: React.FC = () => {
           </Button>
         </div>
         <div className="flex flex-col items-center justify-center md:basis-1/2 gap-12 px-2  pt-12 md:pt-0 md:px-0">
-          <img className="rounded-[25rem]" src={HeaderImage} />
+          <img rel="preload" className="rounded-[25rem]" src={HeaderImage} />
         </div>
       </Container>
 
