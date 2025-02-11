@@ -14,6 +14,8 @@ import { rateLimit } from "express-rate-limit";
 import { db } from "./helpers/firestore";
 import { createOrder } from "./services/ordersService";
 import { Order } from "./types/orders-schema";
+import "./instrument.js";
+import * as Sentry from "@sentry/node";
 
 dotenv.config();
 
@@ -158,5 +160,7 @@ app.use(cookieParser());
 
 // Routes
 app.use("/api", userRoutes);
+
+Sentry.setupExpressErrorHandler(app);
 
 export default app;
