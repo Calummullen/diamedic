@@ -4,10 +4,10 @@ import Details from "../form/details";
 import { ProfileData } from "../profile/profile";
 import { useIsMobile } from "../../hooks/useIsMobile";
 export const Checkout: React.FC = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading] = useState<boolean>(false);
 
   const isMobile = useIsMobile();
-  const [error, setError] = useState<string | null>(null);
+  const [error] = useState<string | null>(null);
   const isLive = false;
 
   return isLive ? (
