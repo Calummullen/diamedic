@@ -55,7 +55,6 @@ export const Checkout: React.FC = () => {
               insulinTypes: [{ type: "", dosage: "" }],
             } as ProfileData
           }
-          isLoading={isLoading}
         />
       </div>
     </div>
