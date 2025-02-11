@@ -132,7 +132,7 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
 
     switch (activeStep) {
       case 0:
-        fieldsToValidate = ["name", "age", "dateOfBirth", "email"];
+        fieldsToValidate = ["name", "age", "dateOfBirth"];
         break;
       case 1:
         fieldsToValidate = [
@@ -205,14 +205,6 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
                   slotProps={{ inputLabel: { shrink: true } }}
                   error={!!errors.dateOfBirth}
                   helperText={errors.dateOfBirth?.message}
-                />
-                <TextField
-                  type="email"
-                  fullWidth
-                  label="Email"
-                  {...register("email", { required: "Email is required" })}
-                  error={!!errors.name}
-                  helperText={errors.name?.message}
                 />
               </Box>
             )}

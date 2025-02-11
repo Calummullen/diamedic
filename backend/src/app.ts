@@ -72,7 +72,10 @@ app.post(
       const userData = userDoc.data();
 
       // ✅ 2. Update Firestore user status to hasPaid: true
-      await db.collection("users").doc(userId).update({ hasPaid: true });
+      await db
+        .collection("users")
+        .doc(userId)
+        .update({ email: customerEmail, hasPaid: true });
       console.log(`✅ User ${userId} marked as paid.`);
 
       // ✅ 3. Store Order in Firestore

@@ -4,7 +4,7 @@ export const profileSchema = z.object({
   name: z.string().min(1, "Name is required."),
   age: z.string().min(1, "Age is required."),
   dateOfBirth: z.string().min(1, "Date of birth is required."),
-  email: z.string().min(1, "Email is required"),
+  email: z.string().optional(),
   emergencyInstructions: z
     .string()
     .min(1, "Emergency instructions are required."),
