@@ -78,7 +78,7 @@ const UserInfo = () => {
   if (!userData.hasPaid)
     return (
       <ErrorPage
-        text="Payment has not been made. Please contacr support for assistance."
+        text="Payment has not been made. Please contact support for assistance."
         id={userId || "ID not found"}
       />
     );

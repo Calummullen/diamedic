@@ -143,7 +143,12 @@ const safeExecute = async (fn: Function, actionDescription: string) => {
 };
 
 // Middleware
-app.use(cors({ origin: process.env.FRONTEND_BASE_URL, credentials: true }));
+app.use(
+  cors({
+    origin: [process.env.FRONTEND_BASE_URL!, "https://js.stripe.com"],
+    credentials: true,
+  })
+);
 app.use(limiter);
 app.use(express.json());
 app.use(cookieParser());

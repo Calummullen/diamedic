@@ -6,6 +6,7 @@ import {
   Typography,
   Divider,
   Button,
+  Alert,
 } from "@mui/material";
 import {
   Person,
@@ -19,6 +20,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import MainLogo from "../../../public/main-logo.png";
 import { useIsMobile } from "../../hooks/useIsMobile";
 import ConfirmDialog from "../confirm/confirm";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faKitMedical,
+  faSyringe,
+  faPerson,
+  faTriangleExclamation,
+} from "@fortawesome/free-solid-svg-icons";
+import RecoveryPositionModal from "./recovery-position-modal";
 
 interface EmergencyContact {
   name: string;
@@ -54,9 +63,10 @@ const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
   const navigate = useNavigate(); // Initialize the useHistory hook to navigate
   const isMobile = useIsMobile();
   const [dialogOpen, setDialogOpen] = useState(true);
+  const [recoveryOpen, setRecoveryOpen] = useState(false);
 
   useEffect(() => {
-    if (dialogOpen) {
+    if (dialogOpen || recoveryOpen) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
@@ -65,7 +75,7 @@ const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
     return () => {
       document.body.style.overflow = "";
     };
-  }, [dialogOpen]);
+  }, [dialogOpen, recoveryOpen]);
 
   const handleConfirm = () => {
     setDialogOpen(false);
@@ -106,6 +116,10 @@ const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
         onCancel={handleCancel}
         name={data.name}
       />
+      <RecoveryPositionModal
+        open={recoveryOpen}
+        onClose={() => setRecoveryOpen(false)}
+      />
       {isMobile ? (
         <div>
           <div className="bg-[#0101ff] flex justify-center py-6">
@@ -122,27 +136,32 @@ const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
                 can be found below.
               </h3>
               <h4 className="text-red-600 text-2xl">
-                Call 999 if you haven't already, and follow my emergency
-                instructions. If I'm unconscious, unable to swallow, or
-                experiencing seizures, do not attempt to give me food or drink.
+                If I'm unconscious, unable to swallow, or experiencing seizures,
+                do not attempt to give me food or drink. Call 999 if you haven't
+                already, and follow my emergency instructions.
               </h4>
             </div>
             {/* Personal Information */}
-            <div className=" p-4 rounded-lg shadow-lg border-l-4 border-blue-600 bg-blue-50">
-              <div className="flex items-center gap-3 mb-2">
+            <div className=" p-4 rounded-lg shadow-lg border-t-8 border-blue-600 bg-blue-50">
+              <div className="flex flex-row gap-6 items-center mb-4">
+                <FontAwesomeIcon
+                  icon={faPerson}
+                  size="3x"
+                  style={{ color: "blue" }}
+                />
                 <h1 className="text-blue-600 text-4xl">Personal Information</h1>
               </div>
               <div className="grid grid-cols-1 gap-2 text-xl">
                 {/* <div className="flex flex-col gap-4"> */}
-                <div className="flex flex-row gap-2 items-center">
+                <div className="flex flex-row gap-2 text-2xl items-center">
                   <h3 className="text-black">Name:</h3>
                   <h3 className="text-black">{data.name}</h3>
                 </div>
-                <div className="flex flex-row gap-2 items-center">
+                <div className="flex flex-row gap-2 text-2xl items-center">
                   <h3 className="text-black">Age:</h3>
                   <h3 className="text-black">{data.age}</h3>
                 </div>
-                <div className="flex flex-row gap-2 items-center">
+                <div className="flex flex-row gap-2 text-2xl items-center">
                   <h3 className="text-black">Date of Birth:</h3>
                   <h3 className="text-black">
                     {new Date(data.dateOfBirth).toLocaleDateString()}
@@ -152,25 +171,77 @@ const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
             </div>
 
             {/* Emergency Contacts */}
+            <Alert
+              severity="warning"
+              icon={
+                <FontAwesomeIcon
+                  icon={faTriangleExclamation}
+                  size="lg"
+                  className="pt-[0.5px]"
+                  style={{ color: "orange" }}
+                />
+              }
+              className=""
+            >
+              <div className="flex flex-col gap-4">
+                <h4 className="text-2xl text-black">Quick Instructions</h4>
+                <div>
+                  <p className="text-xl text-green-600 font-bold">Conscious?</p>
+                  <p className="text-lg">
+                    Follow my emergency instructions in the below section.
+                  </p>
+                  <p className="text-lg">
+                    Administer something sugary, such as fruit juice, sweets or
+                    glucose tablets (please ask if I have these).
+                  </p>
+                  <p className="text-lg">
+                    Wait with me for 10-15 minutes to see if I improve. If not,
+                    repeat the above.
+                  </p>
+                </div>
+                <div>
+                  <p className="text-xl font-bold text-red-600">Unconscious?</p>
+                  <p className="text-lg">
+                    Put me into the{" "}
+                    <a
+                      className="underline cursor-pointer"
+                      onClick={() => setRecoveryOpen(true)}
+                    >
+                      recovery position
+                    </a>
+                    .
+                  </p>
+                  <p className="text-lg">
+                    Do NOT give me anything to eat or drink.
+                  </p>
+                  <p className="text-lg">Call 999.</p>
+                </div>
+              </div>
+            </Alert>
 
-            <div className="rounded-lg shadow-lg border-l-4 border-red-600">
+            <div className="rounded-lg shadow-lg border-t-8 border-red-600">
               <Accordion sx={{ boxShadow: "none", backgroundColor: "#fef2f2" }}>
                 <AccordionSummary
                   expandIcon={<ExpandMore style={{ fontSize: 50 }} />}
                 >
-                  <div className="flex items-center">
+                  <div className="flex flex-row gap-6 items-center">
+                    <FontAwesomeIcon
+                      icon={faKitMedical}
+                      size="2x"
+                      style={{ color: "red" }}
+                    />
                     <h1 className="text-red-600 text-4xl">
                       Emergency Information
                     </h1>
                   </div>
                 </AccordionSummary>
                 <AccordionDetails className="flex flex-col gap-2">
-                  <h2 className="text-red-600 text-xl">Emergency Contacts</h2>
+                  <h2 className="text-red-600 text-2xl">Emergency Contacts</h2>
                   <div className="grid grid-cols-1 gap-4">
                     {data.emergencyContacts.map((contact, index) => (
                       <div
                         key={index}
-                        className="bg-red-50 items-start rounded-lg flex flex-col gap-1"
+                        className="bg-red-50 items-start rounded-lg flex flex-col gap-2"
                       >
                         <h3 className="text-gray-600 text-2xl">
                           {contact.name}
@@ -191,25 +262,33 @@ const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
                     ))}
                   </div>
                   <Divider className="pt-2" />
-                  <div className="flex flex-col gap-4">
-                    <h3 className="text-xl text-red-600">
+                  <div className="flex flex-col gap-2">
+                    <h3 className="text-2xl text-red-600">
                       Emergency Instructions
                     </h3>
-                    <h4 className="p-2 border-l-4 border-[1px] border-red-500 text-black rounded-lg">
-                      {data.emergencyInstructions}
+                    <h4 className="text-xl">
+                      In an emergency, follow the below steps:
                     </h4>
+                    <h5 className="p-6 border-l-8 border-2 border-red-500 text-black rounded-lg text-2xl">
+                      {data.emergencyInstructions}
+                    </h5>
                   </div>
                 </AccordionDetails>
               </Accordion>
             </div>
 
             {/* Insulin Information */}
-            <div className="rounded-lg shadow-lg border-l-4 border-purple-600 bg-purple-50">
+            <div className="rounded-lg shadow-lg border-t-8 border-purple-600 bg-purple-50">
               <Accordion sx={{ boxShadow: "none", backgroundColor: "#faf5ff" }}>
                 <AccordionSummary
                   expandIcon={<ExpandMore style={{ fontSize: 50 }} />}
                 >
-                  <div className="flex items-center gap-3">
+                  <div className="flex flex-row gap-6 items-center">
+                    <FontAwesomeIcon
+                      icon={faSyringe}
+                      size="2x"
+                      style={{ color: "purple" }}
+                    />
                     <h1 className=" text-purple-600 text-4xl">
                       Insulin Information
                     </h1>
@@ -220,12 +299,14 @@ const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
                     {data.insulinTypes.map((insulin, index) => (
                       <div
                         key={index}
-                        className="bg-purple-50 rounded-lg border-l-4 py-4 px-2 border-[1px] border-purple-600"
+                        className="bg-purple-50 flex flex-col gap-4 rounded-lg border-l-8 p-6 border-2 border-purple-600"
                       >
-                        <h3 className="text-black text-2xl">
-                          Name: {insulin.type}
+                        <h3 className="text-black text-3xl font-bold">
+                          {insulin.type}
                         </h3>
-                        <h3 className="text-2xl">Dosage: {insulin.dosage}</h3>
+                        <h3 className="text-2xl text-red-500">
+                          Dosage: {insulin.dosage}
+                        </h3>
                       </div>
                     ))}
                   </div>
