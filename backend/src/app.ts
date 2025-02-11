@@ -89,9 +89,9 @@ app.post(
           postcode: session.customer_details?.address?.postal_code || "",
         },
         meta: {
-          cardBorderColour: userData?.cardBorderColour || "",
-          cardTextColour: userData?.cardTextColour || "",
-          matchBorderColor: userData?.matchBorderColor ?? false,
+          cardBorderColour: userData?.meta.cardBorderColour || "",
+          cardTextColour: userData?.meta.cardTextColour || "",
+          matchBorderColour: userData?.meta.matchBorderColour ?? false,
         },
       };
       await createOrder(orderData);
@@ -99,7 +99,7 @@ app.post(
 
       // ✅ 4. Add User to Mailing List
       await safeExecute(
-        () => addToMailingList(customerEmail),
+        () => addToMailingList(customerEmail, session.customer_details?.name!),
         `Add ${customerEmail} to mailing list`
       );
 

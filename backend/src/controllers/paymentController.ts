@@ -13,7 +13,7 @@ export const paymentController = async (req: Request, res: Response) => {
     const session = await stripe.checkout.sessions.create({
       ui_mode: "embedded",
       metadata: {
-        userId,
+        userId: userId,
       },
       payment_method_types: ["card"],
       line_items: [
@@ -26,9 +26,6 @@ export const paymentController = async (req: Request, res: Response) => {
       customer_creation: "always",
       invoice_creation: {
         enabled: true,
-        invoice_data: {
-          custom_fields: [{ name: "test_field", value: "123AAA" }],
-        },
       },
       billing_address_collection: "required",
       shipping_address_collection: {

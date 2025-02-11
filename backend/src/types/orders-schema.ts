@@ -2,7 +2,6 @@ import { z } from "zod";
 import { addressSchema } from "./profile-schema";
 
 export const orderSchema = z.object({
-  documentId: z.string(),
   userId: z.string().min(1, "UserID is required."),
   stripePaymentReference: z
     .string()
@@ -13,7 +12,7 @@ export const orderSchema = z.object({
   meta: z.object({
     cardBorderColour: z.string().min(1, "Card border colour is required."),
     cardTextColour: z.string().min(1, "Card text colour is required."),
-    matchBorderColor: z.boolean(),
+    matchBorderColour: z.boolean(),
   }),
 });
 

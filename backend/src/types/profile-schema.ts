@@ -5,11 +5,6 @@ export const profileSchema = z.object({
   age: z.string().min(1, "Age is required."),
   dateOfBirth: z.string().min(1, "Date of birth is required."),
   email: z.string().min(1, "Email is required"),
-  addressLine1: z.string().min(1, "Address Line 1 is required."),
-  addressLine2: z.string().optional(),
-  city: z.string().min(1, "City is required."),
-  county: z.string().optional(),
-  postcode: z.string().min(1, "Postcode is required."),
   emergencyInstructions: z
     .string()
     .min(1, "Emergency instructions are required."),
@@ -37,7 +32,7 @@ export const profileSchema = z.object({
   meta: z.object({
     cardBorderColour: z.string().min(1, "Card border colour is required."),
     cardTextColour: z.string().min(1, "Card text colour is required."),
-    matchBorderColor: z.boolean(),
+    matchBorderColour: z.boolean(),
   }),
 });
 

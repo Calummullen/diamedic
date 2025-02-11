@@ -3,48 +3,16 @@ import MainLogo from "../../../public/main-logo.png";
 import Details from "../form/details";
 import { ProfileData } from "../profile/profile";
 import { useIsMobile } from "../../hooks/useIsMobile";
+import { set } from "react-hook-form";
+import LoadingSpinner from "../loading/loading-spinner";
 
 export const Checkout: React.FC = () => {
-  const [userId, setUserId] = useState(() => {
-    return localStorage.getItem("userId") || undefined; // Load from storage if available
-  });
-
-  useEffect(() => {
-    if (userId) {
-      localStorage.setItem("userId", userId);
-    }
-  }, [userId]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const isMobile = useIsMobile();
-  const [activePage, setActivePage] = useState<number>(0);
   const [error, setError] = useState<string | null>(null);
   const isLive = false;
 
-  const onSubmit = async (formData: ProfileData) => {
-    setError(null);
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/users`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-        }
-      );
-      const data = await response.json();
-      if (data.userId) {
-        setUserId(data.userId);
-        setActivePage(3);
-      }
-    } catch (error) {
-      console.error("Error submitting form:", error);
-      setError(
-        error instanceof Error
-          ? error.message
-          : "An unexpected error occurred. If the error persists, please contact us."
-      );
-    }
-  };
   return isLive ? (
     <div className="flex m-auto text-4xl font-montserrat">Coming soon...</div>
   ) : (
@@ -84,15 +52,13 @@ export const Checkout: React.FC = () => {
       {/* Form Section */}
       <div className="md:w-[50%] flex mx-auto">
         <Details
-          onSubmit={onSubmit}
           data={
             {
               emergencyContacts: [{ name: "", phone: "" }],
               insulinTypes: [{ type: "", dosage: "" }],
             } as ProfileData
           }
-          userId={userId}
-          activePage={activePage}
+          isLoading={isLoading}
         />
       </div>
     </div>

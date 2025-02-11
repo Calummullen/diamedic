@@ -1,13 +1,4 @@
 import { Request, Response } from "express";
-import { ProfileData, profileSchema } from "../types/profile-schema";
-import {
-  createUserProfile,
-  getUserProfile,
-  updateUserProfile,
-} from "../services/userService";
-import { sendSms } from "../services/smsService";
-import { getAddressFromCoordinates } from "../services/locationService";
-import uuid4 from "uuid4";
 import { Order } from "../types/orders-schema";
 import { getOrders, updateOrder } from "../services/ordersService";
 
@@ -26,15 +17,13 @@ export const updateOrderStatusController = async (
   res: Response
 ) => {
   try {
-    const { documentId, status } = req.body;
+    const { userId, status } = req.body;
 
-    if (!documentId || !status) {
-      return res
-        .status(400)
-        .json({ error: "documentId and status are required." });
+    if (!userId || !status) {
+      return res.status(400).json({ error: "userId and status are required." });
     }
 
-    const updatedOrder = await updateOrder(documentId, status);
+    const updatedOrder = await updateOrder(userId, status);
 
     res.json({ message: "Order status updated successfully", updatedOrder });
   } catch (error) {

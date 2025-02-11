@@ -6,11 +6,13 @@ import Stripe from "stripe";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-export const addToMailingList = async (email: string) => {
+export const addToMailingList = async (email: string, name: string) => {
   const AUDIENCE_ID = "10819839-7d7c-4d70-94d8-9add02c62c3b";
 
   return await resend.contacts.create({
-    email: email,
+    email,
+    firstName: name,
+    lastName: name,
     audienceId: AUDIENCE_ID,
     unsubscribed: false,
   });

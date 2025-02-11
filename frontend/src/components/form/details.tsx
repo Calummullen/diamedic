@@ -18,55 +18,83 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { ProfileData } from "../profile/profile";
 import CardPreview from "../card/card-preview";
-import { loadStripe } from "@stripe/stripe-js";
 import {
   EmbeddedCheckoutProvider,
   EmbeddedCheckout,
 } from "@stripe/react-stripe-js";
 import { ColourPalette } from "../coloir-picker/colour-palette";
 import { useIsMobile } from "../../hooks/useIsMobile";
+import { loadStripe } from "@stripe/stripe-js";
+import LoadingSpinner from "../loading/loading-spinner";
+
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
 interface CardPreviewProps {
-  onSubmit: (formData: ProfileData) => void;
-  activePage: number;
-  userId?: string;
+  // onSubmit: (formData: ProfileData) => void;
+  isLoading: boolean;
+  // userId?: string;
   data?: ProfileData;
   isCheckout?: boolean;
 }
 
-const stripePromise = loadStripe(
-  "pk_test_51Qnr3lIXyhVTXfbeblisyuAUfUyUZMHeWq86UgqawamlteUUxzinvRJxDgIONPQ7oBlWTXl9qcVNljZ3XUYmaNwB00jRiLpRja"
-);
-
 const Details: FC<CardPreviewProps> = ({
-  onSubmit,
   data,
-  userId,
+  isLoading = false,
   isCheckout = true,
-  activePage,
 }) => {
-  const [activeStep, setActiveStep] = useState<number>(activePage);
-  console.log("userId", userId);
-
-  useEffect(() => {
-    setActiveStep(activePage);
-  }, [activePage]);
+  const [activeStep, setActiveStep] = useState<number>(0);
+  const [userId, setUserId] = useState(() => {
+    return localStorage.getItem("userId") || undefined; // Load from storage if available
+  });
 
   const isMobile = useIsMobile();
 
-  const fetchClientSecret = useCallback(async () => {
+  const onSubmit = async (formData: ProfileData) => {
+    // setError(null);
+    // setIsLoading(true);
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/users`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        }
+      );
+      const data = await response.json();
+      console.log("User ID after creation", data);
+      if (data.userId) {
+        setUserId(data.userId);
+        setActiveStep(3);
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      // setError(
+      //   error instanceof Error
+      //     ? error.message
+      //     : "An unexpected error occurred. If the error persists, please contact us."
+      // );
+    } finally {
+      // setIsLoading(false);
+    }
+  };
+
+  const fetchClientSecret = async () => {
     // Create a Checkout Session
+    localStorage.setItem("userId", userId || "");
+    console.log("ahhhhh, userId", userId);
     const res = await fetch(
       `${import.meta.env.VITE_API_URL}/api/create-checkout-session`,
       {
         method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId }),
       }
     );
     const data = await res.json();
 
     return data.clientSecret;
-  }, []);
+  };
 
   const options = { fetchClientSecret };
 
@@ -75,7 +103,7 @@ const Details: FC<CardPreviewProps> = ({
     control,
     handleSubmit,
     setValue,
-    // trigger,
+    trigger,
     formState: { errors },
     watch,
   } = useForm<ProfileData>({
@@ -84,14 +112,14 @@ const Details: FC<CardPreviewProps> = ({
       meta: {
         cardBorderColour: "#0000FF",
         cardTextColour: "#FFFFFF",
-        matchBorderColor: false,
+        matchBorderColour: false,
       },
       ...data,
     },
   });
   const borderColour = watch("meta.cardBorderColour");
   const textColour = watch("meta.cardTextColour");
-  const matchBorderColor = watch("meta.matchBorderColor") ?? false;
+  const matchBorderColour = watch("meta.matchBorderColour") ?? false;
 
   const {
     fields: contactFields,
@@ -106,30 +134,21 @@ const Details: FC<CardPreviewProps> = ({
   } = useFieldArray({ control, name: "insulinTypes" });
   const handleNext = async (e: React.MouseEvent) => {
     e.preventDefault();
-    // let fieldsToValidate: (keyof ProfileData)[] = [];
+    let fieldsToValidate: (keyof ProfileData)[] = [];
 
-    // switch (activeStep) {
-    //   case 0:
-    //     fieldsToValidate = [
-    //       "name",
-    //       "age",
-    //       "dateOfBirth",
-    //       "email",
-    //       "addressLine1",
-    //       "city",
-    //       "postcode",
-    //     ];
-    //     break;
-    //   case 1:
-    //     fieldsToValidate = [
-    //       "emergencyContacts",
-    //       "insulinTypes",
-    //       "emergencyInstructions",
-    //     ];
-    // }
-    // const isStepValid = await trigger(fieldsToValidate);
-    // if (isStepValid)
-    setActiveStep((prev) => prev + 1);
+    switch (activeStep) {
+      case 0:
+        fieldsToValidate = ["name", "age", "dateOfBirth", "email"];
+        break;
+      case 1:
+        fieldsToValidate = [
+          "emergencyContacts",
+          "insulinTypes",
+          "emergencyInstructions",
+        ];
+    }
+    const isStepValid = await trigger(fieldsToValidate);
+    if (isStepValid) setActiveStep((prev) => prev + 1);
   };
 
   const handleBack = () => {
@@ -143,7 +162,11 @@ const Details: FC<CardPreviewProps> = ({
     // "Payment",
   ];
 
-  return (
+  return isLoading ? (
+    <div className="mx-auto p-2">
+      <LoadingSpinner />
+    </div>
+  ) : (
     <div className="mx-auto p-2">
       {isCheckout && (
         <Stepper activeStep={activeStep} className="mb-8">
@@ -196,41 +219,6 @@ const Details: FC<CardPreviewProps> = ({
                   {...register("email", { required: "Email is required" })}
                   error={!!errors.name}
                   helperText={errors.name?.message}
-                />
-                <TextField
-                  fullWidth
-                  label="Address Line 1"
-                  {...register("addressLine1", {
-                    required: "Address is required",
-                  })}
-                  error={!!errors.addressLine1}
-                  helperText={errors.addressLine1?.message}
-                />
-                <TextField
-                  fullWidth
-                  label="Address Line 2 (Optional)"
-                  {...register("addressLine2")}
-                />
-                <TextField
-                  fullWidth
-                  label="City"
-                  {...register("city", { required: "City is required" })}
-                  error={!!errors.city}
-                  helperText={errors.city?.message}
-                />
-                <TextField
-                  fullWidth
-                  label="County (Optional)"
-                  {...register("county")}
-                />
-                <TextField
-                  fullWidth
-                  label="Postcode"
-                  {...register("postcode", {
-                    required: "Postcode is required",
-                  })}
-                  error={!!errors.postcode}
-                  helperText={errors.postcode?.message}
                 />
               </Box>
             )}
@@ -308,9 +296,9 @@ const Details: FC<CardPreviewProps> = ({
                         onClick={() => removeContact(index)}
                         variant="contained"
                         color="error"
-                        className="w-fit"
+                        className="w-full"
                       >
-                        <div className="flex flex-row gap-3 items-end">
+                        <div className="flex flex-row gap-3 items-center">
                           <DeleteIcon />
                           <p className="text-md">Remove Emergency Contact</p>
                         </div>
@@ -345,9 +333,7 @@ const Details: FC<CardPreviewProps> = ({
                             ?.message
                         }
                       />
-                    </div>
 
-                    <div className="flex flex-col md:flex-1 w-full">
                       <TextField
                         className="flex-1 bg-white"
                         label="Dosage"
@@ -362,29 +348,29 @@ const Details: FC<CardPreviewProps> = ({
                           errors.insulinTypes?.[index]?.dosage?.message
                         }
                       />
-                    </div>
 
-                    {insulinFields.length > 1 &&
-                      (isMobile ? (
-                        <Button
-                          onClick={() => removeInsulin(index)}
-                          variant="contained"
-                          color="error"
-                          className="w-fit"
-                        >
-                          <div className="flex flex-row gap-3 items-end">
-                            <DeleteIcon fontSize="large" />
-                            <p className="text-md">Remove Insulin Entry</p>
-                          </div>
-                        </Button>
-                      ) : (
-                        <IconButton
-                          onClick={() => removeInsulin(index)}
-                          color="error"
-                        >
-                          <DeleteIcon />
-                        </IconButton>
-                      ))}
+                      {insulinFields.length > 1 &&
+                        (isMobile ? (
+                          <Button
+                            onClick={() => removeInsulin(index)}
+                            variant="contained"
+                            color="error"
+                            className="w-full"
+                          >
+                            <div className="flex flex-row gap-3 items-center">
+                              <DeleteIcon />
+                              <p className="text-md">Remove Insulin Entry</p>
+                            </div>
+                          </Button>
+                        ) : (
+                          <IconButton
+                            onClick={() => removeInsulin(index)}
+                            color="error"
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        ))}
+                    </div>
                   </Box>
                 ))}
                 <Button
@@ -431,7 +417,7 @@ const Details: FC<CardPreviewProps> = ({
                     borderColour={borderColour}
                     textColour={textColour}
                     diabetesTextColour={
-                      matchBorderColor ? borderColour : "#000000"
+                      matchBorderColour ? borderColour : "#000000"
                     }
                   />
                 </div>
@@ -439,9 +425,9 @@ const Details: FC<CardPreviewProps> = ({
                   <input
                     type="checkbox"
                     className="w-10 h-10 md:w-6 md:h-6"
-                    checked={matchBorderColor}
+                    checked={matchBorderColour}
                     onChange={(e) => {
-                      setValue("meta.matchBorderColor", e.target.checked);
+                      setValue("meta.matchBorderColour", e.target.checked);
                     }}
                   />
                   <label className="md:text-sm text-md">
