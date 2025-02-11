@@ -26,12 +26,5 @@ export const EditProfile: React.FC = () => {
     }
   };
 
-  return (
-    <Details
-      onSubmit={onSubmit}
-      data={state}
-      isCheckout={false}
-      activePage={0}
-    />
-  );
+  return <Details data={state} isCheckout={false} isLoading={false} />;
 };

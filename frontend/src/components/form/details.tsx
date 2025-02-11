@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useState } from "react";
+import React, { FC, useState } from "react";
 import { useForm, useFieldArray, FieldError } from "react-hook-form";
 import InfoIcon from "@mui/icons-material/Info";
 import {
@@ -30,19 +30,14 @@ import LoadingSpinner from "../loading/loading-spinner";
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
 interface CardPreviewProps {
-  // onSubmit: (formData: ProfileData) => void;
-  isLoading: boolean;
-  // userId?: string;
   data?: ProfileData;
   isCheckout?: boolean;
 }
 
-const Details: FC<CardPreviewProps> = ({
-  data,
-  isLoading = false,
-  isCheckout = true,
-}) => {
+const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
   const [activeStep, setActiveStep] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
   const [userId, setUserId] = useState(() => {
     return localStorage.getItem("userId") || undefined; // Load from storage if available
   });
@@ -50,8 +45,8 @@ const Details: FC<CardPreviewProps> = ({
   const isMobile = useIsMobile();
 
   const onSubmit = async (formData: ProfileData) => {
-    // setError(null);
-    // setIsLoading(true);
+    setError(null);
+    setIsLoading(true);
     try {
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/api/users`,
@@ -69,20 +64,19 @@ const Details: FC<CardPreviewProps> = ({
       }
     } catch (error) {
       console.error("Error submitting form:", error);
-      // setError(
-      //   error instanceof Error
-      //     ? error.message
-      //     : "An unexpected error occurred. If the error persists, please contact us."
-      // );
+      setError(
+        error instanceof Error
+          ? error.message
+          : "An unexpected error occurred. If the error persists, please contact us."
+      );
     } finally {
-      // setIsLoading(false);
+      setIsLoading(false);
     }
   };
 
   const fetchClientSecret = async () => {
     // Create a Checkout Session
     localStorage.setItem("userId", userId || "");
-    console.log("ahhhhh, userId", userId);
     const res = await fetch(
       `${import.meta.env.VITE_API_URL}/api/create-checkout-session`,
       {
@@ -506,14 +500,9 @@ const Details: FC<CardPreviewProps> = ({
               )}
             </Box>
           </form>
-          {/* {qrCode && (
-      <div>
-        <h2>Scan this QR code to access the emergency information:</h2>
-        <img src={qrCode} alt="QR Code" />
-      </div>
-    )} */}
         </Paper>
       </Box>
+      {error && <p className="text-red-500 text-xl">{error}</p>}
     </div>
   );
 };
