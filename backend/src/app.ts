@@ -1,3 +1,4 @@
+import "./instrument.js";
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -14,7 +15,6 @@ import { rateLimit } from "express-rate-limit";
 import { db } from "./helpers/firestore";
 import { createOrder } from "./services/ordersService";
 import { Order } from "./types/orders-schema";
-import "./instrument.js";
 import * as Sentry from "@sentry/node";
 
 dotenv.config();
@@ -136,6 +136,10 @@ app.post(
     }
   }
 );
+
+app.get("/debug-sentry", function mainHandler(req, res) {
+  throw new Error("My first Sentry error!");
+});
 
 // Helper function for safe execution of async functions
 const safeExecute = async (fn: Function, actionDescription: string) => {

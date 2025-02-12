@@ -204,7 +204,7 @@ const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
                   <p className="text-lg">
                     Put me into the{" "}
                     <a
-                      className="underline cursor-pointer"
+                      className="underline cursor-pointer font-bold"
                       onClick={() => setRecoveryOpen(true)}
                     >
                       recovery position
