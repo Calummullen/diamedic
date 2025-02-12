@@ -46,15 +46,8 @@ export const Checkout: React.FC = () => {
         </div>
       )}
       {/* Form Section */}
-      <div className="md:w-[50%] flex mx-auto">
-        <Details
-          data={
-            {
-              emergencyContacts: [{ name: "", phone: "" }],
-              insulinTypes: [{ type: "", dosage: "" }],
-            } as ProfileData
-          }
-        />
+      <div className="lg:w-[50%] mx-auto">
+        <Details />
       </div>
     </div>
   );

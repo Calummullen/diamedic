@@ -4,6 +4,7 @@ import ThankYou from "../../../public/thank-you.jpeg";
 import { Link } from "@mui/material";
 
 const CheckoutReturnPage: FC = () => {
+  sessionStorage.removeItem("formData");
   const [searchParams] = useSearchParams();
   const sessionId = searchParams.get("session_id");
   const navigate = useNavigate();

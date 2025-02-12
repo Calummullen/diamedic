@@ -1,6 +1,11 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { useForm, useFieldArray, FieldError } from "react-hook-form";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import InfoIcon from "@mui/icons-material/Info";
+import {
+  faChevronRight,
+  faChevronLeft,
+} from "@fortawesome/free-solid-svg-icons";
 import {
   Box,
   Button,
@@ -104,18 +109,28 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
     watch,
   } = useForm<ProfileData>({
     mode: "onChange",
-    defaultValues: {
-      meta: {
-        cardBorderColour: "#0000FF",
-        cardTextColour: "#FFFFFF",
-        matchBorderColour: false,
-      },
-      ...data,
-    },
+    defaultValues: sessionStorage.getItem("formData")
+      ? JSON.parse(sessionStorage.getItem("formData")!)
+      : {
+          emergencyContacts: [{ name: "", phone: "" }],
+          insulinTypes: [{ type: "", dosage: "" }],
+          meta: {
+            cardBorderColour: "#0000FF",
+            cardTextColour: "#FFFFFF",
+            matchBorderColour: false,
+          },
+          ...data,
+        },
   });
   const borderColour = watch("meta.cardBorderColour");
   const textColour = watch("meta.cardTextColour");
   const matchBorderColour = watch("meta.matchBorderColour") ?? false;
+
+  const watchAllFields = watch();
+
+  useEffect(() => {
+    sessionStorage.setItem("formData", JSON.stringify(watchAllFields));
+  }, [watchAllFields]);
 
   const {
     fields: contactFields,
@@ -156,7 +171,7 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
     "Personal Details",
     "Emergency Details",
     "Customise Card",
-    // "Payment",
+    "Payment",
   ];
 
   return isLoading ? (
@@ -165,7 +180,7 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
     </div>
   ) : (
     <div className="mx-auto p-2">
-      {isCheckout && (
+      {isCheckout && !isMobile && (
         <Stepper activeStep={activeStep} className="mb-8">
           {steps.map((label) => (
             <Step key={label}>
@@ -394,6 +409,7 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
                       {...register("termsAccepted", {
                         required: "You must accept the terms to proceed.",
                       })}
+                      checked={watch("termsAccepted") || false} // Ensure explicit boolean value
                       color="primary"
                     />
                   }
@@ -430,11 +446,11 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
             {activeStep === 2 && (
               <Box className="flex flex-col gap-4 items-center relative">
                 <Alert severity="warning" className="md:w-[75%] mb-6">
-                  <p className="text-md md:text-sm text-black mb-2">
+                  <p className="text-xl md:text-sm text-black mb-2">
                     To ensure your card looks great, choose a text color that
                     contrasts well with the background.
                   </p>
-                  <p className="text-md md:text-sm text-black">
+                  <p className="text-lg md:text-sm text-black">
                     - To hide text, match the text color to the background.{" "}
                     <br />- To remove the border, set both the text and border
                     color to white.
@@ -468,6 +484,13 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
                 </div>
                 {/* Color Pickers */}
                 <ColourPalette setValue={setValue} watch={watch} />
+                <Alert severity="warning">
+                  <p className="text-xl md:text-sm">
+                    If you require multiple cards with different details, please
+                    complete your first purchase and return to checkout to
+                    complete any further purchases.
+                  </p>
+                </Alert>
               </Box>
             )}
 
@@ -481,14 +504,6 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
                     <EmbeddedCheckout />
                   </EmbeddedCheckoutProvider>
                 </div>
-                {/* <Typography variant="h6" className="mb-4">
-                  Payment Details - tbd
-                </Typography> */}
-                {/* <TextField
-              fullWidth
-              label="Payment Information (Placeholder)"
-              {...register("paymentPlaceholder")}
-            /> */}
               </Box>
             )}
 
@@ -500,32 +515,45 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
               {activeStep > 0 && (
                 <Button
                   aria-label="Back"
-                  className="md:h-fit w-full md:w-fit rounded-full transition duration-300 ease-in-out transform"
+                  className="md:h-fit h-[70px] w-full md:w-[200px] rounded-full transition duration-300 ease-in-out transform"
                   type="button"
                   variant="outlined"
                   onClick={handleBack}
+                  sx={{ textTransform: "none" }}
                 >
                   <p className="text-3xl md:text-xl">Back</p>
+                  <FontAwesomeIcon
+                    icon={faChevronLeft}
+                    size="2xl"
+                    className="absolute left-4"
+                  />
                 </Button>
               )}
-              {activeStep < steps.length - 1 && (
+              {activeStep < steps.length - 2 && (
                 <Button
                   aria-label="Next"
-                  className="md:h-fit w-full md:w-fit rounded-full transition duration-300 ease-in-out transform"
+                  className="md:h-fit h-[70px] w-full md:w-[200px] rounded-full transition duration-300 ease-in-out transform flex items-center justify-center relative px-6"
                   type="button"
                   variant="contained"
                   onClick={handleNext}
+                  sx={{ textTransform: "none" }}
                 >
-                  <p className="text-3xl md:text-lg">Next</p>
+                  <p className="text-3xl md:text-lg mx-auto">Next</p>
+                  <FontAwesomeIcon
+                    icon={faChevronRight}
+                    size="2xl"
+                    className="absolute right-4"
+                  />
                 </Button>
               )}
 
               {activeStep === 2 && (
                 <Button
-                  aria-label="Save"
-                  className="md:h-fit w-full md:w-fit rounded-full transition duration-300 ease-in-out transform"
+                  aria-label="Proceed to Payment"
+                  className="md:h-fit h-[70px] w-full md:w-fit rounded-full transition duration-300 ease-in-out transform"
                   type="submit"
                   variant="contained"
+                  sx={{ textTransform: "none" }}
                 >
                   <p className="text-3xl md:text-xl">
                     {isCheckout ? "Proceed to Payment" : "Save"}
