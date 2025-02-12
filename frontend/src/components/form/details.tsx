@@ -13,6 +13,8 @@ import {
   Divider,
   Tooltip,
   Alert,
+  FormControlLabel,
+  Checkbox,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -139,6 +141,7 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
           "emergencyContacts",
           "insulinTypes",
           "emergencyInstructions",
+          "termsAccepted",
         ];
     }
     const isStepValid = await trigger(fieldsToValidate);
@@ -382,6 +385,45 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
                   error={!!errors.emergencyInstructions}
                   helperText={errors.emergencyInstructions?.message}
                 />
+                <Alert severity="info">
+                  Please review and accept the terms before proceeding.
+                </Alert>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      {...register("termsAccepted", {
+                        required: "You must accept the terms to proceed.",
+                      })}
+                      color="primary"
+                    />
+                  }
+                  label={
+                    <span>
+                      I agree to the{" "}
+                      <a
+                        href="/terms-and-conditions"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 underline"
+                      >
+                        Terms & Conditions
+                      </a>{" "}
+                      and{" "}
+                      <a
+                        href="/privacy-policy"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 underline"
+                      >
+                        Privacy Policy
+                      </a>
+                      .
+                    </span>
+                  }
+                />
+                {errors.termsAccepted && (
+                  <p className="text-red-500">{errors.termsAccepted.message}</p>
+                )}
               </Box>
             )}
 

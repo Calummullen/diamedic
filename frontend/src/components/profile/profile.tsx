@@ -51,6 +51,7 @@ export interface ProfileData {
   hasPaid: boolean;
   paymentPlaceholder?: string;
   id?: string;
+  termsAccepted?: boolean;
   meta: {
     cardBorderColour: string;
     cardTextColour: string;
