@@ -1,5 +1,6 @@
 import NodeGeocoder from "node-geocoder";
 import { formatAddress } from "../helpers/addressHelper";
+import * as Sentry from "@sentry/node";
 
 const geocoder = NodeGeocoder({
   provider: "openstreetmap",
@@ -30,7 +31,13 @@ export const getAddressFromCoordinates = async (
       throw new Error("No results found for the given coordinates.");
     }
   } catch (error) {
-    console.error("Error during reverse geocoding:", error);
+    Sentry.withScope((scope) => {
+      scope.setContext("Location Service: Failed to retrieve location", {
+        latitude,
+        longitude,
+      });
+      Sentry.captureException(error);
+    });
     return null;
   }
 };

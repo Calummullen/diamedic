@@ -8,6 +8,7 @@ import {
 import { sendSms } from "../services/smsService";
 import { getAddressFromCoordinates } from "../services/locationService";
 import uuid4 from "uuid4";
+import * as Sentry from "@sentry/node";
 
 const isLive = false;
 
@@ -28,7 +29,7 @@ export const createUserController = async (req: Request, res: Response) => {
       .status(201)
       .json({ message: "User created successfully.", userId });
   } catch (error) {
-    console.error(error);
+    Sentry.captureException(error);
     res.status(500).json({ error: "Failed to create profile" });
   }
 };
@@ -65,11 +66,14 @@ Time: ${currentTime}
           console.log(`SMS sent to ${phone}`);
         }
       } catch (error) {
-        console.error(`Failed to send SMS to ${phone}:`, error);
+        Sentry.withScope((scope) => {
+          scope.setContext("SMS Service: Failed to send SMS", { phone });
+          Sentry.captureException(error);
+        });
       }
     });
   } catch (error) {
-    console.error(error);
+    Sentry.captureException(error);
   }
 };
 
@@ -81,7 +85,7 @@ export const getUserController = async (req: Request, res: Response) => {
 
     res.json(profile);
   } catch (error) {
-    console.error(error);
+    Sentry.captureException(error);
     res.status(404).json({ error: (error as Error).message });
   }
 };
@@ -98,7 +102,7 @@ export const updateUserController = async (req: Request, res: Response) => {
     await updateUserProfile(id, result.data);
     res.json({ message: "Profile updated successfully" });
   } catch (error) {
-    console.error(error);
+    Sentry.captureException(error);
     res.status(500).json({ error: "Failed to update profile" });
   }
 };

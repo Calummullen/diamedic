@@ -1,5 +1,6 @@
 import Stripe from "stripe";
 import { Request, Response } from "express";
+import * as Sentry from "@sentry/node";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
@@ -57,7 +58,13 @@ export const getPaymentSessionController = async (
       payment_id: session.payment_intent,
     });
   } catch (error) {
-    console.error("Error retrieving checkout session:", error);
+    Sentry.withScope((scope) => {
+      scope.setContext(
+        "Checkout Session: Error retrieving checkout session",
+        req.body
+      );
+      Sentry.captureException(error);
+    });
     res.status(500).json({ error: "Internal server error" });
   }
 };

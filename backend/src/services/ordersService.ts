@@ -1,11 +1,14 @@
 import { db } from "../helpers/firestore";
 import { Order, orderSchema } from "../types/orders-schema";
+import * as Sentry from "@sentry/node";
 
 export const createOrder = async (data: Order) => {
   const parsedOrder = orderSchema.safeParse(data);
 
   if (!parsedOrder.success) {
-    console.error("Order data validation failed:", parsedOrder.error.format());
+    Sentry.captureException(
+      `Order Service: Failed to parse order schema ${parsedOrder}`
+    );
   } else {
     await db
       .collection("orders")
@@ -36,7 +39,7 @@ export const updateOrder = async (
 
     const doc = await orderRef.get();
     if (!doc.exists) {
-      console.error(`Order with ID ${userId} not found.`);
+      Sentry.captureException(`Order with ID ${userId} not found.`);
       throw new Error("Order not found");
     }
 
@@ -52,7 +55,13 @@ export const updateOrder = async (
     console.log(`Order ${userId} updated successfully.`);
     return updatedOrder;
   } catch (error) {
-    console.error("Error updating order status:", error);
+    Sentry.withScope((scope) => {
+      scope.setContext("Order Service: Failed to send order", {
+        userId,
+        status,
+      });
+      Sentry.captureException(error);
+    });
     throw new Error("Failed to update order status");
   }
 };

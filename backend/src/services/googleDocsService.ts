@@ -1,7 +1,7 @@
 import { google } from "googleapis";
+import * as Sentry from "@sentry/node";
 
 export const addRowToGoogleReport = async (invoiceUrl: string) => {
-  console.log("inside addRowToGoogleReport");
   const auth = new google.auth.GoogleAuth({
     credentials: {
       client_email: process.env.GOOGLE_CLIENT_EMAIL,
@@ -50,6 +50,11 @@ export const addRowToGoogleReport = async (invoiceUrl: string) => {
       },
     });
   } catch (error) {
-    console.error("Error appending row:", error);
+    Sentry.withScope((scope) => {
+      scope.setContext("Google Docs Service: Failed to append row", {
+        invoiceUrl,
+      });
+      Sentry.captureException(error);
+    });
   }
 };

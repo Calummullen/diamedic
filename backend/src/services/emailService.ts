@@ -3,6 +3,7 @@ import PDFDocument from "pdfkit";
 import path from "path";
 import fs from "fs";
 import Stripe from "stripe";
+import * as Sentry from "@sentry/node";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -161,8 +162,6 @@ export const generateShippingDetails = async (
 export const sendShippingEmail = async (
   customerData: Stripe.Checkout.Session.CustomerDetails
 ) => {
-  console.log("inside sendShippingEmail");
-
   try {
     // Generate the shipping label PDF
     const pdfPath = await generateShippingDetails(customerData);
@@ -191,7 +190,12 @@ export const sendShippingEmail = async (
     console.log("Email sent successfully:", emailResponse);
     return emailResponse;
   } catch (error) {
-    console.error("Failed to send email:", error);
+    Sentry.withScope((scope) => {
+      scope.setContext("Email Service: Failed to send shipping label", {
+        customerData,
+      });
+      Sentry.captureException(error);
+    });
     throw error;
   }
 };

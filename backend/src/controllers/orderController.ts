@@ -1,13 +1,14 @@
 import { Request, Response } from "express";
 import { Order } from "../types/orders-schema";
 import { getOrders, updateOrder } from "../services/ordersService";
+import * as Sentry from "@sentry/node";
 
 export const getOrdersController = async (req: Request, res: Response) => {
   try {
     const orders: Order[] = await getOrders();
     res.json(orders);
   } catch (error) {
-    console.error(error);
+    Sentry.captureException(error);
     res.status(404).json({ error: (error as Error).message });
   }
 };
@@ -27,7 +28,10 @@ export const updateOrderStatusController = async (
 
     res.json({ message: "Order status updated successfully", updatedOrder });
   } catch (error) {
-    console.error("Error updating order status:", error);
+    Sentry.withScope((scope) => {
+      scope.setContext("Order Status: Failed to update order", { ...req.body });
+      Sentry.captureException(error);
+    });
     res.status(500).json({ error: (error as Error).message });
   }
 };

@@ -3,7 +3,7 @@ import { init, profiler, startSpan } from "@sentry/node";
 import { nodeProfilingIntegration } from "@sentry/profiling-node";
 
 init({
-  dsn: "https://98a96c7fed3a0fefc7123c0e48ab744e@o4508803230269440.ingest.de.sentry.io/4508803232694352",
+  dsn: process.env.SENTRY_DNS,
   integrations: [nodeProfilingIntegration()],
   // Tracing
   tracesSampleRate: 1.0, //  Capture 100% of the transactions

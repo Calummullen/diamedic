@@ -166,5 +166,9 @@ app.use(cookieParser());
 app.use("/api", userRoutes);
 
 Sentry.setupExpressErrorHandler(app);
+process.on("unhandledRejection", (reason, promise) => {
+  console.error("Unhandled Rejection:", reason);
+  Sentry.captureException(reason);
+});
 
 export default app;

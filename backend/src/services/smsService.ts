@@ -1,4 +1,5 @@
 import twilio from "twilio";
+import * as Sentry from "@sentry/node";
 
 export const sendSms = async (phoneNumber: string, message: string) => {
   const client = twilio(

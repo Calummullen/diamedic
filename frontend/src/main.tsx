@@ -9,7 +9,7 @@ import { Footer } from "./components/landing-page/footer.tsx";
 import * as Sentry from "@sentry/react";
 
 Sentry.init({
-  dsn: "https://42231ab544fde6e083d1a7698e6edea0@o4508803230269440.ingest.de.sentry.io/4508805836046416",
+  dsn: import.meta.env.VITE_SENTRY_DNS,
   integrations: [
     Sentry.browserTracingIntegration(),
     Sentry.replayIntegration(),
