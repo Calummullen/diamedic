@@ -33,7 +33,7 @@ const CheckoutReturnPage: FC = () => {
     <>
       <div className="flex flex-col gap-12 md:gap-4 border-2 rounded-xl mx-auto my-12 p-4 md:p-12  md:w-[1000px]">
         <img alt="Thank you for your purchase" src={ThankYou} />
-        <p className="md:text-xl text-5xl">
+        <p className="md:text-xl text-4xl">
           Your payment has successfully been processed and your order placed.
         </p>
         <p className="md:text-xl text-4xl">
