@@ -34,7 +34,7 @@ export const paymentController = async (req: Request, res: Response) => {
       },
       return_url: `${process.env.FRONTEND_BASE_URL}/checkout/return?session_id={CHECKOUT_SESSION_ID}`,
     });
-
+    console.log("session secret", session.client_secret);
     return res.send({ clientSecret: session.client_secret });
   } catch (error) {
     console.log(error);
