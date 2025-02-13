@@ -64,7 +64,6 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
         }
       );
       const data = await response.json();
-      console.log("User ID after creation", data);
       if (data.userId) {
         setUserId(data.userId);
         setActiveStep(3);

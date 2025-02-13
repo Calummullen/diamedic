@@ -54,19 +54,25 @@ ${addressData?.address ? `Approximate location: ${addressData.address}` : ""}
 Time: ${currentTime}
 `;
 
-    profile.emergencyContacts.forEach(async ({ phone, notifySMS }) => {
-      try {
+    const smsPromises = profile.emergencyContacts.map(
+      async ({ phone, notifySMS }) => {
         if (notifySMS) {
-          await sendSms(phone, message);
-          console.log(`SMS sent to ${phone}`);
+          try {
+            await sendSms(phone, message);
+            console.log(`SMS sent to ${phone}`);
+          } catch (error) {
+            Sentry.withScope((scope) => {
+              scope.setContext("SMS Service: Failed to send SMS", { phone });
+              Sentry.captureException(error);
+            });
+          }
         }
-      } catch (error) {
-        Sentry.withScope((scope) => {
-          scope.setContext("SMS Service: Failed to send SMS", { phone });
-          Sentry.captureException(error);
-        });
       }
-    });
+    );
+
+    await Promise.all(smsPromises);
+
+    res.status(200).json({ message: "Emergency SMS sent successfully" });
   } catch (error) {
     Sentry.captureException(error);
   }

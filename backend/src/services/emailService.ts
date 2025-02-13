@@ -179,7 +179,6 @@ export const sendShippingEmail = async (
       ],
     });
 
-    console.log("Email sent successfully:", emailResponse);
     return emailResponse;
   } catch (error) {
     Sentry.withScope((scope) => {
