@@ -159,6 +159,7 @@ app.use(
   })
 );
 app.use(limiter);
+app.set("trust proxy", "loopback, linklocal, uniquelocal");
 app.use(express.json());
 app.use(cookieParser());
 
