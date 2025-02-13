@@ -19,7 +19,7 @@ export const paymentController = async (req: Request, res: Response) => {
       payment_method_types: ["card"],
       line_items: [
         {
-          price: "price_1Qnr74IXyhVTXfbeW4Is2wDG",
+          price: "price_1Qs9UrIXyhVTXfbeCCnAgUdg",
           quantity: 1,
         },
       ],
