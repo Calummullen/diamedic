@@ -36,7 +36,10 @@ export const paymentController = async (req: Request, res: Response) => {
     });
 
     return res.send({ clientSecret: session.client_secret });
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+    // Sentry.captureException(error);
+  }
 };
 
 export const getPaymentSessionController = async (
