@@ -1,7 +1,6 @@
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { FC, useEffect, useState } from "react";
 import ThankYou from "../../../public/thank-you.jpeg";
-import { Link } from "@mui/material";
 
 const CheckoutReturnPage: FC = () => {
   sessionStorage.removeItem("formData");
@@ -32,13 +31,8 @@ const CheckoutReturnPage: FC = () => {
 
   return (
     <>
-      <div className="flex flex-col gap-12 md:gap-4 border-2 rounded-xl mx-auto my-12 p-12 w-fit md:w-[1000px]">
-        <img
-          alt="Thank you for your purchase"
-          src={ThankYou}
-          height={isMobile ? 600 : 300}
-          width={isMobile ? 600 : 300}
-        />
+      <div className="flex flex-col gap-12 md:gap-4 border-2 rounded-xl mx-auto my-12 p-4 md:p-12  md:w-[1000px]">
+        <img alt="Thank you for your purchase" src={ThankYou} />
         <p className="md:text-xl text-5xl">
           Your payment has successfully been processed and your order placed.
         </p>
@@ -49,16 +43,11 @@ const CheckoutReturnPage: FC = () => {
           We estimate your Diamedic card will arrive between 3 and 5 working
           days, however we'll update you if anything changes.
         </p>
-        <p className="md:text-xl text-4xl">
+        <p className="md:text-xl text-3xl">
           If you have any problems or concerns, please contact{" "}
-          <Link
-            href="mailto:calum@diamedic.co.uk"
-            variant="h6"
-            color="primary"
-            underline="hover"
-          >
+          <a href="mailto:calum@diamedic.co.uk" className="text-blue-500">
             calum@diamedic.co.uk
-          </Link>{" "}
+          </a>{" "}
           and quote the above payment ID, and we'll do our best to resolve any
           problems.
         </p>
