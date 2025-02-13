@@ -32,12 +32,12 @@ const CheckoutReturnPage: FC = () => {
 
   return (
     <>
-      <div className="flex flex-col gap-12 md:gap-4 border-2 rounded-xl mx-auto my-12 p-12 md:w-[1000px]">
+      <div className="flex flex-col gap-12 md:gap-4 border-2 rounded-xl mx-auto my-12 p-12 w-fit md:w-[1000px]">
         <img
           alt="Thank you for your purchase"
           src={ThankYou}
-          //   height={isMobile ? 600 : 300}
-          //   width={isMobile ? 600 : 300}
+          height={isMobile ? 600 : 300}
+          width={isMobile ? 600 : 300}
         />
         <p className="md:text-xl text-5xl">
           Your payment has successfully been processed and your order placed.
