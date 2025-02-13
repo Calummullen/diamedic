@@ -121,7 +121,7 @@ app.post(
 
       // ✅ 6. Send Shipping & Confirmation Emails
       await safeExecute(
-        () => sendShippingEmail(session.customer_details!),
+        () => sendShippingEmail(session.customer_details!, userId),
         `Send shipping email to ${customerEmail}`
       );
       await safeExecute(

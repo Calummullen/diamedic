@@ -1,16 +1,12 @@
 import { useState } from "react";
 import MainLogo from "../../../public/main-logo.png";
 import Details from "../form/details";
-import { ProfileData } from "../profile/profile";
 import { useIsMobile } from "../../hooks/useIsMobile";
 export const Checkout: React.FC = () => {
   const isMobile = useIsMobile();
   const [error] = useState<string | null>(null);
-  const isLive = false;
 
-  return isLive ? (
-    <div className="flex m-auto text-4xl">Coming soon...</div>
-  ) : (
+  return (
     <div className="mb-8">
       <div className="relative bg-[#0101ff] md:pb-40 pb-14">
         <div className="flex items-center justify-center py-4 md:py-6 ">

@@ -10,12 +10,7 @@ import { getAddressFromCoordinates } from "../services/locationService";
 import uuid4 from "uuid4";
 import * as Sentry from "@sentry/node";
 
-const isLive = false;
-
 export const createUserController = async (req: Request, res: Response) => {
-  if (!isLive) {
-    return res.json({});
-  }
   const result = profileSchema.safeParse(req.body);
   const userId = uuid4();
 

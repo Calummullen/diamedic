@@ -109,65 +109,57 @@ export const sendOrderConfirmationEmail = async (
 
 export const generateShippingDetails = async (
   customerData: Stripe.Checkout.Session.CustomerDetails
-): Promise<string> => {
+): Promise<Buffer> => {
   // Define PDF dimensions (15x10 cm = 425 x 283 points)
   const doc = new PDFDocument({
-    size: [425, 283],
-    margins: { top: 20, bottom: 20, left: 20, right: 20 },
+    size: [288, 216],
+    margins: { top: 20, bottom: 0, left: 10, right: 5 },
   });
-  const montserratFontPath = path.resolve(__dirname, "fonts/montserrat.ttf");
-  // const montserratFontPath = "./fonts/montserrat.ttf"; // Ensure this path is correct
 
-  // Define output path (adjust as needed)
-  const filePath = `${customerData.email}_shipping_label.pdf`;
-  const stream = fs.createWriteStream(filePath);
-  doc.pipe(stream);
+  const bufferChunks: Buffer[] = [];
 
-  // Header
+  doc.on("data", (chunk) => bufferChunks.push(chunk));
+  doc.on("end", () => console.log("PDF generation complete"));
+
+  // Layout the page with two columns
   doc
-    .font(montserratFontPath)
-    .fontSize(25)
-    .text("Shipping Label", { align: "center" });
-  doc.moveDown();
-
-  // Recipient Details
-  doc
-    .font(montserratFontPath)
-    .fontSize(12)
-    .text("Recipient:", { underline: true });
-  doc.moveDown(0.5);
-
-  doc
-    .font(montserratFontPath)
     .fontSize(20)
-    .text(customerData.name ?? "")
-    .text(customerData.address?.line1 || "")
-    .text(customerData.address?.line2 || "") // Optional line
-    .text(customerData.address?.city || "")
-    .text(customerData.address?.postal_code || "")
-    .moveDown();
+    .text(
+      `${customerData.name ?? ""}\n${customerData.address?.line1 ?? ""}\n${
+        customerData.address?.line2 ?? ""
+      }\n${customerData.address?.city ?? ""}\n${
+        customerData.address?.postal_code ?? ""
+      }`,
+      10,
+      20,
+      { width: 100 }
+    );
 
-  // Optional: Draw a border around the label
-  doc.rect(10, 10, 405, 263).stroke();
+  doc
+    .fontSize(8)
+    .text(
+      `Return Address:\nDiamedic\n18a Walliscote Road South\nWeston-super-Mare\nUnited Kingdom`,
+      200,
+      20,
+      { width: 80 }
+    );
 
   // Finalize PDF
   doc.end();
 
-  return new Promise((resolve, reject) => {
-    stream.on("finish", () => resolve(filePath));
-    stream.on("error", (err) => reject(err));
+  return new Promise<Buffer>((resolve, reject) => {
+    doc.on("end", () => resolve(Buffer.concat(bufferChunks)));
+    doc.on("error", (err) => reject(err));
   });
 };
 
 export const sendShippingEmail = async (
-  customerData: Stripe.Checkout.Session.CustomerDetails
+  customerData: Stripe.Checkout.Session.CustomerDetails,
+  userId: string
 ) => {
   try {
     // Generate the shipping label PDF
-    const pdfPath = await generateShippingDetails(customerData);
-
-    // Read PDF as base64
-    const pdfBuffer = fs.readFileSync(pdfPath);
+    const pdfBuffer = await generateShippingDetails(customerData);
     const pdfBase64 = pdfBuffer.toString("base64");
 
     // Send the email with the PDF attachment
@@ -176,7 +168,7 @@ export const sendShippingEmail = async (
       to: "calum@diamedic.co.uk",
       subject: "Your Shipping Label",
       html: `
-        <p>Shipping label for ${customerData.email}</p>
+        <p>Shipping label for ${customerData.email} ${userId}</p>
       `,
       attachments: [
         {
