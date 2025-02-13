@@ -83,9 +83,8 @@ const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
 
     // Call Geolocation API
     navigator.geolocation.getCurrentPosition(
-      (position) => {
-        // Don't need to await, fire and forget
-        fetch(`${import.meta.env.VITE_API_URL}/api/send-emergency-sms`, {
+      async (position) => {
+        await fetch(`${import.meta.env.VITE_API_URL}/api/send-emergency-sms`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
