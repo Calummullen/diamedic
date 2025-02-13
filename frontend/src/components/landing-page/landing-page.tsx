@@ -7,14 +7,6 @@ import { FAQ } from "./faq";
 export const LandingPage: React.FC = () => {
   return (
     <div className=" bg-blue-200">
-      <button
-        onClick={() => {
-          throw new Error("This is another error!");
-        }}
-      >
-        Break the world
-      </button>
-      ;
       <Header />
       <Features />
       <HowItWorks />
