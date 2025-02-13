@@ -154,7 +154,7 @@ const safeExecute = async (fn: Function, actionDescription: string) => {
 // Middleware
 app.use(
   cors({
-    origin: [process.env.FRONTEND_BASE_URL!, "https://js.stripe.com"],
+    origin: "https://www.diamedic.co.uk",
     credentials: true,
   })
 );
