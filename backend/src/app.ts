@@ -154,7 +154,7 @@ const safeExecute = async (fn: Function, actionDescription: string) => {
 // Middleware
 app.use(
   cors({
-    origin: "https://www.diamedic.co.uk",
+    origin: process.env.FRONTEND_BASE_URL,
     credentials: true,
   })
 );

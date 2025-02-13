@@ -549,7 +549,7 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
               {activeStep === 2 && (
                 <Button
                   aria-label="Proceed to Payment"
-                  className="md:h-fit h-[70px] w-full md:w-fit rounded-full transition duration-300 ease-in-out transform"
+                  className="md:h-fit h-[80px] w-full md:w-fit rounded-full transition duration-300 ease-in-out transform"
                   type="submit"
                   variant="contained"
                   sx={{ textTransform: "none" }}
