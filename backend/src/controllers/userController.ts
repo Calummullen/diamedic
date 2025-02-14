@@ -11,7 +11,19 @@ import uuid4 from "uuid4";
 import * as Sentry from "@sentry/node";
 
 export const createUserController = async (req: Request, res: Response) => {
-  const result = profileSchema.safeParse(req.body);
+  const { id, ...profileData } = req.body;
+  const result = profileSchema.safeParse(profileData);
+
+  if (id) {
+    const existingUser: ProfileData = await getUserProfile(id);
+
+    if (existingUser) {
+      return res
+        .status(200)
+        .json({ message: "User already exists.", userId: id });
+    }
+  }
+
   const userId = uuid4();
 
   if (!result.success) {

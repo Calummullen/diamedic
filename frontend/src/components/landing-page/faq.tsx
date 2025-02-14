@@ -148,11 +148,13 @@ export const FAQ = () => {
             </AccordionSummary>
             <AccordionDetails>
               <Typography sx={sx}>
-                Your personal information is securely stored and accessible
-                through the QR code linked to your card. While this provides
-                less security than a traditional login, this is required to
-                enable first responders and bystanders to access your emergency
-                information.
+                Your personal information is securely stored and accessible via
+                the QR code on your card. To ensure that first responders and
+                bystanders can quickly access your emergency details in a
+                critical situation, the QR code does not require login
+                authentication. This means that anyone who scans your card will
+                be able to view the information, which is a necessary trade-off
+                to prioritize accessibility during emergencies.
               </Typography>
             </AccordionDetails>
           </Accordion>

@@ -60,7 +60,7 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
+          body: JSON.stringify({ ...formData, id: userId }),
         }
       );
       const data = await response.json();

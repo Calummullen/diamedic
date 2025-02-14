@@ -21,7 +21,8 @@ export const addToMailingList = async (email: string, name: string) => {
 
 export const sendOrderConfirmationEmail = async (
   to: string,
-  paymentId: string
+  paymentId: string,
+  userId: string
 ) => {
   return await resend.emails.send({
     from: "Diamedic <no-reply@diamedic.co.uk>",
@@ -98,6 +99,7 @@ export const sendOrderConfirmationEmail = async (
             <p><strong>Payment ID:</strong> ${paymentId}</p>
           </div>
           <div class="footer">
+            <p>If you need to change your details before your card arrives for any reason, you can access your profile <a href="https://www.diamedic.co.uk/${userId}">here</a></p>
             <p>If you have any questions or any problems, feel free to <a href="mailto:calum@diamedic.co.uk">contact us</a> and quote the above payment ID.</p>
             <p>Thank you for choosing Diamedic!</p>
           </div>

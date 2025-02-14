@@ -138,7 +138,7 @@ export const Features: React.FC = () => (
             icon={faHandBackFist}
             title="Durable Material"
             desc="Crafted from durable PVC, your Diamedic card is sturdy,
-              waterproof, and built to withstand any conditions"
+              waterproof, and built to withstand most conditions"
             align="text-end"
           />
           <SmallCard

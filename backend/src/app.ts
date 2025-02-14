@@ -125,7 +125,8 @@ app.post(
         `Send shipping email to ${customerEmail}`
       );
       await safeExecute(
-        () => sendOrderConfirmationEmail(customerEmail, paymentIntentId),
+        () =>
+          sendOrderConfirmationEmail(customerEmail, paymentIntentId, userId),
         `Send order confirmation to ${customerEmail}`
       );
 
