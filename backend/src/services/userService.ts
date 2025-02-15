@@ -11,12 +11,7 @@ export const createUserProfile = async (data: ProfileData, userId: string) => {
 
 export const getUserProfile = async (userId: string) => {
   const doc = await db.collection("users").doc(userId).get();
-  if (!doc.exists) {
-    Sentry.captureException(`User with ID ${userId} not found.`);
-    throw new Error("Profile not found");
-  }
-
-  return doc.data() as ProfileData;
+  return doc.exists ? (doc.data() as ProfileData) : null;
 };
 
 export const updateUserProfile = async (userId: string, data: ProfileData) => {

@@ -15,7 +15,7 @@ export const createUserController = async (req: Request, res: Response) => {
   const result = profileSchema.safeParse(profileData);
 
   if (id) {
-    const existingUser: ProfileData = await getUserProfile(id);
+    const existingUser: ProfileData | null = await getUserProfile(id);
 
     if (existingUser) {
       return res
