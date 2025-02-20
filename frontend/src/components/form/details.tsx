@@ -151,15 +151,15 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
 
     switch (activeStep) {
       case 0:
-        fieldsToValidate = ["name", "age", "dateOfBirth"];
-        break;
-      case 1:
         fieldsToValidate = [
+          "name",
+          "dateOfBirth",
           "emergencyContacts",
           "insulinTypes",
           "emergencyInstructions",
           "termsAccepted",
         ];
+        break;
     }
     const isStepValid = await trigger(fieldsToValidate);
     if (isStepValid) setActiveStep((prev) => prev + 1);
@@ -169,12 +169,7 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
     setActiveStep((prev) => prev - 1);
   };
 
-  const steps = [
-    "Personal Details",
-    "Emergency Details",
-    "Customise Card",
-    "Payment",
-  ];
+  const steps = ["Details", "Customise Card", "Payment"];
 
   return isLoading ? (
     <div className="mx-auto p-2">
@@ -195,25 +190,14 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
         <Paper className="p-6">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             {activeStep === 0 && (
-              <Box className="space-y-8 md:space-y-4">
-                <p className="mb-4 md:text-xl text-2xl">Personal Details</p>
+              <Box className="space-y-6 md:space-y-4">
+                <p className="mb-4 text-2xl">Personal Details</p>
                 <TextField
                   fullWidth
                   label="Full Name"
                   {...register("name", { required: "Name is required" })}
                   error={!!errors.name}
                   helperText={errors.name?.message}
-                />
-                <TextField
-                  fullWidth
-                  label="Age"
-                  type="number"
-                  {...register("age", {
-                    required: "Age is required",
-                    min: { value: 0, message: "Age must be positive" },
-                  })}
-                  error={!!errors.age}
-                  helperText={errors.age?.message}
                 />
                 <TextField
                   fullWidth
@@ -226,13 +210,10 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
                   error={!!errors.dateOfBirth}
                   helperText={errors.dateOfBirth?.message}
                 />
-              </Box>
-            )}
+                <Divider className="pt-4" />
 
-            {activeStep === 1 && (
-              <Box className="space-y-6 md:space-y-4">
-                <p className=" md:text-xl text-2xl">Emergency Contacts</p>
-                <p className="md:text-xs text-xl">
+                <p className="text-2xl">Emergency Contacts</p>
+                <p className="md:text-sm text-xl">
                   You have the option to enable SMS notifications for each of
                   your emergency contacts, ensuring they are alerted whenever
                   your QR code is scanned.
@@ -322,7 +303,7 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
                   <p className="md:text-sm text-xl">Add Emergency Contact</p>
                 </Button>
                 <Divider className="pt-4 md:pt-0" />
-                <p className="md:text-xl text-2xl">Insulin Information</p>
+                <p className="text-2xl">Insulin Information</p>
                 {insulinFields.map((field, index) => (
                   <Box
                     key={field.id}
@@ -445,7 +426,7 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
               </Box>
             )}
 
-            {activeStep === 2 && (
+            {activeStep === 1 && (
               <Box className="flex flex-col gap-4 items-center relative">
                 <Alert severity="warning" className="md:w-[75%] mb-6">
                   <p className="text-xl md:text-sm text-black mb-2">
@@ -520,7 +501,7 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
               </Box>
             )}
 
-            {activeStep === 3 && (
+            {activeStep === 2 && (
               <Box className="space-y-4">
                 <div id="checkout">
                   <EmbeddedCheckoutProvider
@@ -541,7 +522,7 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
               {activeStep > 0 && (
                 <Button
                   aria-label="Back"
-                  className="md:h-fit h-[70px] w-full md:w-[200px] rounded-full transition duration-300 ease-in-out transform"
+                  className="md:h-[60px] h-[70px] w-full md:w-[200px] rounded-full transition duration-300 ease-in-out transform"
                   type="button"
                   variant="outlined"
                   onClick={handleBack}
@@ -558,11 +539,12 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
               {activeStep < steps.length - 2 && (
                 <Button
                   aria-label="Next"
-                  className="md:h-fit h-[70px] w-full md:w-[200px] rounded-full transition duration-300 ease-in-out transform flex items-center justify-center relative px-6"
+                  className="md:h-[60px] h-[70px] w-full md:w-[200px] rounded-full transition duration-300 ease-in-out transform flex items-center justify-center relative px-6"
                   type="button"
                   variant="contained"
                   onClick={handleNext}
                   sx={{ textTransform: "none" }}
+                  disabled={!watch("termsAccepted")}
                 >
                   <p className="text-3xl md:text-lg mx-auto">Next</p>
                   <FontAwesomeIcon
@@ -573,10 +555,10 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
                 </Button>
               )}
 
-              {activeStep === 2 && (
+              {activeStep === 3 && (
                 <Button
                   aria-label="Proceed to Payment"
-                  className="md:h-fit h-[80px] w-full md:w-fit rounded-full transition duration-300 ease-in-out transform"
+                  className="md:h-[60px] h-[80px] w-full md:w-fit rounded-full transition duration-300 ease-in-out transform"
                   type="submit"
                   variant="contained"
                   sx={{ textTransform: "none" }}
