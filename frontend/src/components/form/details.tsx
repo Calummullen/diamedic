@@ -110,7 +110,7 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
     formState: { errors },
     watch,
   } = useForm<ProfileData>({
-    mode: "onChange",
+    mode: "onBlur",
     defaultValues: sessionStorage.getItem("formData")
       ? JSON.parse(sessionStorage.getItem("formData")!)
       : {
@@ -154,6 +154,7 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
         fieldsToValidate = [
           "name",
           "dateOfBirth",
+          "isUKResident",
           "emergencyContacts",
           "insulinTypes",
           "emergencyInstructions",
@@ -386,43 +387,62 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
                 <Alert severity="info">
                   Please review and accept the terms before proceeding.
                 </Alert>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      {...register("termsAccepted", {
-                        required: "You must accept the terms to proceed.",
-                      })}
-                      checked={watch("termsAccepted") || false} // Ensure explicit boolean value
-                      color="primary"
-                    />
-                  }
-                  label={
-                    <span>
-                      I agree to the{" "}
-                      <a
-                        href="/terms-and-conditions"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-600 underline"
-                      >
-                        Terms & Conditions
-                      </a>{" "}
-                      and{" "}
-                      <a
-                        href="/privacy-policy"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-600 underline"
-                      >
-                        Privacy Policy
-                      </a>
-                      .
-                    </span>
-                  }
-                />
-                {errors.termsAccepted && (
-                  <p className="text-red-500">{errors.termsAccepted.message}</p>
-                )}
+                <div>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        {...register("termsAccepted", {
+                          required: true,
+                        })}
+                        checked={watch("termsAccepted") || false} // Ensure explicit boolean value
+                        color="primary"
+                      />
+                    }
+                    label={
+                      <span>
+                        I agree to the{" "}
+                        <a
+                          href="/terms-and-conditions"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 underline"
+                        >
+                          Terms & Conditions
+                        </a>{" "}
+                        and{" "}
+                        <a
+                          href="/privacy-policy"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 underline"
+                        >
+                          Privacy Policy
+                        </a>
+                        .
+                      </span>
+                    }
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        {...register("isUKResident", {
+                          required: true,
+                        })}
+                        checked={watch("isUKResident") || false}
+                        color="primary"
+                      />
+                    }
+                    label={
+                      <label className="flex items-center gap-4">
+                        <span>Are you a UK resident?</span>
+                      </label>
+                    }
+                  />
+                  <p className="md:text-sm text-xl">
+                    We currently only ship to the UK. But we're planning on
+                    shipping internationally soon
+                  </p>
+                </div>
               </Box>
             )}
 
@@ -544,7 +564,7 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
                   variant="contained"
                   onClick={handleNext}
                   sx={{ textTransform: "none" }}
-                  disabled={!watch("termsAccepted")}
+                  disabled={!watch("termsAccepted") || !watch("isUKResident")}
                 >
                   <p className="text-3xl md:text-lg mx-auto">Next</p>
                   <FontAwesomeIcon

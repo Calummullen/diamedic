@@ -39,18 +39,13 @@ export interface ProfileData {
   emergencyContacts: EmergencyContact[];
   insulinTypes: { type: string; dosage: string }[];
   name: string;
-  age: string;
   email: string;
   dateOfBirth: string;
-  addressLine1: string;
-  addressLine2?: string;
-  city: string;
-  county?: string;
-  postcode: string;
   emergencyInstructions: string;
   hasPaid: boolean;
   paymentPlaceholder?: string;
   id?: string;
+  isUKResident?: boolean;
   termsAccepted?: boolean;
   meta: {
     cardBorderColour: string;
