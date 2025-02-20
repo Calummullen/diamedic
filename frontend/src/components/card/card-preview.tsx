@@ -8,6 +8,7 @@ interface CardPreviewProps {
   borderColour: string;
   textColour: string;
   diabetesTextColour: string;
+  orientation?: "horizontal" | "vertical";
 }
 
 const CardPreview: FC<CardPreviewProps> = ({
@@ -16,27 +17,30 @@ const CardPreview: FC<CardPreviewProps> = ({
   borderColour,
   textColour,
   diabetesTextColour,
+  orientation = "horizontal",
 }) => {
   const isMobile = useIsMobile();
   const [qrSize] = useState(isMobile ? 100 : 150);
 
   return (
     <div
-      className={`h-[200px] md:w-[450px] w-[325px] bg-white md:h-[280px] rounded-xl shadow-lg flex flex-col `}
+      className={`h-[200px] md:w-[450px] w-[325px] bg-white md:h-[280px] rounded-xl flex flex-col shadow-[0_-4px_8px_rgba(0,0,0,0.1),0_4px_8px_rgba(0,0,0,0.1)]`}
       style={{ aspectRatio: "1.586" }} // Standard credit card ratio
     >
       {/* Header */}
-      <div
-        className={`rounded-t-xl flex items-center justify-center h-[30px] py-3 md:py-1`}
-        style={{ backgroundColor: borderColour }}
-      >
-        <h2
-          style={{ color: textColour }}
-          className="font-bold text-sm md:text-lg"
+      {orientation === "horizontal" && (
+        <div
+          className={`rounded-t-xl flex items-center justify-center h-[40px] py-3 md:py-1`}
+          style={{ backgroundColor: borderColour }}
         >
-          Diabetic Emergency Details
-        </h2>
-      </div>
+          <h2
+            style={{ color: textColour }}
+            className="font-bold text-sm md:text-lg"
+          >
+            Diabetic Emergency Details
+          </h2>
+        </div>
+      )}
 
       {/* Main Content */}
       <div className="flex gap-2 pl-4 flex-1">
@@ -72,25 +76,22 @@ const CardPreview: FC<CardPreviewProps> = ({
             </p>
             <p className="text-sm md:text-lg">Date of Birth</p>
           </div>
-          {/* <p className="text-2xl md:text-xs text-center mt-2 opacity-70">
-            Demo QR Code
-            <br />
-            Will be updated upon purchase
-          </p> */}
         </div>
 
         {/* Small Column - Vertical Text */}
-        <div
-          style={{ backgroundColor: borderColour }}
-          className=" w-[30px] rounded-t-none rounded-r-xl flex items-center pb-8 justify-center"
-        >
-          <h2
-            style={{ color: textColour }}
-            className="font-bold text-xs md:text-xs transform rotate-90 whitespace-nowrap"
+        {orientation === "vertical" && (
+          <div
+            style={{ backgroundColor: borderColour }}
+            className=" w-[40px] rounded-r-xl flex items-center justify-center"
           >
-            Diabetic Emergency Details
-          </h2>
-        </div>
+            <h2
+              style={{ color: textColour }}
+              className="font-bold text-sm md:text-lg transform rotate-90 whitespace-nowrap"
+            >
+              Diabetic Emergency Details
+            </h2>
+          </div>
+        )}
       </div>
     </div>
   );

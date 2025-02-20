@@ -45,6 +45,9 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
   const [activeStep, setActiveStep] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [cardOrientation, setCardOrientation] = useState<
+    "horizontal" | "vertical"
+  >("horizontal");
   const [userId, setUserId] = useState(() => {
     return localStorage.getItem("userId") || undefined; // Load from storage if available
   });
@@ -457,7 +460,27 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
                 </Alert>
 
                 {/* Card + Button */}
-                <div className="flex flex-col md:gap-4 gap-12 items-center">
+                <div className="flex flex-col md:gap-6 gap-12 items-center">
+                  <div className="grid md:grid-cols-2 grid-cols-1 gap-4 w-full place-items-center">
+                    <div className="flex flex-row items-center gap-4">
+                      <input
+                        type="checkbox"
+                        className="w-10 h-10 md:w-6 md:h-6"
+                        checked={cardOrientation === "horizontal"}
+                        onChange={() => setCardOrientation("horizontal")}
+                      />
+                      <label className="md:text-sm text-md">Horizontal</label>
+                    </div>
+                    <div className="flex flex-row items-center gap-4">
+                      <input
+                        type="checkbox"
+                        className="w-10 h-10 md:w-6 md:h-6"
+                        checked={cardOrientation === "vertical"}
+                        onChange={() => setCardOrientation("vertical")}
+                      />
+                      <label className="md:text-sm text-md">Vertical</label>
+                    </div>
+                  </div>
                   <CardPreview
                     fullName="Test User"
                     dateOfBirth="12/01/1990"
@@ -466,7 +489,11 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
                     diabetesTextColour={
                       matchBorderColour ? borderColour : "#000000"
                     }
+                    orientation={cardOrientation}
                   />
+                  <p className="italic text-xs">
+                    Card preview for reference. Final product may vary slightly
+                  </p>
                 </div>
                 <div className="flex items-center gap-4 my-6 md:my-0 mx-4">
                   <input
