@@ -31,7 +31,7 @@ export const ColourPalette: FC<{
       <div className="grid md:grid-cols-2 grid-cols-1 w-full gap-8 md:gap-4 p-4">
         {/* Card Border Colour Selection */}
         <div className="flex flex-col gap-6 md:gap-4 items-center md:text-xl text-3xl">
-          <p>Card Border Colour</p>
+          <p>Border Colour</p>
           <div className="grid grid-cols-3 gap-4">
             {predefinedBorderColors.map((color) => (
               <button

@@ -441,7 +441,7 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
                 </Alert>
 
                 {/* Card + Button */}
-                <div className="flex flex-col md:gap-6 gap-12 items-center">
+                <div className="flex flex-col gap-6 items-center">
                   <div className="grid grid-cols-2 gap-4 w-full place-items-center">
                     <div className="flex flex-row items-center gap-4">
                       <input
@@ -472,11 +472,13 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
                     }
                     orientation={cardOrientation}
                   />
-                  <p className="italic text-xs w-[320px]">
-                    Card preview for reference. Final product may vary slightly
-                  </p>
                 </div>
-                <div className="flex items-center gap-4 my-6 md:my-0 mx-4">
+                <p className="italic text-xs w-[320px]">
+                  Card preview for reference. Final product may vary slightly
+                </p>
+                {/* Color Pickers */}
+                <ColourPalette setValue={setValue} watch={watch} />
+                <div className="flex items-center gap-4 mx-4">
                   <input
                     type="checkbox"
                     className="w-10 h-10 md:w-6 md:h-6"
@@ -489,8 +491,6 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
                     Match "Type 1 Diabetic" text with border colour
                   </label>
                 </div>
-                {/* Color Pickers */}
-                <ColourPalette setValue={setValue} watch={watch} />
                 <Alert severity="warning">
                   <p className="text-xl md:text-sm">
                     If you require multiple cards with different details, please

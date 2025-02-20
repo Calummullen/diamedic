@@ -30,7 +30,7 @@ const CardPreview: FC<CardPreviewProps> = ({
       {/* Header */}
       {orientation === "horizontal" && (
         <div
-          className={`rounded-t-xl flex items-center justify-center h-[40px] py-3 md:py-1`}
+          className={`rounded-t-xl flex items-center justify-center h-[35px] py-3 md:py-1`}
           style={{ backgroundColor: borderColour }}
         >
           <h2
@@ -43,10 +43,10 @@ const CardPreview: FC<CardPreviewProps> = ({
       )}
 
       {/* Main Content */}
-      <div className="flex gap-2 pl-4 flex-1">
+      <div className="flex pl-4 flex-1">
         {/* Left Column - Personal Details */}
-        <div className="flex-1 flex flex-col md:mt-0 mt-4 md:justify-center">
-          <div className="flex flex-col gap-2 md:gap-6">
+        <div className="flex-1 flex flex-col justify-center">
+          <div className="flex flex-col gap-4 md:gap-6">
             <p className="text-2xl md:text-3xl">
               I'm a{" "}
               <span style={{ color: diabetesTextColour }} className="font-bold">
@@ -86,7 +86,7 @@ const CardPreview: FC<CardPreviewProps> = ({
           >
             <h2
               style={{ color: textColour }}
-              className="font-bold text-sm md:text-lg transform rotate-90 whitespace-nowrap"
+              className="font-bold text-xs md:text-lg transform rotate-90 whitespace-nowrap"
             >
               Diabetic Emergency Details
             </h2>
