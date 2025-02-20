@@ -103,6 +103,21 @@ const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
   const handleEditClick = () => {
     navigate(`/${id}/edit-profile`, { state: { ...data, id } }); // Navigate to edit page
   };
+
+  const calculateAge = (dateOfBirth: string) => {
+    const dob = new Date(dateOfBirth);
+    const today = new Date();
+
+    let age = today.getFullYear() - dob.getFullYear();
+    const monthDiff = today.getMonth() - dob.getMonth();
+
+    // If birth month is after today’s month OR it's the same month but day is later, subtract one year
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+      age--;
+    }
+
+    return age;
+  };
   return (
     <div>
       <ConfirmDialog
@@ -154,7 +169,9 @@ const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
                 </div>
                 <div className="flex flex-row gap-2 text-2xl items-center">
                   <h3 className="text-black">Age:</h3>
-                  <h3 className="text-black">{data.age}</h3>
+                  <h3 className="text-black">
+                    {calculateAge(data.dateOfBirth)}
+                  </h3>
                 </div>
                 <div className="flex flex-row gap-2 text-2xl items-center">
                   <h3 className="text-black">Date of Birth:</h3>
@@ -360,7 +377,7 @@ const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
               <div>
                 <Typography className="text-gray-600 uppercase">Age</Typography>
                 <Typography variant="h6" className="text-lg font-bold">
-                  {data.age}
+                  {calculateAge(data.dateOfBirth)}
                 </Typography>
               </div>
               <div>
@@ -422,37 +439,6 @@ const Profile: React.FC<{ data: ProfileData }> = ({ data }) => {
                     {data.emergencyInstructions}
                   </Typography>
                 </div>
-              </AccordionDetails>
-            </Accordion>
-          </div>
-
-          {/* Address */}
-          <div className="rounded-lg shadow-lg border-l-4 border-green-600">
-            <Accordion sx={{ boxShadow: "none" }}>
-              <AccordionSummary expandIcon={<ExpandMore />}>
-                <div className="flex items-center gap-3">
-                  <div className="bg-green-600 text-white p-2 rounded-full">
-                    <Home />
-                  </div>
-                  <Typography variant="h5" className="font-bold text-green-600">
-                    Address
-                  </Typography>
-                </div>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography className="text-lg">{data.addressLine1}</Typography>
-                {data.addressLine2 && (
-                  <Typography className="text-lg">
-                    {data.addressLine2}
-                  </Typography>
-                )}
-                <Typography className="text-lg">{data.city}</Typography>
-                {data.county && (
-                  <Typography className="text-lg">{data.county}</Typography>
-                )}
-                <Typography className="text-lg font-semibold">
-                  {data.postcode}
-                </Typography>
               </AccordionDetails>
             </Accordion>
           </div>
