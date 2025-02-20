@@ -20,7 +20,7 @@ const CardPreview: FC<CardPreviewProps> = ({
   orientation = "horizontal",
 }) => {
   const isMobile = useIsMobile();
-  const [qrSize] = useState(isMobile ? 100 : 150);
+  const [qrSize] = useState(isMobile ? 90 : 150);
 
   return (
     <div
@@ -45,9 +45,9 @@ const CardPreview: FC<CardPreviewProps> = ({
       {/* Main Content */}
       <div className="flex gap-2 pl-4 flex-1">
         {/* Left Column - Personal Details */}
-        <div className="flex-1 flex flex-col justify-center">
+        <div className="flex-1 flex flex-col md:mt-0 mt-4 md:justify-center">
           <div className="flex flex-col gap-2 md:gap-6">
-            <p className="text-xl md:text-3xl">
+            <p className="text-2xl md:text-3xl">
               I'm a{" "}
               <span style={{ color: diabetesTextColour }} className="font-bold">
                 Type 1 Diabetic

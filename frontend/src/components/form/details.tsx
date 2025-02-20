@@ -442,7 +442,7 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
 
                 {/* Card + Button */}
                 <div className="flex flex-col md:gap-6 gap-12 items-center">
-                  <div className="grid md:grid-cols-2 grid-cols-1 gap-4 w-full place-items-center">
+                  <div className="grid grid-cols-2 gap-4 w-full place-items-center">
                     <div className="flex flex-row items-center gap-4">
                       <input
                         type="checkbox"
@@ -472,7 +472,7 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
                     }
                     orientation={cardOrientation}
                   />
-                  <p className="italic text-xs">
+                  <p className="italic text-xs w-[320px]">
                     Card preview for reference. Final product may vary slightly
                   </p>
                 </div>
