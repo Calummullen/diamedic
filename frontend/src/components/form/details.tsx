@@ -69,7 +69,7 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
       const data = await response.json();
       if (data.userId) {
         setUserId(data.userId);
-        setActiveStep(3);
+        setActiveStep(2);
       }
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -555,7 +555,7 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
                 </Button>
               )}
 
-              {activeStep === 3 && (
+              {activeStep === 1 && (
                 <Button
                   aria-label="Proceed to Payment"
                   className="md:h-[60px] h-[80px] w-full md:w-fit rounded-full transition duration-300 ease-in-out transform"
@@ -570,9 +570,13 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
               )}
             </Box>
           </form>
+          {error && (
+            <div className="flex justify-center mt-4">
+              <p className="text-red-500 text-xl">{error}</p>
+            </div>
+          )}
         </Paper>
       </Box>
-      {error && <p className="text-red-500 text-xl">{error}</p>}
     </div>
   );
 };
