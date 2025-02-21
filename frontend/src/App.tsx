@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -15,6 +15,7 @@ import Contact from "./components/footer/contact";
 import CheckoutReturnPage from "./components/checkout/return";
 import LoadingSpinner from "./components/loading/loading-spinner";
 import { Link } from "@mui/material";
+import { NotFoundPage } from "./components/not-found/not-found";
 
 function App() {
   return (
@@ -23,11 +24,12 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/checkout/return" element={<CheckoutReturnPage />} />
-        <Route path="/:id" element={<UserInfo />} />
-        <Route path="/:id/edit-profile" element={<EditProfile />} />
+        <Route path="/profile/:id" element={<UserInfo />} />
+        <Route path="/profile/:id/edit-profile" element={<EditProfile />} />
         <Route path="/terms-and-conditions" element={<TermsPage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>
   );
@@ -35,17 +37,16 @@ function App() {
 
 const UserInfo = () => {
   const { id: userId } = useParams();
-  const [userData, setUserData] = useState<ProfileData>({} as ProfileData);
+  const [userData, setUserData] = useState<ProfileData | undefined>(undefined);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     if (!userId) {
       setError("Invalid request.");
       setLoading(false);
       return;
     }
-
     try {
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/api/u/${userId}`,
@@ -59,15 +60,18 @@ const UserInfo = () => {
       const data = await response.json();
       setUserData(data);
     } catch (err: unknown) {
-      setError("Error loading data.");
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("An unknown error has occurred.");
+      }
     } finally {
       setLoading(false);
     }
-  };
-
+  }, [userId]);
   useEffect(() => {
     fetchData();
-  }, [userId]);
+  }, [fetchData]);
 
   if (loading) return <LoadingSpinner />;
   if (error) return <ErrorPage text={error} id={userId || "ID not found"} />;
@@ -75,7 +79,7 @@ const UserInfo = () => {
     return (
       <ErrorPage text="No user data found" id={userId || "ID not found"} />
     );
-  if (!userData.hasPaid)
+  if (userData && !userData.hasPaid)
     return (
       <ErrorPage
         text="Payment has not been made. Please contact support for assistance."
@@ -103,7 +107,7 @@ const ErrorPage = ({ text, id }: { text: string; id: string }) => {
         >
           calum@diamedic.co.uk
         </Link>{" "}
-        if the issue continues and quote the below ID.
+        if the issue continues and quote the below ID:
       </p>
       <p className="text-xl">{id}</p>
     </div>
