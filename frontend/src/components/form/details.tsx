@@ -387,7 +387,7 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
                 <Alert severity="info">
                   Please review and accept the terms before proceeding.
                 </Alert>
-                <div>
+                <div className="flex flex-col gap-4">
                   <FormControlLabel
                     control={
                       <Checkbox
