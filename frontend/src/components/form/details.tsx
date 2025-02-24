@@ -387,60 +387,52 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
                 <Alert severity="info">
                   Please review and accept the terms before proceeding.
                 </Alert>
-                <div className="flex flex-col gap-4">
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        {...register("termsAccepted", {
-                          required: true,
-                        })}
-                        checked={watch("termsAccepted") || false} // Ensure explicit boolean value
-                        color="primary"
-                      />
-                    }
-                    label={
-                      <span>
-                        I agree to the{" "}
-                        <a
-                          href="/terms-and-conditions"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-600 underline"
-                        >
-                          Terms & Conditions
-                        </a>{" "}
-                        and{" "}
-                        <a
-                          href="/privacy-policy"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-600 underline"
-                        >
-                          Privacy Policy
-                        </a>
-                        .
-                      </span>
-                    }
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        {...register("isUKResident", {
-                          required: true,
-                        })}
-                        checked={watch("isUKResident") || false}
-                        color="primary"
-                      />
-                    }
-                    label={
-                      <label className="flex items-center gap-4">
-                        <span>Are you a UK resident?</span>
-                      </label>
-                    }
-                  />
+                <div className="flex flex-col gap-2">
+                  <div className="flex flex-row gap-4 items-center">
+                    <input
+                      type="checkbox"
+                      className="md:w-4 w-[3.25rem] md:h-4 h-[3.25rem]" // Adjust size and color
+                      {...register("termsAccepted", {
+                        required: true,
+                      })}
+                      checked={watch("termsAccepted") || false} // Ensure explicit boolean value
+                    />
+                    <span className="text-lg">
+                      I agree to the{" "}
+                      <a
+                        href="/terms-and-conditions"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 underline"
+                      >
+                        Terms & Conditions
+                      </a>{" "}
+                      and{" "}
+                      <a
+                        href="/privacy-policy"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 underline"
+                      >
+                        Privacy Policy
+                      </a>
+                      .
+                    </span>
+                  </div>
+                  <div className="flex flex-row gap-4 items-center">
+                    <input
+                      type="checkbox"
+                      className="md:w-4 w-8 md:h-4 h-8" // Adjust size and color
+                      {...register("isUKResident", {
+                        required: true,
+                      })}
+                      checked={watch("isUKResident") || false}
+                    />
+                    <span className="text-lg">Are you a UK resident?</span>
+                  </div>
                   <p className="md:text-sm text-xl">
                     We currently only ship to the UK. But we're planning on
-                    shipping internationally soon
+                    shipping internationally soon.
                   </p>
                 </div>
               </Box>
@@ -494,7 +486,8 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
                   />
                 </div>
                 <p className="italic text-xs w-[320px]">
-                  Card preview for reference. Final product may vary slightly
+                  Card preview for reference. Final product may vary slightly,
+                  including colour and text placement.
                 </p>
                 {/* Color Pickers */}
                 <ColourPalette setValue={setValue} watch={watch} />

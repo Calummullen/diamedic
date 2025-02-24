@@ -7,13 +7,13 @@ export const ColourPalette: FC<{
   watch: UseFormWatch<ProfileData>;
 }> = ({ setValue, watch }) => {
   const predefinedBorderColors = [
-    { name: "Red", value: "#FF0000" },
-    { name: "Blue", value: "#0000FF" },
-    { name: "Green", value: "#008000" },
-    { name: "Orange", value: "#FFA500" },
-    { name: "Magenta", value: "#FF00FF" },
-    { name: "Yellow", value: "#FFFF00" },
-    { name: "Purple", value: "#800080" },
+    { name: "Red", value: "#CC0000" },
+    { name: "Blue", value: "#0000CC" },
+    { name: "Green", value: "#00CC00" },
+    { name: "Orange", value: "#CCA500" },
+    { name: "Magenta", value: "#CC00CC" },
+    { name: "Yellow", value: "#CCCC00" },
+    { name: "Cyan", value: "#00CCCC" },
     { name: "White", value: "#FFFFFF" },
     { name: "Black", value: "#000000" },
   ];
