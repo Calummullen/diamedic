@@ -50,6 +50,28 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
     return localStorage.getItem("userId") || undefined; // Load from storage if available
   });
 
+  const predefinedBorderColors = [
+    { name: "Red", value: "#CC0000" },
+    { name: "Blue", value: "#0000CC" },
+    { name: "Green", value: "#00CC00" },
+    { name: "Magenta", value: "#CC00CC" },
+    { name: "Yellow", value: "#FFFF00", singleColour: "Black" },
+    { name: "Cyan", value: "#00CCCC" },
+  ];
+
+  const predefinedTextColors = [
+    { name: "White", value: "#FFFFFF" },
+    { name: "Black", value: "#000000" },
+  ];
+
+  const isDisabled = (colour: string) => {
+    const foundColour = predefinedBorderColors.find(
+      (c) => c.value === borderColour
+    )?.singleColour;
+    if (!foundColour) return false;
+    return foundColour !== colour;
+  };
+
   const isMobile = useIsMobile();
 
   const onSubmit = async (formData: ProfileData) => {
@@ -125,7 +147,6 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
   const borderColour = watch("meta.cardBorderColour");
   const textColour = watch("meta.cardTextColour");
   const matchBorderColour = watch("meta.matchBorderColour") ?? false;
-
   const watchAllFields = watch();
 
   useEffect(() => {
@@ -167,7 +188,6 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
   const handleBack = () => {
     setActiveStep((prev) => prev - 1);
   };
-
   const steps = ["Details", "Customise Card", "Payment"];
 
   return isLoading ? (
@@ -476,9 +496,16 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
                     fullName="Test User"
                     dateOfBirth="12/01/1990"
                     borderColour={borderColour}
-                    textColour={textColour}
+                    textColour={
+                      predefinedBorderColors
+                        .find((c) => c.value === borderColour)
+                        ?.singleColour?.toLowerCase() ?? textColour
+                    }
                     diabetesTextColour={
-                      matchBorderColour ? borderColour : "#000000"
+                      predefinedBorderColors
+                        .find((c) => c.value === borderColour)
+                        ?.singleColour?.toLowerCase() ??
+                      (matchBorderColour ? borderColour : "#000000")
                     }
                     orientation={cardOrientation}
                   />
@@ -488,20 +515,27 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
                   including colour and text placement.
                 </p>
                 {/* Color Pickers */}
-                <ColourPalette setValue={setValue} watch={watch} />
-                <div className="flex items-center gap-4 mx-4">
-                  <input
-                    type="checkbox"
-                    className="w-10 h-10 md:w-6 md:h-6"
-                    checked={matchBorderColour}
-                    onChange={(e) => {
-                      setValue("meta.matchBorderColour", e.target.checked);
-                    }}
-                  />
-                  <label className="md:text-sm text-md">
-                    Match "Type 1 Diabetic" text with border colour
-                  </label>
-                </div>
+                <ColourPalette
+                  setValue={setValue}
+                  watch={watch}
+                  predefinedBorderColors={predefinedBorderColors}
+                  predefinedTextColors={predefinedTextColors}
+                />
+                {!isDisabled(borderColour) && (
+                  <div className="flex items-center gap-4 mx-4">
+                    <input
+                      type="checkbox"
+                      className="w-10 h-10 md:w-6 md:h-6"
+                      checked={matchBorderColour}
+                      onChange={(e) => {
+                        setValue("meta.matchBorderColour", e.target.checked);
+                      }}
+                    />
+                    <label className="md:text-sm text-md">
+                      Match "Type 1 Diabetic" text with border colour
+                    </label>
+                  </div>
+                )}
                 <Alert severity="warning">
                   <p className="text-xl md:text-sm">
                     If you require multiple cards with different details, please

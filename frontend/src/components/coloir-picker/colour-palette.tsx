@@ -1,30 +1,32 @@
 import { FC } from "react";
 import { UseFormSetValue, UseFormWatch } from "react-hook-form";
 import { ProfileData } from "../profile/profile";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLock } from "@fortawesome/free-solid-svg-icons";
 
 export const ColourPalette: FC<{
   setValue: UseFormSetValue<ProfileData>;
   watch: UseFormWatch<ProfileData>;
-}> = ({ setValue, watch }) => {
-  const predefinedBorderColors = [
-    { name: "Red", value: "#CC0000" },
-    { name: "Blue", value: "#0000CC" },
-    { name: "Green", value: "#00CC00" },
-    { name: "Orange", value: "#CCA500" },
-    { name: "Magenta", value: "#CC00CC" },
-    { name: "Yellow", value: "#CCCC00" },
-    { name: "Cyan", value: "#00CCCC" },
-    { name: "White", value: "#FFFFFF" },
-    { name: "Black", value: "#000000" },
-  ];
-
-  const predefinedTextColors = [
-    { name: "White", value: "#FFFFFF" },
-    { name: "Black", value: "#000000" },
-  ];
-
+  predefinedBorderColors: {
+    name: string;
+    value: string;
+    singleColour?: string;
+  }[];
+  predefinedTextColors: {
+    name: string;
+    value: string;
+    singleColour?: string;
+  }[];
+}> = ({ setValue, watch, predefinedBorderColors, predefinedTextColors }) => {
   const borderColour = watch("meta.cardBorderColour");
   const textColour = watch("meta.cardTextColour");
+  const isDisabled = (colour: string) => {
+    const foundColour = predefinedBorderColors.find(
+      (c) => c.value === borderColour
+    )?.singleColour;
+    if (!foundColour) return false;
+    return foundColour !== colour;
+  };
 
   return (
     <div className="flex flex-col items-center w-fit">
@@ -44,7 +46,13 @@ export const ColourPalette: FC<{
                     : "border-gray-300"
                 }`}
                 style={{ backgroundColor: color.value }}
-                onClick={() => setValue("meta.cardBorderColour", color.value)}
+                onClick={() => {
+                  setValue("meta.cardBorderColour", color.value);
+                  if (color.name === "Yellow") {
+                    setValue("meta.cardTextColour", "#000000");
+                    setValue("meta.matchBorderColour", false);
+                  }
+                }}
               />
             ))}
           </div>
@@ -54,20 +62,37 @@ export const ColourPalette: FC<{
         <div className="flex flex-col gap-6 md:gap-4 items-center md:text-xl text-3xl">
           <p>Text Colour</p>
           <div className="flex gap-4">
-            {predefinedTextColors.map((color) => (
+            {borderColour === "#FFFF00" ? (
               <button
-                key={color.value}
-                aria-label={`Select text colour ${color.name}`}
+                key={"yellow"}
+                aria-label={`Select text colour yellow`}
                 type="button"
-                className={`w-16 h-16 md:h-12 md:w-12 rounded-xl border-2 ${
-                  textColour === color.value
-                    ? "border-black"
-                    : "border-gray-300"
-                }`}
-                style={{ backgroundColor: color.value }}
-                onClick={() => setValue("meta.cardTextColour", color.value)}
-              />
-            ))}
+                className={`w-16 h-16 md:h-12 md:w-12 rounded-xl border-2 ${"border-green-500"}`}
+                style={{ backgroundColor: "#000000" }}
+              ></button>
+            ) : (
+              predefinedTextColors.map((color) => {
+                return (
+                  <button
+                    disabled={isDisabled(color.name)}
+                    key={color.value}
+                    aria-label={`Select text colour ${color.name}`}
+                    type="button"
+                    className={`w-16 h-16 md:h-12 md:w-12 rounded-xl border-2 ${
+                      textColour === color.value
+                        ? "border-green-500"
+                        : "border-gray-300"
+                    }`}
+                    style={{ backgroundColor: color.value }}
+                    onClick={() => setValue("meta.cardTextColour", color.value)}
+                  >
+                    {isDisabled(color.name) && (
+                      <FontAwesomeIcon icon={faLock} style={{ color: "red" }} />
+                    )}
+                  </button>
+                );
+              })
+            )}
           </div>
         </div>
       </div>
