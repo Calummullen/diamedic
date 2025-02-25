@@ -1,8 +1,6 @@
 import { FC } from "react";
 import { UseFormSetValue, UseFormWatch } from "react-hook-form";
 import { ProfileData } from "../profile/profile";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLock } from "@fortawesome/free-solid-svg-icons";
 
 export const ColourPalette: FC<{
   setValue: UseFormSetValue<ProfileData>;
@@ -20,13 +18,6 @@ export const ColourPalette: FC<{
 }> = ({ setValue, watch, predefinedBorderColors, predefinedTextColors }) => {
   const borderColour = watch("meta.cardBorderColour");
   const textColour = watch("meta.cardTextColour");
-  const isDisabled = (colour: string) => {
-    const foundColour = predefinedBorderColors.find(
-      (c) => c.value === borderColour
-    )?.singleColour;
-    if (!foundColour) return false;
-    return foundColour !== colour;
-  };
 
   return (
     <div className="flex flex-col items-center w-fit">
@@ -74,7 +65,6 @@ export const ColourPalette: FC<{
               predefinedTextColors.map((color) => {
                 return (
                   <button
-                    disabled={isDisabled(color.name)}
                     key={color.value}
                     aria-label={`Select text colour ${color.name}`}
                     type="button"
@@ -85,11 +75,7 @@ export const ColourPalette: FC<{
                     }`}
                     style={{ backgroundColor: color.value }}
                     onClick={() => setValue("meta.cardTextColour", color.value)}
-                  >
-                    {isDisabled(color.name) && (
-                      <FontAwesomeIcon icon={faLock} style={{ color: "red" }} />
-                    )}
-                  </button>
+                  ></button>
                 );
               })
             )}
