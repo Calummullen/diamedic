@@ -41,7 +41,6 @@ export const ColourPalette: FC<{
                   setValue("meta.cardBorderColour", color.value);
                   if (color.name === "Yellow") {
                     setValue("meta.cardTextColour", "#000000");
-                    setValue("meta.matchBorderColour", false);
                   }
                 }}
               />

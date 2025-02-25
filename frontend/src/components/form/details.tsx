@@ -139,14 +139,12 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
           meta: {
             cardBorderColour: "#0000FF",
             cardTextColour: "#FFFFFF",
-            matchBorderColour: false,
           },
           ...data,
         },
   });
   const borderColour = watch("meta.cardBorderColour");
   const textColour = watch("meta.cardTextColour");
-  const matchBorderColour = watch("meta.matchBorderColour") ?? false;
   const watchAllFields = watch();
 
   useEffect(() => {
@@ -504,8 +502,7 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
                     diabetesTextColour={
                       predefinedBorderColors
                         .find((c) => c.value === borderColour)
-                        ?.singleColour?.toLowerCase() ??
-                      (matchBorderColour ? borderColour : "#000000")
+                        ?.singleColour?.toLowerCase() ?? "#000000"
                     }
                     orientation={cardOrientation}
                   />
@@ -521,21 +518,6 @@ const Details: FC<CardPreviewProps> = ({ data, isCheckout = true }) => {
                   predefinedBorderColors={predefinedBorderColors}
                   predefinedTextColors={predefinedTextColors}
                 />
-                {!isDisabled(borderColour) && (
-                  <div className="flex items-center gap-4 mx-4">
-                    <input
-                      type="checkbox"
-                      className="w-10 h-10 md:w-6 md:h-6"
-                      checked={matchBorderColour}
-                      onChange={(e) => {
-                        setValue("meta.matchBorderColour", e.target.checked);
-                      }}
-                    />
-                    <label className="md:text-sm text-md">
-                      Match "Type 1 Diabetic" text with border colour
-                    </label>
-                  </div>
-                )}
                 <Alert severity="warning">
                   <p className="text-xl md:text-sm">
                     If you require multiple cards with different details, please

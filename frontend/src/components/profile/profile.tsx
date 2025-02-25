@@ -49,7 +49,6 @@ export interface ProfileData {
   meta: {
     cardBorderColour: string;
     cardTextColour: string;
-    matchBorderColour: boolean;
   };
 }
 

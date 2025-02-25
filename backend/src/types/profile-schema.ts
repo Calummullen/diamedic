@@ -31,7 +31,6 @@ export const profileSchema = z.object({
   meta: z.object({
     cardBorderColour: z.string().min(1, "Card border colour is required."),
     cardTextColour: z.string().min(1, "Card text colour is required."),
-    matchBorderColour: z.boolean(),
   }),
 });
 

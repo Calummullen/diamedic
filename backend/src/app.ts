@@ -96,7 +96,6 @@ app.post(
         meta: {
           cardBorderColour: userData?.meta.cardBorderColour || "",
           cardTextColour: userData?.meta.cardTextColour || "",
-          matchBorderColour: userData?.meta.matchBorderColour ?? false,
         },
       };
       await createOrder(orderData);
